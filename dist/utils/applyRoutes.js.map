@@ -1,1 +1,0 @@
-{"version":3,"file":"applyRoutes.js","sourceRoot":"","sources":["../../src/server/utils/applyRoutes.ts"],"names":[],"mappings":";;AAca,QAAA,WAAW,GAAG,UAAC,MAAe,EAAE,MAAc;IACzD,KAAoB,UAAM,EAAN,iBAAM,EAAN,oBAAM,EAAN,IAAM,EAAE;QAAvB,IAAM,KAAK,eAAA;QACN,IAAA,qBAAM,EAAE,iBAAI,EAAE,uBAAO,CAAW;QACvC,MAAc,CAAC,MAAM,CAAC,CAAC,IAAI,EAAE,OAAO,CAAC,CAAC;KACxC;AACH,CAAC,CAAC"}
