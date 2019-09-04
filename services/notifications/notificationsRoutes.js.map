@@ -1,1 +1,0 @@
-{"version":3,"file":"notificationsRoutes.js","sourceRoot":"","sources":["../../../src/server/services/notifications/notificationsRoutes.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAEa,QAAA,mBAAmB,GAAG;IACjC;QACE,IAAI,EAAE,gBAAgB;QACtB,MAAM,EAAE,KAAK;QACb,OAAO,EAAE,UAAO,GAAY,EAAE,GAAa;;gBACzC,GAAG,CAAC,IAAI,CAAC,cAAc,CAAC,CAAC;;;aAC1B;KACF;CACF,CAAC"}
