@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "functions-framework --target=helloWorld"
+    "start": "functions-framework --target=[function name]",
+    "deploy": "gcloud functions deploy [function name] --runtime nodejs10 --trigger-http"
   },
   "keywords": [],
   "author": "",
