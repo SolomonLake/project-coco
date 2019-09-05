@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Zoom_WebhookBody } from "./js/zoomWebhookTypes";
 
-const zoomAppVerification = "CLzrvWlKRQOUQlHLjvrKbQ";
+const zoomAppVerification = process.env.ZOOM_APP_VERIFICATION;
 
 export const zoomNotifications = (req: Request, res: Response): any => {
   if (

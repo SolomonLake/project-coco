@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "functions-framework --target=[function name]",
-    "deploy": "gcloud functions deploy [function name] --runtime nodejs10 --trigger-http"
+    "deploy": "gcloud functions deploy [function name] --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
   },
   "keywords": [],
   "author": "",
