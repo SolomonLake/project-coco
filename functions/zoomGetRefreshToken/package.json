@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "functions-framework --target=[function name]",
-    "deploy": "npm run build && gcloud functions deploy [function name] --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
+    "start": "functions-framework --target=zoomGetRefreshToken",
+    "deploy": "npm run build && gcloud functions deploy zoomGetRefreshToken --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
   },
   "keywords": [],
   "author": "",
