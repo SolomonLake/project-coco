@@ -2,9 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App";
+import { getUrlParam } from "./utils/windowUtils";
+import { zoomAuth } from "./js/zoomAuth/zoomAuth";
 
-const zoomAuthQueryParams = `response_type=code&client_id=HqnmSZ3VTuWHG7X4DuEh9A&redirect_uri=${window.location.href}`;
+async function run() {
+  await zoomAuth.initialize();
+  const user = await zoomAuth.getUser();
+  ReactDOM.render(<App />, document.getElementById("root"));
+}
 
-window.open(`https://zoom.us/oauth/authorize?${zoomAuthQueryParams}`, "_self");
-
-ReactDOM.render(<App />, document.getElementById("root"));
+run();
