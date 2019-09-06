@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 import { Request, Response } from "express";
 
 const zoomRedirectUrl =
@@ -15,7 +16,9 @@ export const zoomGetRefreshToken = async (
   } else {
     const authHeader =
       "Basic " +
-      btoa(process.env.ZOOM_CLIENT_ID + ":" + process.env.ZOOM_CLIENT_SECRET);
+      Buffer.from(
+        process.env.ZOOM_CLIENT_ID + ":" + process.env.ZOOM_CLIENT_SECRET,
+      ).toString("base64");
     const authUrl =
       "https://zoom.us/oauth/token" +
       "?grant_type=authorization_code&code=" +
@@ -23,14 +26,13 @@ export const zoomGetRefreshToken = async (
       "&redirect_uri=" +
       zoomRedirectUrl;
     const response = await fetch(authUrl, {
+      method: "POST",
       headers: {
         Authorization: authHeader,
       },
-      credentials: "include",
     });
     const responseJson = await response.json();
-    res.redirect(
-      process.env.APP_ENDPOINT + `?refresh_token=${responseJson.refresh_token}`,
-    );
+    console.log("response json", responseJson);
+    res.redirect(process.env.APP_ENDPOINT + `?zoom_token_data=${responseJson}`);
   }
 };

@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/functions-framework": "^1.2.1"
+    "@google-cloud/functions-framework": "^1.2.1",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.0",
     "typescript": "^3.6.2"
   }
 }

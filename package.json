@@ -21,7 +21,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "http://solomonlake.github.io/project-coco",
+  "homepage": "https://solomonlake.github.io/project-coco",
   "eslintConfig": {
     "extends": "react-app"
   },
