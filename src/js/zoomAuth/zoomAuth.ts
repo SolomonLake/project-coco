@@ -11,7 +11,7 @@ export const zoomAuth = {
   },
   getAccessToken: async () => {
     window.open(
-      config.CLOUD_FUNCTION_ENDPOINT + "/zoomGetRefreshToken",
+      config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetRefreshToken",
       "_self",
     );
   },

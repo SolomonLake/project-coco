@@ -1,8 +1,7 @@
 import fetch from "node-fetch";
 import { Request, Response } from "express";
 
-const zoomRedirectUrl =
-  process.env.CLOUD_FUNCTION_ENDPOINT + "/zoomGetRefreshToken";
+const zoomRedirectUrl = process.env.CLOUD_FUNCTION_ENDPOINT;
 
 export const zoomGetRefreshToken = async (
   req: Request,
@@ -32,7 +31,7 @@ export const zoomGetRefreshToken = async (
       },
     });
     const responseJson = await response.json();
-    console.log("response json", responseJson);
+    console.log("redirecting to", process.env.APP_ENDPOINT);
     res.redirect(process.env.APP_ENDPOINT + `?zoom_token_data=${responseJson}`);
   }
 };
