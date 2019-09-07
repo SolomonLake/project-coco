@@ -5,3 +5,4 @@
   - better system for running multiple functions locally than manual different ports
 - ~~hot reload cloud functions~~
 - shared files/types between cfunctions and react app
+- rename all index.ts/js to other things

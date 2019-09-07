@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Zoom_WebhookBody } from "./js/zoomWebhookTypes";
+import { Zoom_WebhookBody } from "./scripts/zoomWebhookTypes";
 
 const zoomAppVerification = process.env.ZOOM_APP_VERIFICATION;
 
