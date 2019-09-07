@@ -39,15 +39,19 @@ export const zoomAuth = {
   },
   getUser: async () => {
     const apiUrl = "https://api.zoom.us/v2/users/me";
-    const response = await fetch(
-      config().CLOUD_FUNCTION_ENDPOINT__ZOOM_API_PROXY +
-        `/zoomApiProxy?endPoint=${apiUrl}&zoomTokenData=${encodeURIComponent(
-          JSON.stringify(await cachedZoomTokenData),
-        )}`,
-    );
-    const responseJson = await response.json();
-    return responseJson;
+    const result = await makeApiCall(apiUrl);
   },
 };
+
+async function makeApiCall(apiUrl: string) {
+  const response = await fetch(
+    config().CLOUD_FUNCTION_ENDPOINT__ZOOM_API_PROXY +
+      `/zoomApiProxy?endPoint=${apiUrl}&zoomTokenData=${encodeURIComponent(
+        JSON.stringify(await cachedZoomTokenData),
+      )}`,
+  );
+  const responseJson = await response.json();
+  return responseJson;
+}
 
 const cachedZoomTokenData: Promise<CachedZoomTokenData> = zoomAuth.initialize();
