@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && source ../dev-run.sh && functions-framework --target=zoomNotifications",
-    "deploy": "npm run build && gcloud functions deploy zoomNotifications --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
+    "deploy": "npm install && npm run build && gcloud functions deploy zoomNotifications --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
   },
   "keywords": [],
   "author": "",

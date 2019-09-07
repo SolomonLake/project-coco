@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && source ../dev-run.sh && functions-framework --target=[function name]",
-    "deploy": "npm run build && gcloud functions deploy [function name] --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml",
-    "watch": "npm-watch start"
+    "deploy": "npm install && npm run build && gcloud functions deploy [function name] --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +22,6 @@
     "@google-cloud/functions-framework": "^1.2.1"
   },
   "devDependencies": {
-    "typescript": "^3.6.2",
-    "npm-watch": "^0.6.0"
+    "typescript": "^3.6.2"
   }
 }
