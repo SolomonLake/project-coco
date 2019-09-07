@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 const zoomRedirectUrl = process.env.CLOUD_FUNCTION_ENDPOINT;
 
-export const zoomGetRefreshToken = async (
+export const zoomGetTokenData = async (
   req: Request,
   res: Response,
 ): Promise<any> => {

@@ -27,7 +27,7 @@ export const zoomAuth = {
       };
     } else {
       window.location.href =
-        config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetRefreshToken";
+        config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
       return {
         expires_at: 0,
         access_token: "",
@@ -46,7 +46,6 @@ export const zoomAuth = {
     // });
     // const responseJson = await response.json();
     // return responseJson;
-    console.log("hello");
   },
 };
 

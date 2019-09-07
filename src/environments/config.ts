@@ -6,7 +6,6 @@ export const config = () => {
     CLOUD_FUNCTION_ENDPOINT:
       "https://us-central1-project-coco-251813.cloudfunctions.net",
   };
-  debugger;
   switch (window.location.host) {
     case "localhost:3006":
       return dev;
