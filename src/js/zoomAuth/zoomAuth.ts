@@ -29,8 +29,7 @@ export const zoomAuth = {
         resolve(tokenData);
       } else {
         window.location.href =
-          config().CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA +
-          "/zoomGetTokenData";
+          config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
         return {
           expiresAt: 0,
           access_token: "",
@@ -51,7 +50,7 @@ export const zoomAuth = {
 
 async function makeApiCall(apiUrl: string) {
   const response = await fetch(
-    config().CLOUD_FUNCTION_ENDPOINT__ZOOM_API_PROXY +
+    config().CLOUD_FUNCTION_ENDPOINT +
       `/zoomApiProxy?endPoint=${apiUrl}&zoomTokenData=${encodeURIComponent(
         JSON.stringify(await cachedZoomTokenData),
       )}`,
