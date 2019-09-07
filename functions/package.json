@@ -1,0 +1,30 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && source ./dev-run.sh && functions-framework --target=index",
+    "deploy": "npm run build && gcloud functions deploy index --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml",
+    "watch": "npm-watch start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "watch": {
+    "start": {
+      "patterns": [
+        "*"
+      ],
+      "extensions": "ts"
+    }
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^1.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.2",
+    "npm-watch": "^0.6.0"
+  }
+}

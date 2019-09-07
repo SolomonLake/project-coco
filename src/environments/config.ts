@@ -1,7 +1,7 @@
 export const config = () => {
   const dev = {
     CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA: "http://localhost:8080",
-    CLOUD_FUNCTION_ENDPOINT__ZOOM_API_PROXY: "http://localhost:8081",
+    CLOUD_FUNCTION_ENDPOINT__ZOOM_API_PROXY: "http://localhost:8080",
   };
   const production = {
     CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA:

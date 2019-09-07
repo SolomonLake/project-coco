@@ -20,6 +20,7 @@ export const zoomAuth = {
         const tokenData: CachedZoomTokenData = JSON.parse(
           decodeURIComponent(tokenDataString),
         );
+        window.history.pushState({}, document.title, window.location.origin);
         console.log("tokenData", tokenData);
         resolve(tokenData);
       } else {
@@ -40,6 +41,7 @@ export const zoomAuth = {
   getUser: async () => {
     const apiUrl = "https://api.zoom.us/v2/users/me";
     const result = await makeApiCall(apiUrl);
+    return result;
   },
 };
 
