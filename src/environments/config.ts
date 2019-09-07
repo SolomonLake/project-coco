@@ -9,7 +9,7 @@ export const config = () => {
   switch (window.location.host) {
     case "localhost:3006":
       return dev;
-    case "https://solomonlake.github.io/project-coco/":
+    case "solomonlake.github.io":
       return production;
     default:
       throw new Error(`unknown window host:${window.location.host}`);

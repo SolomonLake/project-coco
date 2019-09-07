@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
 import { Request, Response } from "express";
 
-const zoomRedirectUrl = process.env.CLOUD_FUNCTION_ENDPOINT;
+const zoomRedirectUrl =
+  process.env.CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
 
 export const zoomGetTokenData = async (
   req: Request,
