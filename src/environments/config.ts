@@ -6,10 +6,11 @@ export const config = () => {
     CLOUD_FUNCTION_ENDPOINT:
       "https://us-central1-project-coco-251813.cloudfunctions.net",
   };
+  debugger;
   switch (window.location.host) {
-    case "http://localhost:3006":
+    case "localhost:3006":
       return dev;
-    case "https://solomonlake.github.io/project-coco":
+    case "https://solomonlake.github.io/project-coco/":
       return production;
     default:
       throw new Error(`unknown window host:${window.location.host}`);

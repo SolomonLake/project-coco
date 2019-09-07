@@ -32,6 +32,9 @@ export const zoomGetRefreshToken = async (
     });
     const responseJson = await response.json();
     console.log("redirecting to", process.env.APP_ENDPOINT);
-    res.redirect(process.env.APP_ENDPOINT + `?zoom_token_data=${responseJson}`);
+    res.redirect(
+      process.env.APP_ENDPOINT +
+        `?zoom_token_data=${encodeURIComponent(JSON.stringify(responseJson))}`,
+    );
   }
 };

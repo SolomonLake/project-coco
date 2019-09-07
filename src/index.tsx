@@ -5,8 +5,8 @@ import App from "./components/App";
 import { zoomAuth } from "./js/zoomAuth/zoomAuth";
 
 async function run() {
-  await zoomAuth.initialize();
   const user = await zoomAuth.getUser();
+  console.log("zoom user", user);
   ReactDOM.render(<App />, document.getElementById("root"));
 }
 
