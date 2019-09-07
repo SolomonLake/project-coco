@@ -1,4 +1,4 @@
-import { CachedZoomTokenData } from "./../../shared/types/zoomTypes.d";
+import { CachedZoomTokenData } from "../../shared/types/zoomTypes";
 import { windowUtils } from "../utils/windowUtils";
 import { config } from "../../environments/config";
 

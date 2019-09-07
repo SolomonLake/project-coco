@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App";
-import { zoomAuth } from "./js/zoomAuth/zoomAuth";
+import { zoomAuth } from "./scripts/zoomAuth/zoomAuth";
 
 async function run() {
   const user = await zoomAuth.getUser();
