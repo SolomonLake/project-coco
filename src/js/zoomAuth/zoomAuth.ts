@@ -2,11 +2,9 @@ import { windowUtils } from "../utils/windowUtils";
 import { config } from "../../environments/config";
 import { ONE_MINUTE } from "../constants/timesInMilliseconds";
 
-type CachedTokenData = ZoomTokenData & {
-  expires_at: number;
-};
+export type CachedZoomTokenData = {
+  expiresAt: number;
 
-type ZoomTokenData = {
   access_token: string;
   token_type: string;
   refresh_token: string;
@@ -15,21 +13,18 @@ type ZoomTokenData = {
 };
 
 export const zoomAuth = {
-  initialize: (): CachedTokenData => {
+  initialize: (): CachedZoomTokenData => {
     const tokenDataString = windowUtils.getUrlParam("zoom_token_data");
     if (tokenDataString) {
-      const tokenData: ZoomTokenData = JSON.parse(
+      const tokenData: CachedZoomTokenData = JSON.parse(
         decodeURIComponent(tokenDataString),
       );
-      return {
-        ...tokenData,
-        expires_at: Date.now() + tokenData.expires_in - 5 * ONE_MINUTE,
-      };
+      return tokenData;
     } else {
       window.location.href =
         config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
       return {
-        expires_at: 0,
+        expiresAt: 0,
         access_token: "",
         token_type: "",
         refresh_token: "",
@@ -39,14 +34,16 @@ export const zoomAuth = {
     }
   },
   getUser: async () => {
-    // const apiUrl = "https://api.zoom.us/v2/users/me";
-    // const response = await fetch(apiUrl, {
-    //   headers: { Authorization: `Bearer ${cachedAccessToken}` },
-    //   credentials: "include",
-    // });
-    // const responseJson = await response.json();
-    // return responseJson;
+    const apiUrl = "https://api.zoom.us/v2/users/me";
+    const response = await fetch(
+      config().CLOUD_FUNCTION_ENDPOINT +
+        `/zoomApiProxy?endPoint=${apiUrl}&zoomTokenData=${encodeURIComponent(
+          JSON.stringify(cachedZoomTokenData),
+        )}`,
+    );
+    const responseJson = await response.json();
+    return responseJson;
   },
 };
 
-const cachedAccessTokenData: CachedTokenData = zoomAuth.initialize();
+const cachedZoomTokenData: CachedZoomTokenData = zoomAuth.initialize();

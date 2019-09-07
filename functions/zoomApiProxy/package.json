@@ -1,0 +1,21 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && source ../dev-run.sh && functions-framework --target=zoomApiProxy",
+    "deploy": "npm run build && gcloud functions deploy zoomApiProxy --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^1.2.1",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.2"
+  }
+}
