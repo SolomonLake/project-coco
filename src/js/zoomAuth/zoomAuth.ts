@@ -19,6 +19,7 @@ export const zoomAuth = {
       const tokenData: CachedZoomTokenData = JSON.parse(
         decodeURIComponent(tokenDataString),
       );
+      console.log("tokenData", tokenData);
       return tokenData;
     } else {
       window.location.href =
