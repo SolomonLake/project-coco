@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "typescript": "^3.6.2",
+    "npx": "^10.2.0",
     "npm-watch": "^0.6.0"
   }
 }

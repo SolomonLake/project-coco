@@ -38,6 +38,8 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.1.1"
+    "gh-pages": "^2.1.1",
+    "npx": "^10.2.0",
+    "ttab": "^0.6.1"
   }
 }
