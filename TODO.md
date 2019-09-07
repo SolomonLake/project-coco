@@ -1,10 +1,10 @@
 ## Todo:
 
-- write ./deploy.sh that deploys all everything
 - shared files/types between cfunctions and react app
 
 ### Done:
 
+- ~~write ./deploy.sh that deploys all everything~~
 - ~~deal with nodemon EADDRINUSE for cloud functions~~
 - ~~write ./run.sh that run and watches everything in multiple terminal windows~~
 - ~~Dropped:rename all index.ts/js to other things~~
