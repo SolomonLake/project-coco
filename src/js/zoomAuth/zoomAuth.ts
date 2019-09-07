@@ -1,16 +1,6 @@
+import { CachedZoomTokenData } from "./../../shared/types/zoomTypes.d";
 import { windowUtils } from "../utils/windowUtils";
 import { config } from "../../environments/config";
-import { ONE_MINUTE } from "../constants/timesInMilliseconds";
-
-export type CachedZoomTokenData = {
-  expiresAt: number;
-
-  access_token: string;
-  token_type: string;
-  refresh_token: string;
-  expires_in: number;
-  scope: string;
-};
 
 export const zoomAuth = {
   initialize: (): Promise<CachedZoomTokenData> => {

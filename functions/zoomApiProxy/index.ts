@@ -1,15 +1,6 @@
+import { CachedZoomTokenData } from "./../../src/shared/types/zoomTypes.d";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
-
-export type CachedZoomTokenData = {
-  expiresAt: number;
-
-  access_token: string;
-  token_type: string;
-  refresh_token: string;
-  expires_in: number;
-  scope: string;
-};
 
 const zoomRedirectUrl =
   process.env.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
