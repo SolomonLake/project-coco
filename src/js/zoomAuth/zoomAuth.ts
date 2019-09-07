@@ -20,7 +20,11 @@ export const zoomAuth = {
         const tokenData: CachedZoomTokenData = JSON.parse(
           decodeURIComponent(tokenDataString),
         );
-        window.history.pushState({}, document.title, window.location.origin);
+        window.history.pushState(
+          {},
+          document.title,
+          window.location.origin + window.location.pathname,
+        );
         console.log("tokenData", tokenData);
         resolve(tokenData);
       } else {
