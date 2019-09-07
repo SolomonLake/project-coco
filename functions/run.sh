@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-# Usage:
-#
-#  ./dev-run.sh
-#
-# Examples:
-#
-#  ./dev-run.sh
-#
-
 set -o errexit 
 set -o pipefail
 set -o nounset
