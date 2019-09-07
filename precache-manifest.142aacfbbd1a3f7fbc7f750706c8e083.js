@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "77a9e15b5d5dd38f5f1273c0c0190f21",
+    "revision": "cdc4c8aca617899ac4bda1a616ec64db",
     "url": "/project-coco/index.html"
   },
   {
-    "revision": "771d0615083d9bf394ae",
+    "revision": "ba1fcacdd949be9597e7",
     "url": "/project-coco/static/css/main.2cce8147.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/project-coco/static/js/2.a7d8e7b7.chunk.js"
   },
   {
-    "revision": "771d0615083d9bf394ae",
-    "url": "/project-coco/static/js/main.5a8f4dcc.chunk.js"
+    "revision": "ba1fcacdd949be9597e7",
+    "url": "/project-coco/static/js/main.4a25c5ad.chunk.js"
   },
   {
     "revision": "37f547adf29741172c9e",
