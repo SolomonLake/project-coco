@@ -1,9 +1,13 @@
 ## Todo:
 
-- shared files/types between cfunctions and react app
+- redux
+  - user store
+- firebase
+- organization handling...
 
 ### Done:
 
+- ~~shared files/types between cfunctions and react app~~
 - ~~write ./deploy.sh that deploys all everything~~
 - ~~deal with nodemon EADDRINUSE for cloud functions~~
 - ~~write ./run.sh that run and watches everything in multiple terminal windows~~
