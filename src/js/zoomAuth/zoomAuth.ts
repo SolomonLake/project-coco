@@ -1,9 +1,9 @@
-import { getUrlParam } from "../../utils/windowUtils";
+import { windowUtils } from "../utils/windowUtils";
 import { config } from "../../environments/dev";
 
 export const zoomAuth = {
   initialize: async () => {
-    const refreshToken = getUrlParam("refresh_token");
+    const refreshToken = windowUtils.getUrlParam("refresh_token");
     if (refreshToken) {
       debugger;
       // set refresh token cookie

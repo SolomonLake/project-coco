@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/App";
-import { getUrlParam } from "./utils/windowUtils";
 import { zoomAuth } from "./js/zoomAuth/zoomAuth";
 
 async function run() {
