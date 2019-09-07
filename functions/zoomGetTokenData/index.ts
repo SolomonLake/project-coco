@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { Request, Response } from "express";
 
 const zoomRedirectUrl =
-  process.env.CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
+  process.env.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
 export const zoomGetTokenData = async (
   req: Request,
@@ -32,10 +32,16 @@ export const zoomGetTokenData = async (
       },
     });
     const responseJson = await response.json();
+    const responseJsonWithExpiresAt = {
+      ...responseJson,
+      expiresAt: Date.now() + responseJson.expires_in - 2 * 60 * 1000,
+    };
     console.log("redirecting to", process.env.APP_ENDPOINT);
     res.redirect(
       process.env.APP_ENDPOINT +
-        `?zoom_token_data=${encodeURIComponent(JSON.stringify(responseJson))}`,
+        `?zoom_token_data=${encodeURIComponent(
+          JSON.stringify(responseJsonWithExpiresAt),
+        )}`,
     );
   }
 };

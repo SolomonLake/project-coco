@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && source ../dev-run.sh && functions-framework --target=zoomApiProxy",
+    "start": "npm run build && source ../dev-run.sh && PORT=8081 functions-framework --target=zoomApiProxy",
     "deploy": "npm run build && gcloud functions deploy zoomApiProxy --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
   },
   "keywords": [],

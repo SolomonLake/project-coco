@@ -1,15 +1,24 @@
-import { CachedZoomTokenData } from "./../../src/js/zoomAuth/zoomAuth";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
 
+export type CachedZoomTokenData = {
+  expiresAt: number;
+
+  access_token: string;
+  token_type: string;
+  refresh_token: string;
+  expires_in: number;
+  scope: string;
+};
+
 const zoomRedirectUrl =
-  process.env.CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
+  process.env.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
 export const zoomApiProxy = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
   // Allows GETs from origin https://mydomain.com with Authorization header
 
-  res.set("Access-Control-Allow-Origin", "https://solomonlake.github.io");
+  res.set("Access-Control-Allow-Origin", process.env.APP_DOMAIN);
 
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
@@ -26,7 +35,13 @@ export const zoomApiProxy = async (req: Request, res: Response) => {
       const response = await fetch(endPoint, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      const responseJson = response.json();
+      console.log(
+        "api call response",
+        endPoint,
+        response.status,
+        response.statusText,
+      );
+      const responseJson = await response.json();
       res.send(responseJson);
     } else {
       res
@@ -48,6 +63,7 @@ async function getValidAccessToken(
       Buffer.from(
         process.env.ZOOM_CLIENT_ID + ":" + process.env.ZOOM_CLIENT_SECRET,
       ).toString("base64");
+    console.log("refreshing token");
     const authUrl =
       "https://zoom.us/oauth/token" +
       "?grant_type=refresh_token&refresh_token=" +
@@ -57,9 +73,15 @@ async function getValidAccessToken(
     const response = await fetch(authUrl, {
       method: "POST",
       headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: authHeader,
       },
     });
+    console.log(
+      "refreshing token response",
+      response.status,
+      response.statusText,
+    );
     const responseJson = await response.json();
     return responseJson.access_token;
   }
