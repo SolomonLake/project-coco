@@ -12,7 +12,6 @@ export const zoomGetTokenData = async (
   if (!zoomCode) {
     const zoomAppClientId = process.env.ZOOM_CLIENT_ID;
     const zoomTokenUrl = `https://zoom.us/oauth/authorize?response_type=code&client_id=${zoomAppClientId}&redirect_uri=${zoomRedirectUrl}`;
-    console.log("zoomTokenUrl", zoomTokenUrl);
     res.redirect(zoomTokenUrl);
   } else {
     const authHeader =

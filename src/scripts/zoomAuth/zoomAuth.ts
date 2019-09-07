@@ -15,7 +15,6 @@ export const zoomAuth = {
           document.title,
           window.location.origin + window.location.pathname,
         );
-        console.log("tokenData", tokenData);
         resolve(tokenData);
       } else {
         window.location.href =
