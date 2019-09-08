@@ -1,9 +1,19 @@
 ## Todo:
 
-- redux
-  - user store
+- useReducer & useContext
+  - user state
 - firebase
-- organization handling...
+- firestore
+- first time user
+  - user can join group by id
+  - user can create new group
+- group handling
+  - groupId
+  - user can leave current group
+    - if that was the last user, group is deleted
+- screens
+  - join group screen
+  - main
 
 ### Done:
 
