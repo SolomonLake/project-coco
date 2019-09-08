@@ -1,4 +1,4 @@
-export type AppState = {
+export type JoinGroupState = {
   view: AppView;
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Loading } from "./Loading/Loading";
 import { AppStoreContext, useAppStore, AppStore } from "./appStore";
-import { AppStoreAction } from "./appActions";
+import { AppAction } from "./appActions";
 import { zoomAuth } from "../scripts/zoomAuth/zoomAuth";
 import { JoinGroup } from "./JoinGroup/JoinGroup";
 import { Main } from "./Main/Main";

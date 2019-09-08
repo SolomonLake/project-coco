@@ -1,6 +1,6 @@
 import { AppView } from "./appState";
 
-export type AppStoreAction = ChangeView;
+export type AppAction = ChangeView;
 
 type ChangeView = {
   type: "CHANGE_VIEW";

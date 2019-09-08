@@ -1,15 +1,15 @@
-import { AppStoreAction } from "./appActions";
-import { AppStoreState } from "./appState";
+import { AppAction } from "./appActions";
+import { AppState } from "./appState";
 import React, { Dispatch, useReducer } from "react";
 
 export type AppStore = {
-  state: AppStoreState;
-  dispatch: Dispatch<AppStoreAction>;
+  state: AppState;
+  dispatch: Dispatch<AppAction>;
 };
 
-const initialState: AppStoreState = { view: "initial" };
+const initialState: AppState = { view: "initial" };
 
-function reducer(state: AppStoreState, action: AppStoreAction) {
+function reducer(state: AppState, action: AppAction) {
   console.log("appStoreReducer previous state:", state);
   console.log("appStoreReducer", action);
   let computedState;

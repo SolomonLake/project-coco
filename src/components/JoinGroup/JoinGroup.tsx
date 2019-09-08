@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import logo from "../../svgs/logo.svg";
 import { AppStoreContext } from "../appStore";
+import { useJoinGroupStore } from "./joinGroupStore";
 
 export const JoinGroup = () => {
   const appStore = useContext(AppStoreContext);
+  const joinGroupStore = useJoinGroupStore();
   return (
     <div className="App">
       <header className="App-header">
@@ -25,6 +27,13 @@ export const JoinGroup = () => {
           }}
         >
           Start
+        </button>
+        <button
+          onClick={() => {
+            joinGroupStore.dispatch({ type: "CREATE_GROUP" });
+          }}
+        >
+          Create Group
         </button>
       </header>
     </div>
