@@ -1,26 +1,38 @@
 import React from "react";
-import logo from "../svgs/logo.svg";
 import "./App.css";
+import { Loading } from "./Loading/Loading";
+import { AppStoreContext, useAppStore, AppStore } from "./appStore";
+import { AppStoreAction } from "./appActions";
+import { zoomAuth } from "../scripts/zoomAuth/zoomAuth";
+import { JoinGroup } from "./JoinGroup/JoinGroup";
+import { Main } from "./Main/Main";
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload...
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+async function initializeApp(appStore: AppStore) {
+  const user = await zoomAuth.getUser();
+  console.log("zoom user", user);
+  appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
+}
+
+export const App: React.FC = () => {
+  const appStore = useAppStore();
+  switch (appStore.state.view) {
+    case "initial":
+      initializeApp(appStore);
+      return <Loading />;
+    case "joinGroup":
+      return (
+        <AppStoreContext.Provider value={appStore}>
+          <JoinGroup />
+        </AppStoreContext.Provider>
+      );
+    case "main":
+      return (
+        <AppStoreContext.Provider value={appStore}>
+          <Main />
+        </AppStoreContext.Provider>
+      );
+    default:
+      const _: never = appStore.state.view;
+      throw new Error(`unknown state view: ${appStore.state.view}`);
+  }
 };
-
-export default App;

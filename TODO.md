@@ -1,7 +1,6 @@
 ## Todo:
 
-- useReducer & useContext
-  - user state
+- user state
 - firebase
 - firestore
 - first time user
@@ -11,12 +10,10 @@
   - groupId
   - user can leave current group
     - if that was the last user, group is deleted
-- screens
-  - join group screen
-  - main
 
 ### Done:
 
+- ~~useReducer & useContext~~
 - ~~shared files/types between cfunctions and react app~~
 - ~~write ./deploy.sh that deploys all everything~~
 - ~~deal with nodemon EADDRINUSE for cloud functions~~
