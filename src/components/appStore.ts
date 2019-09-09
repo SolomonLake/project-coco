@@ -12,19 +12,19 @@ const initialState: AppState = { view: "initial" };
 function reducer(state: AppState, action: AppAction) {
   console.log("appStoreReducer previous state:", state);
   console.log("appStoreReducer", action);
-  let computedState;
   switch (action.type) {
     case "CHANGE_VIEW": {
-      computedState = { ...state, view: action.view };
-      break;
+      return logState({ ...state, view: action.view });
     }
     default: {
       const _: never = action.type;
       return state;
     }
   }
-  console.log("appStoreReducer computed state", computedState);
-  return computedState;
+}
+function logState(newState: AppState) {
+  console.log("appStoreReducer computed state", newState);
+  return newState;
 }
 
 // Container
