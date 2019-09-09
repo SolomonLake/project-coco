@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
-set -o errexit 
-set -o pipefail
+set -o errexit
 set -o nounset
 
-killall node
-
-npm install
+killall node || true
 
 ./node_modules/.bin/npx ttab eval "cd ./functions; ./run-cloud-functions.sh"
 
-./node_modules/.bin/npx ttab eval "npm start"
+./node_modules/.bin/npx ttab eval "npm install; npm start"

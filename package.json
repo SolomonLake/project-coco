@@ -22,9 +22,6 @@
     "deploy": "gh-pages -d build"
   },
   "homepage": "https://solomonlake.github.io/project-coco",
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
