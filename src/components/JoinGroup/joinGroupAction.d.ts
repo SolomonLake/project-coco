@@ -1,7 +1,7 @@
 import { AppView } from "./joinGroupState";
 
-export type JoinGroupAction = CreateGroup;
+export type JoinGroupAction = UpdateJoinId;
 
-type CreateGroup = {
-  type: "CREATE_GROUP";
+type UpdateJoinId = {
+  type: "UPDATE_JOIN_ID";
 };

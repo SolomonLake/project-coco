@@ -13,7 +13,7 @@ function reducer(state: JoinGroupState, action: JoinGroupAction) {
   console.log("joinGroupStoreReducer previous state:", state);
   console.log("joinGroupStoreReducer", action);
   switch (action.type) {
-    case "CREATE_GROUP": {
+    case "UPDATE_JOIN_ID": {
       return logState(state);
       break;
     }
