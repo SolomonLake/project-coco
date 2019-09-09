@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import logo from "../../svgs/logo.svg";
 import { AppStoreContext } from "../appStore";
 import { useJoinGroupStore } from "./joinGroupStore";
+import { joinGroupApi } from "./joinGroupApi";
 
 export const JoinGroup = () => {
   const appStore = useContext(AppStoreContext);
@@ -29,8 +30,10 @@ export const JoinGroup = () => {
           Start
         </button>
         <button
-          onClick={() => {
-            joinGroupStore.dispatch({ type: "CREATE_GROUP" });
+          onClick={async () => {
+            appStore.dispatch({ type: "CHANGE_VIEW", view: "loading" });
+            await joinGroupApi.createGroup();
+            appStore.dispatch({ type: "CHANGE_VIEW", view: "main" });
           }}
         >
           Create Group

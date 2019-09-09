@@ -19,6 +19,8 @@ export const App: React.FC = () => {
     case "initial":
       initializeApp(appStore);
       return <Loading />;
+    case "loading":
+      return <Loading />;
     case "joinGroup":
       return (
         <AppStoreContext.Provider value={appStore}>
