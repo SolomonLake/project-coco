@@ -3,12 +3,14 @@ import "./App.css";
 import { Loading } from "./Loading/Loading";
 import { AppStoreContext, useAppStore, AppStore } from "./appStore";
 import { AppAction } from "./appActions";
-import { zoomAuth } from "../scripts/zoomAuth/zoomAuth";
 import { JoinGroup } from "./JoinGroup/JoinGroup";
 import { Main } from "./Main/Main";
+import { zoomApi } from "../scripts/zoom/zoomApi";
+import { zoomAuth } from "../scripts/zoom/zoomAuth";
 
 async function initializeApp(appStore: AppStore) {
-  const user = await zoomAuth.getUser();
+  zoomAuth.initialize();
+  const user = await zoomApi.getUser();
   console.log("zoom user", user);
   appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
 }
