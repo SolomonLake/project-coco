@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
+import Typography from "@material-ui/core/Typography";
 
 export const Loading = () => {
-  return <div>Loading</div>;
+  return <Typography>Loading</Typography>;
 };

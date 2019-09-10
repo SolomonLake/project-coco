@@ -4,32 +4,34 @@ import { AppStoreContext } from "../appStore";
 import { useJoinGroupStore } from "./joinGroupStore";
 import { joinGroupApi } from "./joinGroupApi";
 
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+
 export const JoinGroup = () => {
   const appStore = useContext(AppStoreContext);
   const joinGroupStore = useJoinGroupStore();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload...
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <button
-          onClick={() => {
-            appStore.dispatch({ type: "CHANGE_VIEW", view: "main" });
-          }}
-        >
-          Start
-        </button>
-        <button
+    <Grid
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+      spacing={3}
+    >
+      <Grid item>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <TextField label="Join Id" margin="normal" variant="outlined" />
+          </Grid>
+          <Grid item>
+            <Button color="primary">Join</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <Button
+          color="secondary"
           onClick={async () => {
             appStore.dispatch({ type: "CHANGE_VIEW", view: "loading" });
             await joinGroupApi.createGroup();
@@ -37,8 +39,8 @@ export const JoinGroup = () => {
           }}
         >
           Create Group
-        </button>
-      </header>
-    </div>
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

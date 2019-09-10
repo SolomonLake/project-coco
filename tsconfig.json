@@ -14,7 +14,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "sourceMap": true,
-    "jsx": "react"
+    "jsx": "react",
+    "noImplicitAny": true,
+    "noImplicitThis": true
   },
   "include": ["src"]
 }

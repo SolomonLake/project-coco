@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { Loading } from "./Loading/Loading";
 import { AppStoreContext, useAppStore, AppStore } from "./appStore";
 import { AppAction } from "./appActions";
