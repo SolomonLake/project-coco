@@ -1,3 +1,4 @@
+import { firestoreDb } from "./firestoreDb/index";
 import { zoomNotifications } from "./zoomNotifications/index";
 import { zoomGetTokenData } from "./zoomGetTokenData/index";
 import { zoomApiProxy } from "./zoomApiProxy/index";
@@ -13,6 +14,8 @@ export function index(req: Request, res: Response) {
       return zoomApiProxy(req, res);
     case "/zoomNotifications":
       return zoomNotifications(req, res);
+    case "/firestoreDb":
+      return firestoreDb(req, res);
     default:
       res.send("function not defined");
   }

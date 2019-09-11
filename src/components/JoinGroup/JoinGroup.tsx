@@ -18,7 +18,7 @@ export const JoinGroup = () => {
       direction="column"
       justify="center"
       alignItems="center"
-      spacing={3}
+      spacing={5}
     >
       <Grid item>
         <Grid
@@ -36,6 +36,7 @@ export const JoinGroup = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Divider variant="middle" />
       <Grid item>
         <Button
           color="secondary"
