@@ -7,6 +7,7 @@ import { joinGroupApi } from "./joinGroupApi";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 export const JoinGroup = () => {
   const appStore = useContext(AppStoreContext);
@@ -20,9 +21,15 @@ export const JoinGroup = () => {
       spacing={3}
     >
       <Grid item>
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={2}
+        >
           <Grid item>
-            <TextField label="Join Id" margin="normal" variant="outlined" />
+            <TextField label="Group Id" margin="normal" variant="outlined" />
           </Grid>
           <Grid item>
             <Button color="primary">Join</Button>
