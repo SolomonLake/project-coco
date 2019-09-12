@@ -31,6 +31,7 @@ Static:
     - groupId
     - displayName
     - personalMeetingUrl
+- Do we need this?
 - DB: groups
   - groupId
     - externalIds[]
