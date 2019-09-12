@@ -19,14 +19,6 @@ export const zoomAuth = {
       } else {
         window.location.href =
           config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
-        resolve({
-          expiresAt: 0,
-          access_token: "",
-          token_type: "",
-          refresh_token: "",
-          expires_in: 0,
-          scope: "",
-        });
       }
     });
     return cachedZoomTokenData;
