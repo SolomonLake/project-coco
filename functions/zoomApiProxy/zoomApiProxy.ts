@@ -3,12 +3,13 @@ import { CachedZoomTokenData } from "../../src/shared/types/zoomTypes";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
 import { getValidAccessToken } from "./scripts/getValidAccessToken";
+import { processEnv } from "../processEnv";
 
 export const runZoomApiProxy = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
   // Allows GETs from origin https://mydomain.com with Authorization header
 
-  res.set("Access-Control-Allow-Origin", process.env.APP_DOMAIN);
+  res.set("Access-Control-Allow-Origin", processEnv.APP_DOMAIN);
 
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests

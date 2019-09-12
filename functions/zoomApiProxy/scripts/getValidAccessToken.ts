@@ -1,8 +1,8 @@
 import { CachedZoomTokenData } from "./../../../src/shared/types/zoomTypes.d";
 import fetch from "node-fetch";
+import { processEnv } from "../../processEnv";
 
-const zoomRedirectUrl =
-  process.env.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
+const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
 export async function getValidAccessToken(
   zoomTokenData: CachedZoomTokenData,
@@ -14,7 +14,7 @@ export async function getValidAccessToken(
     const authHeader =
       "Basic " +
       Buffer.from(
-        process.env.ZOOM_CLIENT_ID + ":" + process.env.ZOOM_CLIENT_SECRET,
+        processEnv.ZOOM_CLIENT_ID + ":" + processEnv.ZOOM_CLIENT_SECRET,
       ).toString("base64");
     console.log("refreshing token");
     const authUrl =

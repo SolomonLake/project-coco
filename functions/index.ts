@@ -1,3 +1,4 @@
+import { AppConfig } from "./configTypes";
 import { loginUser } from "./loginUser/index";
 import { zoomNotifications } from "./zoomNotifications/index";
 import { zoomGetTokenData } from "./zoomGetTokenData/index";

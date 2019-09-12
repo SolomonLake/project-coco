@@ -1,10 +1,11 @@
 import admin from "firebase-admin";
+import { processEnv } from "../../processEnv";
 
 export const serviceAccount: admin.ServiceAccount = {
   // type: "service_account",
   projectId: "project-coco-251813",
   // private_key_id: "9f7980a9b9577ff47c86c73af2eab31a19db5c45",
-  privateKey: (process.env.FIRESTORE_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
+  privateKey: (processEnv.FIRESTORE_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
   clientEmail:
     "firebase-adminsdk-1kagq@project-coco-251813.iam.gserviceaccount.com",
   // client_id: "117869616798050404891",
