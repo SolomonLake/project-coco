@@ -23,6 +23,7 @@
     "firebase-admin": "^8.5.0"
   },
   "devDependencies": {
+    "@firebase/firestore-types": "^1.5.0",
     "typescript": "^3.6.2"
   }
 }

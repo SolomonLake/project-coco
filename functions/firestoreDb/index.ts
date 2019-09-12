@@ -12,9 +12,8 @@ const db = admin.firestore();
 export const firestoreDb = (req: Request, res: Response): any => {
   let docRef = db.collection("users").doc("alovelace");
 
-  let setAda = docRef.set({
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815,
+  let setAda = docRef.update({
+    born: 1700,
+    tuplip: true,
   });
 };
