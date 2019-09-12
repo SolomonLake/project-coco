@@ -1,7 +1,5 @@
 import admin from "firebase-admin";
 
-console.log("key", process.env.FIRESTORE_PRIVATE_KEY);
-
 export const serviceAccount: admin.ServiceAccount = {
   // type: "service_account",
   projectId: "project-coco-251813",
