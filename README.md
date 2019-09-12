@@ -8,26 +8,29 @@
 
 #### Data Structure:
 
-Realtime (Firebase):
+Realtime:
 
-- groupId
-  - externalIds
-    - availabilityStatus
-    - meetingUrl
-    - meetingName
-    - meetingStartTime
-    - dailyCalendarEvents
-      - eventId
-        - eventName
-        - startTime
-        - endTime
-        - eventLink
-
-Static (Firestore):
-
-- externalId
+- DB: appGroups
   - groupId
-  - displayName
-  - personalMeetingUrl
-- groupId
-  - externalIds[]
+    - externalIds
+      - availabilityStatus
+      - meetingUrl
+      - meetingName
+      - meetingStartTime
+      - dailyCalendarEvents
+        - eventId
+          - eventName
+          - startTime
+          - endTime
+          - eventLink
+
+Static:
+
+- DB: users
+  - externalId
+    - groupId
+    - displayName
+    - personalMeetingUrl
+- DB: groups
+  - groupId
+    - externalIds[]
