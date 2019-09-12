@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-cloudFunctionFolders=( "./zoomApiProxy" "./zoomGetTokenData" "./zoomNotifications" "./firestoreDb" )
+cloudFunctionFolders=( "./zoomApiProxy" "./zoomGetTokenData" "./zoomNotifications" "./loginUser" )
 
 for i in "${cloudFunctionFolders[@]}"
 do

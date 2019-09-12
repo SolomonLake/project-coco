@@ -6,11 +6,12 @@ import { JoinGroup } from "./JoinGroup/JoinGroup";
 import { Main } from "./Main/Main";
 import { zoomApi } from "../scripts/zoom/zoomApi";
 import { zoomAuth } from "../scripts/zoom/zoomAuth";
+import { login } from "../scripts/login/login";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
-  const user = await zoomApi.getUser();
-  console.log("zoom user", user);
+  const userAndCustomToken = await login();
+  console.log("zoom user", userAndCustomToken.user);
   appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
 }
 

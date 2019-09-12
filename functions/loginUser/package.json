@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "deploy": "npm install && npm run build && gcloud functions deploy firestoreDb --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
+    "deploy": "npm install && npm run build && gcloud functions deploy loginUser --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml"
   },
   "keywords": [],
   "author": "",
@@ -20,10 +20,12 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.2.1",
-    "firebase-admin": "^8.5.0"
+    "firebase-admin": "^8.5.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@firebase/firestore-types": "^1.5.0",
+    "@types/node-fetch": "^2.5.0",
     "typescript": "^3.6.2"
   }
 }

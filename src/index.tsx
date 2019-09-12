@@ -7,8 +7,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import theme from "./theme";
 import { config } from "./environments/config";
 
-fetch(config().CLOUD_FUNCTION_ENDPOINT + `/firestoreDb`);
-
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline></CssBaseline>

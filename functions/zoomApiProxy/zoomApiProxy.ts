@@ -1,8 +1,8 @@
-import { ZoomApiProxyBody } from "./../../../src/shared/types/zoomApiProxyTypes.d";
-import { CachedZoomTokenData } from "./../../../src/shared/types/zoomTypes.d";
+import { ZoomApiProxyBody } from "../../src/shared/types/zoomApiProxyTypes";
+import { CachedZoomTokenData } from "../../src/shared/types/zoomTypes";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
-import { getValidAccessToken } from "./getValidAccessToken";
+import { getValidAccessToken } from "./scripts/getValidAccessToken";
 
 export const runZoomApiProxy = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
