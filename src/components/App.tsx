@@ -7,11 +7,14 @@ import { Main } from "./Main/Main";
 import { zoomApi } from "../scripts/zoom/zoomApi";
 import { zoomAuth } from "../scripts/zoom/zoomAuth";
 import { login } from "../scripts/login/login";
+import { initializeFirestore } from "../scripts/firestore/firestoreInitialize";
+import { initializeAuthenticatedUser } from "../scripts/authenticatedUser/authenticatedUser";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
   const userAndCustomToken = await login();
-  console.log("zoom user", userAndCustomToken.user);
+  await initializeFirestore(userAndCustomToken.customToken);
+  initializeAuthenticatedUser(userAndCustomToken.user);
   appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
 }
 

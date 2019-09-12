@@ -1,3 +1,4 @@
+import { LoginUserSuccessResult } from "./../../shared/types/loginUserSuccessResult.d";
 import { zoomAuth } from "../zoom/zoomAuth";
 import { config } from "../../environments/config";
 
@@ -9,8 +10,7 @@ export async function login() {
         JSON.stringify(tokenData),
       )}`,
   );
-  const responseJson = await response.json();
+  const responseJson: LoginUserSuccessResult = await response.json();
   console.log("response", responseJson);
-  debugger;
   return responseJson;
 }
