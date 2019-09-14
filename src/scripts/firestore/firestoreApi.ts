@@ -24,5 +24,11 @@ export const firestoreApiFactory = <T extends {}>(
         .doc(documentPath)
         .set(entry);
     },
+    update: async (documentPath: string, entry: Partial<T>): Promise<void> => {
+      await firestoreDb()
+        .collection(collection)
+        .doc(documentPath)
+        .update(entry);
+    },
   };
 };

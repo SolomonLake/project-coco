@@ -32,4 +32,7 @@ export const usersDatabaseService = {
       return userEntry;
     }
   },
+  updateGroup: async (userId: string, groupId: string | null) => {
+    await usersDatabaseApi.update(userId, { groupId });
+  },
 };

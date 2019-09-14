@@ -49,6 +49,7 @@ export const appGroupsDatabaseService = {
         },
       },
     };
-    return await appGroupsDatabaseApi.set(newAppGroup.appGroupId, newAppGroup);
+    await appGroupsDatabaseApi.set(newAppGroup.appGroupId, newAppGroup);
+    return newAppGroup;
   },
 };
