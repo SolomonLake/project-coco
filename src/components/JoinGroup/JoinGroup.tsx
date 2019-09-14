@@ -10,11 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import { databaseApi } from "../../scripts/databaseServices/databaseService";
 import { JoinGroupAppState } from "../appState";
 
-export const JoinGroup = ({
-  joinGroupAppState,
-}: {
-  joinGroupAppState: JoinGroupAppState;
-}) => {
+export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
   const joinGroupStore = useJoinGroupStore();
   return (
@@ -57,7 +53,7 @@ export const JoinGroup = ({
                   newAppState: { view: "loading" },
                 });
                 const group = await databaseApi.userTryJoinGroup(
-                  joinGroupAppState.user,
+                  props.appState.user,
                   joinGroupStore.state.joinId,
                 );
                 if (group) {
@@ -66,7 +62,7 @@ export const JoinGroup = ({
                     newAppState: {
                       view: "mainGroup",
                       user: {
-                        ...joinGroupAppState.user,
+                        ...props.appState.user,
                         groupId: group.appGroupId,
                       },
                       appGroup: group,
@@ -75,7 +71,7 @@ export const JoinGroup = ({
                 } else {
                   appStore.dispatch({
                     type: "TRANSITION_APP_STATE",
-                    newAppState: joinGroupAppState,
+                    newAppState: props.appState,
                   });
                   // group doesn't exist effect
                   console.log("group doesn't exist");
@@ -97,12 +93,12 @@ export const JoinGroup = ({
               type: "TRANSITION_APP_STATE",
               newAppState: { view: "loading" },
             });
-            const group = await databaseApi.createGroup(joinGroupAppState.user);
+            const group = await databaseApi.createGroup(props.appState.user);
             appStore.dispatch({
               type: "TRANSITION_APP_STATE",
               newAppState: {
                 view: "mainGroup",
-                user: { ...joinGroupAppState.user, groupId: group.appGroupId },
+                user: { ...props.appState.user, groupId: group.appGroupId },
                 appGroup: group,
               },
             });

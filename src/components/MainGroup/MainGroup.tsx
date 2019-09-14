@@ -4,13 +4,16 @@ import Typography from "@material-ui/core/Typography";
 import { Grid, Button } from "@material-ui/core";
 import { MainGroupAppState } from "../appState";
 import { databaseApi } from "../../scripts/databaseServices/databaseService";
+import { useMainGroupStore } from "./mainGroupStore";
+import { startAppGroupObserver } from "../appGroupObserver";
 
-export const MainGroup = ({
-  mainGroupAppState,
-}: {
-  mainGroupAppState: MainGroupAppState;
-}) => {
+export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
+  const mainGroupStore = useMainGroupStore(props.appState.initialAppGroup);
+  startAppGroupObserver(
+    mainGroupStore.state.appGroup.appGroupId,
+    mainGroupStore.dispatch,
+  );
   return (
     <Grid
       container
@@ -21,7 +24,7 @@ export const MainGroup = ({
     >
       <Grid item>
         <Typography>
-          GroupId: {mainGroupAppState.appGroup.appGroupId}
+          GroupId: {mainGroupStore.state.appGroup.appGroupId}
         </Typography>
       </Grid>
       <Grid item>
@@ -34,14 +37,14 @@ export const MainGroup = ({
               newAppState: { view: "loading" },
             });
             const group = await databaseApi.userLeaveGroup(
-              mainGroupAppState.user,
-              mainGroupAppState.appGroup,
+              props.appState.user,
+              mainGroupStore.state.appGroup,
             );
             appStore.dispatch({
               type: "TRANSITION_APP_STATE",
               newAppState: {
                 view: "joinGroup",
-                user: { ...mainGroupAppState.user, groupId: null },
+                user: { ...props.appState.user, groupId: null },
               },
             });
           }}

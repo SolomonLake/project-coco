@@ -45,13 +45,13 @@ export const App: React.FC = () => {
     case "joinGroup":
       return (
         <AppStoreContext.Provider value={appStore}>
-          <JoinGroup joinGroupAppState={appStore.state} />
+          <JoinGroup appState={appStore.state} />
         </AppStoreContext.Provider>
       );
     case "mainGroup":
       return (
         <AppStoreContext.Provider value={appStore}>
-          <MainGroup mainGroupAppState={appStore.state} />
+          <MainGroup appState={appStore.state} />
         </AppStoreContext.Provider>
       );
     default:

@@ -1,3 +1,4 @@
+import { MainGroupAction } from "./MainGroup/mainGroupAction.d";
 import {
   AppGroupEntry,
   appGroupsDatabaseAccessor,
@@ -11,7 +12,10 @@ export function startAppGroupObserver(
   appGroupsDatabaseAccessor.watchAppGroup(
     appGroupdId,
     (appGroup: AppGroupEntry) => {
-      // do shit on changes
+      dispatch({
+        type: "UPDATE_APP_GROUP",
+        newAppGroup: appGroup,
+      });
     },
   );
 }

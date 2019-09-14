@@ -26,7 +26,7 @@ export type JoinGroupAppState = {
 export type MainGroupAppState = {
   view: "mainGroup";
   user: UserEntry;
-  appGroup: AppGroupEntry;
+  initialAppGroup: AppGroupEntry;
 };
 
 export type LoadingAppState = {
