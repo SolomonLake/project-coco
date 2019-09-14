@@ -1,11 +1,6 @@
 ## Todo:
 
-- user state
-- firebase
-- firestore
-- first time user
-  - user can join group by id
-  - user can create new group
+- group observer
 - group handling
   - groupId
   - user can leave current group
@@ -14,6 +9,12 @@
 
 ### Done:
 
+- ~~user state~~
+- ~~firebase~~
+- ~~firestore~~
+- ~~first time user~~
+  - ~~user can join group by id~~
+  - ~~user can create new group~~
 - ~~useReducer & useContext~~
 - ~~shared files/types between cfunctions and react app~~
 - ~~write ./deploy.sh that deploys all everything~~
