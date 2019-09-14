@@ -9,13 +9,20 @@ import { zoomAuth } from "../scripts/zoom/zoomAuth";
 import { login } from "../scripts/login/login";
 import { initializeFirestore } from "../scripts/firestore/firestoreInitialize";
 import { initializeAuthenticatedUser } from "../scripts/authenticatedUser/authenticatedUser";
+import { usersDatabaseService } from "../scripts/databaseServices/usersDatabaseService";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
   const userAndCustomToken = await login();
   await initializeFirestore(userAndCustomToken.customToken);
-  initializeAuthenticatedUser(userAndCustomToken.user);
-  appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
+  const existingUser = await initializeAuthenticatedUser(
+    userAndCustomToken.user,
+  );
+  if (existingUser.groupId) {
+    appStore.dispatch({ type: "CHANGE_VIEW", view: "main" });
+  } else {
+    appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
+  }
 }
 
 export const App: React.FC = () => {

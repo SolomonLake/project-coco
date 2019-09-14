@@ -1,4 +1,8 @@
 import { ZoomUser } from "../../shared/types/zoomTypes";
+import {
+  UserEntry,
+  usersDatabaseService,
+} from "../databaseServices/usersDatabaseService";
 
 export function authenticatedUser() {
   if (_authenticatedUser) {
@@ -8,8 +12,10 @@ export function authenticatedUser() {
   }
 }
 
-export function initializeAuthenticatedUser(user: ZoomUser) {
-  _authenticatedUser = user;
+export async function initializeAuthenticatedUser(user: ZoomUser) {
+  const userEntry = await usersDatabaseService.findOrCreateUser(user);
+  _authenticatedUser = userEntry;
+  return userEntry;
 }
 
-let _authenticatedUser: null | ZoomUser = null;
+let _authenticatedUser: null | UserEntry = null;
