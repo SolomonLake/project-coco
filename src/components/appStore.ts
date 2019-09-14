@@ -13,8 +13,8 @@ function reducer(state: AppState, action: AppAction) {
   console.log("appStoreReducer previous state:", state);
   console.log("appStoreReducer", action);
   switch (action.type) {
-    case "CHANGE_VIEW": {
-      return logState({ ...state, view: action.view });
+    case "TRANSITION_APP_STATE": {
+      return logState(action.newAppState);
     }
     default: {
       const _: never = action.type;

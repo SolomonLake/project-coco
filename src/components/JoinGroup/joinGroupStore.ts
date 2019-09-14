@@ -7,14 +7,17 @@ export type JoinGroupStore = {
   dispatch: Dispatch<JoinGroupAction>;
 };
 
-const initialState: JoinGroupState = { view: "initial" };
+const initialState: JoinGroupState = { joinId: "" };
 
 function reducer(state: JoinGroupState, action: JoinGroupAction) {
   console.log("joinGroupStoreReducer previous state:", state);
   console.log("joinGroupStoreReducer", action);
   switch (action.type) {
     case "UPDATE_JOIN_ID": {
-      return logState(state);
+      return logState({
+        ...state,
+        joinId: action.newJoinId,
+      });
       break;
     }
     default: {

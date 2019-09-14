@@ -1,5 +1,5 @@
 import { firestoreDb } from "./firestoreInitialize";
-import { DatabaseCollection } from "../databaseServices/databaseServiceTypes";
+import { DatabaseCollection } from "../databaseServices/databaseTypes";
 import { async } from "q";
 
 export const firestoreApiFactory = <T extends {}>(
@@ -24,11 +24,20 @@ export const firestoreApiFactory = <T extends {}>(
         .doc(documentPath)
         .set(entry);
     },
-    update: async (documentPath: string, entry: Partial<T>): Promise<void> => {
+    update: async (
+      documentPath: string,
+      entry: Partial<T | {}>,
+    ): Promise<void> => {
       await firestoreDb()
         .collection(collection)
         .doc(documentPath)
         .update(entry);
+    },
+    delete: async (documentPath: string) => {
+      await firestoreDb()
+        .collection(collection)
+        .doc(documentPath)
+        .delete();
     },
   };
 };

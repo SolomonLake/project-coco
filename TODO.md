@@ -10,6 +10,7 @@
   - groupId
   - user can leave current group
     - if that was the last user, group is deleted
+- delete groups that have no users in observer
 
 ### Done:
 

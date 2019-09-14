@@ -3,25 +3,34 @@ import { Loading } from "./Loading/Loading";
 import { AppStoreContext, useAppStore, AppStore } from "./appStore";
 import { AppAction } from "./appActions";
 import { JoinGroup } from "./JoinGroup/JoinGroup";
-import { Main } from "./Main/Main";
+import { MainGroup } from "./MainGroup/MainGroup";
 import { zoomApi } from "../scripts/zoom/zoomApi";
 import { zoomAuth } from "../scripts/zoom/zoomAuth";
 import { login } from "../scripts/login/login";
 import { initializeFirestore } from "../scripts/firestore/firestoreInitialize";
-import { initializeAuthenticatedUser } from "../scripts/authenticatedUser/authenticatedUser";
-import { usersDatabaseService } from "../scripts/databaseServices/usersDatabaseService";
+import { usersDatabaseAccessor } from "../scripts/databaseServices/usersDatabaseAccessor";
+import { appGroupsDatabaseAccessor } from "../scripts/databaseServices/appGroupsDatabaseAccessor";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
   const userAndCustomToken = await login();
   await initializeFirestore(userAndCustomToken.customToken);
-  const existingUser = await initializeAuthenticatedUser(
+  const user = await usersDatabaseAccessor.findOrCreateUser(
     userAndCustomToken.user,
   );
-  if (existingUser.groupId) {
-    appStore.dispatch({ type: "CHANGE_VIEW", view: "main" });
+  const appGroup = user.groupId
+    ? await appGroupsDatabaseAccessor.getAppGroup(user.groupId)
+    : null;
+  if (user.groupId && appGroup) {
+    appStore.dispatch({
+      type: "TRANSITION_APP_STATE",
+      newAppState: { view: "mainGroup", user, appGroup },
+    });
   } else {
-    appStore.dispatch({ type: "CHANGE_VIEW", view: "joinGroup" });
+    appStore.dispatch({
+      type: "TRANSITION_APP_STATE",
+      newAppState: { view: "joinGroup", user },
+    });
   }
 }
 
@@ -36,17 +45,17 @@ export const App: React.FC = () => {
     case "joinGroup":
       return (
         <AppStoreContext.Provider value={appStore}>
-          <JoinGroup />
+          <JoinGroup joinGroupAppState={appStore.state} />
         </AppStoreContext.Provider>
       );
-    case "main":
+    case "mainGroup":
       return (
         <AppStoreContext.Provider value={appStore}>
-          <Main />
+          <MainGroup mainGroupAppState={appStore.state} />
         </AppStoreContext.Provider>
       );
     default:
-      const _: never = appStore.state.view;
-      throw new Error(`unknown state view: ${appStore.state.view}`);
+      const _: never = appStore.state;
+      throw new Error(`unknown state view`);
   }
 };

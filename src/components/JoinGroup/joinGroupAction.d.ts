@@ -4,4 +4,5 @@ export type JoinGroupAction = UpdateJoinId;
 
 type UpdateJoinId = {
   type: "UPDATE_JOIN_ID";
+  newJoinId: string;
 };

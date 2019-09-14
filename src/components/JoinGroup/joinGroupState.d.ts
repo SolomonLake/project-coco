@@ -1,5 +1,3 @@
 export type JoinGroupState = {
-  view: AppView;
+  joinId: string;
 };
-
-export type AppView = "initial" | "joinGroup" | "main";

@@ -1,4 +1,4 @@
-import { firestoreApiFactory } from "./../firestore/firestoreApi";
+import { firestoreApiFactory } from "../firestore/firestoreApi";
 import { ZoomUser } from "../../shared/types/zoomTypes";
 
 const usersDatabaseApi = firestoreApiFactory<UserEntry>("users");
@@ -10,7 +10,7 @@ export type UserEntry = {
   personalMeetingUrl: string;
 };
 
-export const usersDatabaseService = {
+export const usersDatabaseAccessor = {
   getUser: async (userId: string): Promise<UserEntry | null> => {
     return await usersDatabaseApi.get(userId);
   },
@@ -18,7 +18,7 @@ export const usersDatabaseService = {
     return await usersDatabaseApi.set(user.userId, user);
   },
   findOrCreateUser: async (user: ZoomUser): Promise<UserEntry> => {
-    const existingUser = await usersDatabaseService.getUser(user.id);
+    const existingUser = await usersDatabaseAccessor.getUser(user.id);
     if (existingUser) {
       return existingUser;
     } else {
