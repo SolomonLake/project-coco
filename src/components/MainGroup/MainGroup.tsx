@@ -10,10 +10,15 @@ import { startAppGroupObserver } from "../appGroupObserver";
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
   const mainGroupStore = useMainGroupStore(props.appState.initialAppGroup);
-  startAppGroupObserver(
-    mainGroupStore.state.appGroup.appGroupId,
-    mainGroupStore.dispatch,
-  );
+  React.useEffect(() => {
+    const unsubscribe = startAppGroupObserver(
+      mainGroupStore.state.appGroup.appGroupId,
+      mainGroupStore.dispatch,
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   return (
     <Grid
       container

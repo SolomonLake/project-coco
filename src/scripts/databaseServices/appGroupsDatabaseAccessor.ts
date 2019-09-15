@@ -32,11 +32,11 @@ export type AppGroupEntry = {
 type UserAvailabilityStatus = "available" | "busy" | "offline";
 
 export const appGroupsDatabaseAccessor = {
-  watchAppGroup: async (
+  watchAppGroup: (
     appGroupId: string,
     callback: (appGroup: AppGroupEntry) => void,
   ) => {
-    appGroupsDatabaseApi.watch(appGroupId, callback);
+    return appGroupsDatabaseApi.watch(appGroupId, callback);
   },
   getAppGroup: async (appGroupId: string): Promise<AppGroupEntry | null> => {
     return await appGroupsDatabaseApi.get(appGroupId);

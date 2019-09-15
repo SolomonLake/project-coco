@@ -24,7 +24,7 @@ async function initializeApp(appStore: AppStore) {
   if (user.groupId && appGroup) {
     appStore.dispatch({
       type: "TRANSITION_APP_STATE",
-      newAppState: { view: "mainGroup", user, appGroup },
+      newAppState: { view: "mainGroup", user, initialAppGroup: appGroup },
     });
   } else {
     appStore.dispatch({

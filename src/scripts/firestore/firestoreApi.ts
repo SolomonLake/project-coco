@@ -39,10 +39,10 @@ export const firestoreApiFactory = <T extends {}>(
         .doc(documentPath)
         .delete();
     },
-    watch: async (document: string, callback: (entry: T) => void) => {
-      firestoreDb()
+    watch: (documentPath: string, callback: (entry: T) => void) => {
+      return firestoreDb()
         .collection(collection)
-        .doc(document)
+        .doc(documentPath)
         .onSnapshot(doc => {
           callback(doc.data() as T);
         });

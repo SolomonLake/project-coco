@@ -9,7 +9,7 @@ export function startAppGroupObserver(
   appGroupdId: string,
   dispatch: Dispatch<MainGroupAction>,
 ) {
-  appGroupsDatabaseAccessor.watchAppGroup(
+  const unsubscribe = appGroupsDatabaseAccessor.watchAppGroup(
     appGroupdId,
     (appGroup: AppGroupEntry) => {
       dispatch({
@@ -18,4 +18,5 @@ export function startAppGroupObserver(
       });
     },
   );
+  return unsubscribe;
 }

@@ -3,7 +3,7 @@ import { AppState } from "./appState.d";
 import { AppView } from "./appState";
 import { UserEntry } from "../scripts/databaseServices/usersDatabaseAccessor";
 
-export type AppAction = TransitionAppState | TransitionToMainAppState;
+export type AppAction = TransitionAppState;
 
 type TransitionAppState = {
   type: "TRANSITION_APP_STATE";

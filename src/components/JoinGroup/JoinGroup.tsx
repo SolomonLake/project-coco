@@ -65,7 +65,7 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
                         ...props.appState.user,
                         groupId: group.appGroupId,
                       },
-                      appGroup: group,
+                      initialAppGroup: group,
                     },
                   });
                 } else {
@@ -99,7 +99,7 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
               newAppState: {
                 view: "mainGroup",
                 user: { ...props.appState.user, groupId: group.appGroupId },
-                appGroup: group,
+                initialAppGroup: group,
               },
             });
           }}
