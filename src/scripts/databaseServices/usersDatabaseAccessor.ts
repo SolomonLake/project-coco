@@ -1,14 +1,8 @@
 import { firestoreApiFactory } from "../firestore/firestoreApi";
 import { ZoomUser } from "../../../sharedTypes/zoomTypes";
+import { UserEntry } from "../../../sharedTypes/userEntry";
 
 const usersDatabaseApi = firestoreApiFactory<UserEntry>("users");
-
-export type UserEntry = {
-  userId: string;
-  groupId: string | null;
-  displayName: string;
-  personalMeetingUrl: string;
-};
 
 export const usersDatabaseAccessor = {
   getUser: async (userId: string): Promise<UserEntry | null> => {

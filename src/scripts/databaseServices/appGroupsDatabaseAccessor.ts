@@ -1,6 +1,6 @@
+import { UserEntry } from "./../../../sharedTypes/userEntry.d";
 import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
 import firebase from "firebase";
-import { UserEntry } from "./usersDatabaseAccessor";
 import { firestoreApiFactory } from "../firestore/firestoreApi";
 import { generateRandomAlphaNumericString } from "../utils/generateUtils";
 

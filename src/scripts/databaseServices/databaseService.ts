@@ -1,7 +1,8 @@
 import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
 import { appGroupsDatabaseAccessor } from "./appGroupsDatabaseAccessor";
-import { usersDatabaseAccessor, UserEntry } from "./usersDatabaseAccessor";
+import { usersDatabaseAccessor } from "./usersDatabaseAccessor";
 import _ from "underscore";
+import { UserEntry } from "../../../sharedTypes/userEntry";
 
 export const databaseService = {
   createGroup: async (user: UserEntry): Promise<AppGroupEntry> => {

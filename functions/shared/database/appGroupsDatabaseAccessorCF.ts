@@ -1,10 +1,12 @@
-import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
-import firebase from "firebase";
+import {
+  AppGroupEntry,
+  OnlineMeeting,
+} from "./../../../sharedTypes/appGroupEntry.d";
 import { firestoreApiFactory } from "../firestore/firestoreApiCF";
 
 const appGroupsDatabaseApi = firestoreApiFactory<AppGroupEntry>("appGroups");
 
-export const appGroupsDatabaseAccessor = {
+export const appGroupsDatabaseAccessorCF = {
   getAppGroup: async (appGroupId: string): Promise<AppGroupEntry | null> => {
     return await appGroupsDatabaseApi.get(appGroupId);
   },
@@ -18,10 +20,14 @@ export const appGroupsDatabaseAccessor = {
       );
     }
   },
-  deleteAppGroup: async (appGroupId: string) => {
-    return await appGroupsDatabaseApi.delete(appGroupId);
-  },
-  createAppGroup: async (appGroup: AppGroupEntry) => {
-    return await appGroupsDatabaseApi.set(appGroup.appGroupId, appGroup);
+  setUserCurrentMeeting(
+    userId: string,
+    appGroupId: string,
+    currentMeeting: OnlineMeeting,
+  ) {
+    const updateGroupAccessor = {
+      [`userIds.${userId}.currentMeeting`]: currentMeeting,
+    };
+    appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
   },
 };

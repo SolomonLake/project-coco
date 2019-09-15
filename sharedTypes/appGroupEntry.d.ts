@@ -4,22 +4,27 @@ export type AppGroupEntry = {
     [userId: string]: {
       userId: string;
       availabilityStatus: UserAvailabilityStatus;
-      currentMeeting: null | {
-        meetingUrl: string | null;
-        meetingName: string;
-        meetingStartTime: string;
-      };
+      currentMeeting: null | OnlineMeeting;
       dailyCalendarEvents: {
-        [eventId: string]: {
-          eventId: string;
-          eventName: string;
-          startTime: string;
-          endTime: string;
-          eventLink: string;
-        };
+        [eventId: string]: CalendarEvent;
       };
     };
   };
+};
+
+export type CalendarEvent = {
+  eventId: string;
+  eventName: string;
+  startTime: string;
+  endTime: string;
+  eventLink: string;
+};
+
+export type OnlineMeeting = {
+  meetingId: string;
+  meetingUrl: string;
+  meetingName: string;
+  meetingStartTime: string;
 };
 
 export type UserAvailabilityStatus = "available" | "busy" | "offline";
