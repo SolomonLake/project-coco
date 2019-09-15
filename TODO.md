@@ -1,6 +1,5 @@
 ## Todo:
 
-- group observer
 - group handling
   - groupId
   - user can leave current group
@@ -9,6 +8,7 @@
 
 ### Done:
 
+- ~~group observer~~
 - ~~user state~~
 - ~~firebase~~
 - ~~firestore~~

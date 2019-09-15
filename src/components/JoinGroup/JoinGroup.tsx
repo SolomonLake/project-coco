@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
-import { databaseApi } from "../../scripts/databaseServices/databaseService";
+import { databaseService } from "../../scripts/databaseServices/databaseService";
 import { JoinGroupAppState } from "../appState";
 
 export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
@@ -52,7 +52,7 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
                   type: "TRANSITION_APP_STATE",
                   newAppState: { view: "loading" },
                 });
-                const group = await databaseApi.userTryJoinGroup(
+                const group = await databaseService.userTryJoinGroup(
                   props.appState.user,
                   joinGroupStore.state.joinId,
                 );
@@ -93,7 +93,9 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
               type: "TRANSITION_APP_STATE",
               newAppState: { view: "loading" },
             });
-            const group = await databaseApi.createGroup(props.appState.user);
+            const group = await databaseService.createGroup(
+              props.appState.user,
+            );
             appStore.dispatch({
               type: "TRANSITION_APP_STATE",
               newAppState: {

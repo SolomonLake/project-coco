@@ -51,6 +51,9 @@ export const appGroupsDatabaseAccessor = {
       );
     }
   },
+  deleteAppGroup: async (appGroupId: string) => {
+    return await appGroupsDatabaseApi.delete(appGroupId);
+  },
   createAppGroup: async (appGroup: AppGroupEntry) => {
     return await appGroupsDatabaseApi.set(appGroup.appGroupId, appGroup);
   },

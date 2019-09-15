@@ -3,7 +3,7 @@ import { AppStoreContext } from "../appStore";
 import Typography from "@material-ui/core/Typography";
 import { Grid, Button } from "@material-ui/core";
 import { MainGroupAppState } from "../appState";
-import { databaseApi } from "../../scripts/databaseServices/databaseService";
+import { databaseService } from "../../scripts/databaseServices/databaseService";
 import { useMainGroupStore } from "./mainGroupStore";
 import { startAppGroupObserver } from "../appGroupObserver";
 
@@ -41,7 +41,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
               type: "TRANSITION_APP_STATE",
               newAppState: { view: "loading" },
             });
-            const group = await databaseApi.userLeaveGroup(
+            await databaseService.userLeaveGroup(
               props.appState.user,
               mainGroupStore.state.appGroup,
             );
