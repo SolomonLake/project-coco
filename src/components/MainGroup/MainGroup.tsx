@@ -31,6 +31,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
         <Typography>
           GroupId: {mainGroupStore.state.appGroup.appGroupId}
         </Typography>
+        <pre>{JSON.stringify(mainGroupStore.state.appGroup, null, 2)}</pre>
       </Grid>
       <Grid item>
         <Button

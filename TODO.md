@@ -1,13 +1,14 @@
 ## Todo:
 
-- group handling
-  - groupId
-  - user can leave current group
-    - if that was the last user, group is deleted
-- delete groups that have no users in observer
+- zoom notifications make updates in firebase
+- google calendar api
 
 ### Done:
 
+- ~~group handling~~
+  - ~~groupId~~
+  - ~~user can leave current group~~
+    - ~~if that was the last user, group is deleted~~
 - ~~group observer~~
 - ~~user state~~
 - ~~firebase~~
