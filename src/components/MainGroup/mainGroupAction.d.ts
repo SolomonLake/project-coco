@@ -1,4 +1,4 @@
-import { AppGroupEntry } from "./../../scripts/databaseServices/appGroupsDatabaseAccessor";
+import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
 
 export type MainGroupAction = UpdateAppGroup;
 

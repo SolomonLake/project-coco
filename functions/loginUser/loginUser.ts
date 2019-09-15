@@ -1,7 +1,7 @@
 import { LoginUserSuccessResult } from "../../sharedTypes/loginUserSuccessResult";
 import { Request, Response } from "express";
 import admin from "firebase-admin";
-import { serviceAccount } from "./scripts/firestoreServiceAccount";
+import { serviceAccount } from "../shared/firestore/firestoreServiceAccount";
 import fetch from "node-fetch";
 import { processEnv } from "../processEnv";
 

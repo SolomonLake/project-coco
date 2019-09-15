@@ -1,8 +1,6 @@
+import { AppGroupEntry } from "./../../sharedTypes/appGroupEntry.d";
 import { MainGroupAction } from "./MainGroup/mainGroupAction.d";
-import {
-  AppGroupEntry,
-  appGroupsDatabaseAccessor,
-} from "./../scripts/databaseServices/appGroupsDatabaseAccessor";
+import { appGroupsDatabaseAccessor } from "./../scripts/databaseServices/appGroupsDatabaseAccessor";
 import { Dispatch } from "react";
 
 export function startAppGroupObserver(

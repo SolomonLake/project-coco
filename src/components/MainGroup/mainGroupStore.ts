@@ -1,4 +1,4 @@
-import { AppGroupEntry } from "./../../scripts/databaseServices/appGroupsDatabaseAccessor";
+import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
 import { MainGroupAction } from "./mainGroupAction";
 import { MainGroupState } from "./mainGroupState";
 import React, { Dispatch, useReducer } from "react";

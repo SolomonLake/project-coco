@@ -1,7 +1,5 @@
-import {
-  appGroupsDatabaseAccessor,
-  AppGroupEntry,
-} from "./appGroupsDatabaseAccessor";
+import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
+import { appGroupsDatabaseAccessor } from "./appGroupsDatabaseAccessor";
 import { usersDatabaseAccessor, UserEntry } from "./usersDatabaseAccessor";
 import _ from "underscore";
 
