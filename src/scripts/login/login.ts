@@ -1,4 +1,4 @@
-import { LoginUserSuccessResult } from "./../../shared/types/loginUserSuccessResult.d";
+import { LoginUserSuccessResult } from "../../../sharedTypes/loginUserSuccessResult";
 import { zoomAuth } from "../zoom/zoomAuth";
 import { config } from "../../environments/config";
 

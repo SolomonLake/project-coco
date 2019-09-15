@@ -1,5 +1,5 @@
 import { firestoreApiFactory } from "../firestore/firestoreApi";
-import { ZoomUser } from "../../shared/types/zoomTypes";
+import { ZoomUser } from "../../../sharedTypes/zoomTypes";
 
 const usersDatabaseApi = firestoreApiFactory<UserEntry>("users");
 

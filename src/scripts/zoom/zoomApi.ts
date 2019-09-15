@@ -1,6 +1,6 @@
 import { config } from "../../environments/config";
 import { zoomAuth } from "./zoomAuth";
-import { ZoomApiProxyBody } from "../../shared/types/zoomApiProxyTypes";
+import { ZoomApiProxyBody } from "../../../sharedTypes/zoomApiProxyTypes";
 
 export const zoomApi = {
   getUser: async () => {

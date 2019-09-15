@@ -1,4 +1,5 @@
-import { ZoomUser } from "./zoomTypes.d";
+import { ZoomUser } from "./zoomTypes";
+
 export type LoginUserSuccessResult = {
   customToken: string;
   user: ZoomUser;

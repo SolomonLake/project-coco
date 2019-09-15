@@ -1,5 +1,4 @@
-import { ZoomApiProxyBody } from "../../src/shared/types/zoomApiProxyTypes";
-import { CachedZoomTokenData } from "../../src/shared/types/zoomTypes";
+import { ZoomApiProxyBody } from "../../sharedTypes/zoomApiProxyTypes";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
 import { getValidAccessToken } from "./scripts/getValidAccessToken";

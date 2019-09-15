@@ -18,5 +18,5 @@
     "noImplicitAny": true,
     "noImplicitThis": true
   },
-  "include": ["src"]
+  "include": ["src", "sharedTypes"]
 }

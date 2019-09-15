@@ -1,4 +1,4 @@
-import { CachedZoomTokenData } from "./../../../src/shared/types/zoomTypes.d";
+import { CachedZoomTokenData } from "../../../sharedTypes/zoomTypes";
 import fetch from "node-fetch";
 import { processEnv } from "../../processEnv";
 

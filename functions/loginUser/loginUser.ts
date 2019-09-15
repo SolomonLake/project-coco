@@ -1,4 +1,4 @@
-import { LoginUserSuccessResult } from "./../../src/shared/types/loginUserSuccessResult.d";
+import { LoginUserSuccessResult } from "../../sharedTypes/loginUserSuccessResult";
 import { Request, Response } from "express";
 import admin from "firebase-admin";
 import { serviceAccount } from "./scripts/firestoreServiceAccount";
