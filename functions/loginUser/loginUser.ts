@@ -5,11 +5,6 @@ import { serviceAccount } from "../shared/firestore/firestoreServiceAccount";
 import fetch from "node-fetch";
 import { processEnv } from "../processEnv";
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://project-coco-251813.firebaseio.com",
-});
-
 export const runLoginUser = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
   // Allows GETs from origin https://mydomain.com with Authorization header
@@ -33,6 +28,10 @@ export const runLoginUser = async (req: Request, res: Response) => {
       console.log("login user response", response.status, response.statusText);
       const responseJson = await response.json();
       if (responseJson.id) {
+        admin.initializeApp({
+          credential: admin.credential.cert(serviceAccount),
+          databaseURL: "https://project-coco-251813.firebaseio.com",
+        });
         const userId = responseJson.id;
         admin
           .auth()

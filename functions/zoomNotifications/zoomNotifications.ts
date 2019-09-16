@@ -17,7 +17,10 @@ export const runZoomNotifications = async (req: Request, res: Response) => {
     switch (zoomEvent.event) {
       case "meeting.participant_joined":
         const userJoinedPayload = zoomEvent.payload;
-        const userId = userJoinedPayload.object.participant.user_id;
+        const userId = userJoinedPayload.object.participant.id;
+        console.log(
+          `zoomNotifications: meeting.participant_joined: userId ${userId}`,
+        );
         const userEntry = await usersDatabaseAccessorCF.getUser(userId);
         if (userEntry && userEntry.groupId) {
           const meetingId = userJoinedPayload.object.id;
