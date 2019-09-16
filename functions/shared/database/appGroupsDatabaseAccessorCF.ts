@@ -23,7 +23,7 @@ export const appGroupsDatabaseAccessorCF = {
   setUserCurrentMeeting(
     userId: string,
     appGroupId: string,
-    currentMeeting: OnlineMeeting,
+    currentMeeting: OnlineMeeting | null,
   ) {
     const updateGroupAccessor = {
       [`userIds.${userId}.currentMeeting`]: currentMeeting,

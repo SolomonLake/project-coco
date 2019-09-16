@@ -1,8 +1,8 @@
-import { usersDatabaseAccessorCF } from "./../shared/database/usersDatabaseAccessorCF";
-import { appGroupsDatabaseAccessorCF } from "./../shared/database/appGroupsDatabaseAccessorCF";
 import { Request, Response } from "express";
 import { Zoom_WebhookBody } from "./scripts/zoomWebhookTypes";
 import { processEnv } from "../processEnv";
+import { userJoinedMeeting } from "./scripts/userJoinedMeeting";
+import { userLeftMeeting } from "./scripts/userLeftMeeting";
 
 const zoomAppVerification = processEnv.ZOOM_APP_VERIFICATION;
 
@@ -16,33 +16,11 @@ export const runZoomNotifications = async (req: Request, res: Response) => {
     const zoomEventName = zoomEvent.event;
     switch (zoomEvent.event) {
       case "meeting.participant_joined":
-        const userJoinedPayload = zoomEvent.payload;
-        const userId = userJoinedPayload.object.participant.id;
-        console.log(
-          `zoomNotifications: meeting.participant_joined: userId ${userId}`,
-        );
-        const userEntry = await usersDatabaseAccessorCF.getUser(userId);
-        if (userEntry && userEntry.groupId) {
-          const meetingId = userJoinedPayload.object.id;
-          const currentMeeting = {
-            meetingId: meetingId,
-            meetingUrl: "https://zoom.us/j/" + meetingId,
-            meetingName: userJoinedPayload.object.topic,
-            meetingStartTime: userJoinedPayload.object.start_time,
-          };
-          console.log(
-            `zoomNotifications: meeting.participant_joined: userId ${userId} is joining meeting:`,
-            currentMeeting,
-          );
-          await appGroupsDatabaseAccessorCF.setUserCurrentMeeting(
-            userId,
-            userEntry.groupId,
-            currentMeeting,
-          );
-        }
+        await userJoinedMeeting(zoomEvent);
         res.send({ status: "success" });
         break;
       case "meeting.participant_left":
+        await userLeftMeeting(zoomEvent);
         res.send({ status: "success" });
         break;
       default:

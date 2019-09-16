@@ -9,11 +9,14 @@ cloudFunctionFolders=( "zoomApiProxy" "zoomGetTokenData" "zoomNotifications" "lo
 npm install
 npm run build
 
-for i in "${cloudFunctionFolders[@]}"
-do
-	echo Deploying $i
-  gcloud functions deploy $i --runtime nodejs10 --trigger-http --env-vars-file .prod-env.yaml
-  # cd $i
-  # npm run deploy
-  # cd ..
-done
+if [ $# -eq 1 ]
+then
+  echo Deploying $1
+  gcloud functions deploy $1 --runtime nodejs10 --trigger-http --env-vars-file .prod-env.yaml
+else
+  for i in "${cloudFunctionFolders[@]}"
+  do
+    echo Deploying $i
+    gcloud functions deploy $i --runtime nodejs10 --trigger-http --env-vars-file .prod-env.yaml
+  done
+fi
