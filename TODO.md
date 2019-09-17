@@ -1,13 +1,13 @@
 ## Todo:
 
-- zoom notifications make updates in firebase
-  - ~~user joined~~
-  - user left
 - google calendar api
-- separate production and local apps on all platforms
+- ui
 
 ### Done:
 
+- ~~zoom notifications make updates in firebase~~
+  - ~~user joined~~
+  - ~~user left~~
 - ~~group handling~~
   - ~~groupId~~
   - ~~user can leave current group~~

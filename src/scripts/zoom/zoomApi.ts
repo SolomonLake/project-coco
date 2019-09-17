@@ -1,4 +1,4 @@
-import { config } from "../../environments/config";
+import { environment } from "../environment/environment";
 import { zoomAuth } from "./zoomAuth";
 import { ZoomApiProxyBody } from "../../../sharedTypes/zoomApiProxyTypes";
 
@@ -17,7 +17,7 @@ export const zoomApi = {
 async function makeApiCall(zoomApiProxyBody: ZoomApiProxyBody) {
   const tokenData = await zoomAuth.getToken();
   const response = await fetch(
-    config().CLOUD_FUNCTION_ENDPOINT +
+    environment().CLOUD_FUNCTION_ENDPOINT +
       `/zoomApiProxy?zoomTokenData=${encodeURIComponent(
         JSON.stringify(tokenData),
       )}`,

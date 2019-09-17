@@ -1,6 +1,6 @@
 import { CachedZoomTokenData } from "../../../sharedTypes/zoomTypes";
 import { windowUtils } from "../utils/windowUtils";
-import { config } from "../../environments/config";
+import { environment } from "../environment/environment";
 
 export const zoomAuth = {
   initialize: (): Promise<CachedZoomTokenData> => {
@@ -18,7 +18,7 @@ export const zoomAuth = {
         resolve(tokenData);
       } else {
         window.location.href =
-          config().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
+          environment().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
       }
     });
     return cachedZoomTokenData;

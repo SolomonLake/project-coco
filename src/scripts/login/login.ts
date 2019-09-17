@@ -1,11 +1,11 @@
 import { LoginUserSuccessResult } from "../../../sharedTypes/loginUserSuccessResult";
 import { zoomAuth } from "../zoom/zoomAuth";
-import { config } from "../../environments/config";
+import { environment } from "../environment/environment";
 
 export async function login() {
   const tokenData = await zoomAuth.getToken();
   const response = await fetch(
-    config().CLOUD_FUNCTION_ENDPOINT +
+    environment().CLOUD_FUNCTION_ENDPOINT +
       `/loginUser?zoomTokenData=${encodeURIComponent(
         JSON.stringify(tokenData),
       )}`,

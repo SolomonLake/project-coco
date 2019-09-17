@@ -1,4 +1,4 @@
-export const config = () => {
+export const environment = () => {
   const dev = {
     CLOUD_FUNCTION_ENDPOINT: "http://localhost:8080",
   };

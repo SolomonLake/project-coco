@@ -40,6 +40,7 @@ export const runLoginUser = async (req: Request, res: Response) => {
             const successResult: LoginUserSuccessResult = {
               customToken,
               user: responseJson,
+              config: processEnv,
             };
             res.send(successResult);
           })

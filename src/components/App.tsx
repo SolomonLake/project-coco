@@ -10,10 +10,12 @@ import { login } from "../scripts/login/login";
 import { initializeFirestore } from "../scripts/firestore/firestoreInitialize";
 import { usersDatabaseAccessor } from "../scripts/databaseServices/usersDatabaseAccessor";
 import { appGroupsDatabaseAccessor } from "../scripts/databaseServices/appGroupsDatabaseAccessor";
+import { setConfig } from "../scripts/config/config";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
   const userAndCustomToken = await login();
+  setConfig(userAndCustomToken.config);
   await initializeFirestore(userAndCustomToken.customToken);
   const user = await usersDatabaseAccessor.findOrCreateUser(
     userAndCustomToken.user,
