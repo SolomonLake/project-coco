@@ -15,7 +15,6 @@ import { setConfig } from "../scripts/config/config";
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
   const userAndCustomToken = await login();
-  console.log(userAndCustomToken);
   setConfig(userAndCustomToken.config);
   await initializeFirestore(userAndCustomToken.customToken);
   const user = await usersDatabaseAccessor.findOrCreateUser(

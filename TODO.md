@@ -2,6 +2,7 @@
 
 - google calendar api
 - ui
+- separate dev/production apps for all external services
 
 ### Done:
 

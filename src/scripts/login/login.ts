@@ -11,6 +11,5 @@ export async function login() {
       )}`,
   );
   const responseJson: LoginUserSuccessResult = await response.json();
-  console.log("response", responseJson);
   return responseJson;
 }
