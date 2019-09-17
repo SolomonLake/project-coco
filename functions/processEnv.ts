@@ -1,3 +1,3 @@
-import { AppConfig } from "../sharedTypes/configTypes";
+import { AppConfig } from "../sharedTypes/appConfigTypes";
 
 export const processEnv = process.env as AppConfig;

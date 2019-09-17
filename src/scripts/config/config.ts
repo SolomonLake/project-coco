@@ -1,4 +1,4 @@
-import { AppConfig } from "./../../../sharedTypes/configTypes.d";
+import { AppConfig } from "../../../sharedTypes/appConfigTypes";
 
 export function setConfig(c: AppConfig) {
   _config = c;

@@ -7,4 +7,7 @@ export type AppConfig = {
   CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA: string;
   CLOUD_FUNCTION_ENDPOINT: string;
   FIRESTORE_PRIVATE_KEY: string;
+  FIRESTORE_API_KEY: string;
+  FIRESTORE_AUTH_DOMAIN: string;
+  FIRESTORE_PROJECT_ID: string;
 };

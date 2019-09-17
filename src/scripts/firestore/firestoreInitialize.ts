@@ -1,6 +1,7 @@
 import firebase from "firebase";
 // Required for side-effects
 import "firebase/firestore";
+import { config } from "../config/config";
 
 export function firestoreDb() {
   if (_firestoreDb) {
@@ -12,9 +13,9 @@ export function firestoreDb() {
 
 export async function initializeFirestore(customToken: string) {
   firebase.initializeApp({
-    apiKey: "AIzaSyD-Lhms0AxUKDuyccRdicHf6xUCIT-vB0A",
-    authDomain: "project-coco-251813.firebaseapp.com",
-    projectId: "project-coco-251813",
+    apiKey: config().FIRESTORE_API_KEY,
+    authDomain: config().FIRESTORE_AUTH_DOMAIN,
+    projectId: config().FIRESTORE_PROJECT_ID,
   });
   await firebase
     .auth()

@@ -1,4 +1,4 @@
-import { AppConfig } from "./configTypes";
+import { AppConfig } from "./appConfigTypes";
 import { ZoomUser } from "./zoomTypes";
 
 export type LoginUserSuccessResult = {
