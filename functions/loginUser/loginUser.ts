@@ -1,9 +1,9 @@
 import { LoginUserSuccessResult } from "../../sharedTypes/loginUserSuccessResult";
 import { Request, Response } from "express";
-import admin from "firebase-admin";
 import { serviceAccount } from "../shared/firestore/firestoreServiceAccount";
 import fetch from "node-fetch";
 import { processEnv } from "../processEnv";
+import { firestoreAdmin } from "../shared/firestore/initializeFirestoreAdmin";
 
 export const runLoginUser = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
@@ -28,10 +28,7 @@ export const runLoginUser = async (req: Request, res: Response) => {
       console.log("login user response", response.status, response.statusText);
       const responseJson = await response.json();
       if (responseJson.id) {
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-          databaseURL: "https://project-coco-251813.firebaseio.com",
-        });
+        const admin = firestoreAdmin();
         const userId = responseJson.id;
         admin
           .auth()

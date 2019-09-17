@@ -1,18 +1,18 @@
 import admin from "firebase-admin";
 import { serviceAccount } from "./firestoreServiceAccount";
 
-export function firestoreDb() {
-  if (_firestoreDb) {
-    return _firestoreDb;
+export function firestoreAdmin() {
+  if (_firestoreAdmin) {
+    return _firestoreAdmin;
   } else {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
       databaseURL: "https://project-coco-251813.firebaseio.com",
     });
 
-    _firestoreDb = admin.firestore();
-    return _firestoreDb;
+    _firestoreAdmin = admin;
+    return _firestoreAdmin;
   }
 }
 
-let _firestoreDb: FirebaseFirestore.Firestore | null = null;
+let _firestoreAdmin: typeof admin | null = null;

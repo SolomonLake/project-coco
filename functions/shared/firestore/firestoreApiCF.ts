@@ -1,4 +1,4 @@
-import { firestoreDb } from "./initializeFirestoreCF";
+import { firestoreDb } from "./initializeFirestoreDbCF";
 
 export const firestoreApiFactory = <T extends {}>(collection: string) => {
   return {
