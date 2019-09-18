@@ -21,6 +21,7 @@ export const usersDatabaseAccessor = {
         groupId: null,
         displayName: user.first_name + " " + user.last_name,
         personalMeetingUrl: user.personal_meeting_url,
+        avatarUrl: user.pic_url,
       };
       await usersDatabaseApi.set(userEntry.userId, userEntry);
       return userEntry;

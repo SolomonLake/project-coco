@@ -3,4 +3,5 @@ export type UserEntry = {
   groupId: string | null;
   displayName: string;
   personalMeetingUrl: string;
+  avatarUrl: string;
 };
