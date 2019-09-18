@@ -6,6 +6,8 @@ import { MainGroupAppState } from "../appState";
 import { databaseService } from "../../scripts/databaseServices/databaseService";
 import { useMainGroupStore } from "./mainGroupStore";
 import { startAppGroupObserver } from "../appGroupObserver";
+import { gapiCalendar } from "../../scripts/gapi/gapiCalendar";
+import { mainGroupActionCreator } from "./mainGroupActionCreator";
 
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
@@ -31,7 +33,23 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
         <Typography>
           GroupId: {mainGroupStore.state.appGroup.appGroupId}
         </Typography>
+      </Grid>
+      <Grid item>
         <pre>{JSON.stringify(mainGroupStore.state.appGroup, null, 2)}</pre>
+      </Grid>
+      <Grid item>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={async () => {
+            mainGroupActionCreator.updateCalendarEvents(
+              props.appState.user.userId,
+              mainGroupStore.state.appGroup.appGroupId,
+            );
+          }}
+        >
+          Sync Google Calendar
+        </Button>
       </Grid>
       <Grid item>
         <Button

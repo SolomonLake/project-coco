@@ -1,5 +1,8 @@
 import { UserEntry } from "./../../../sharedTypes/userEntry.d";
-import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
+import {
+  AppGroupEntry,
+  CalendarEvent,
+} from "./../../../sharedTypes/appGroupEntry.d";
 import firebase from "firebase";
 import { firestoreApiFactory } from "../firestore/firestoreApi";
 import { generateRandomAlphaNumericString } from "../utils/generateUtils";
@@ -40,7 +43,7 @@ export const appGroupsDatabaseAccessor = {
           userId: firstUser.userId,
           availabilityStatus: "available",
           currentMeeting: null,
-          dailyCalendarEvents: {},
+          dailyCalendarEvents: [],
         },
       },
     };
@@ -63,5 +66,15 @@ export const appGroupsDatabaseAccessor = {
     await appGroupsDatabaseApi.update(appGroup.appGroupId, {
       [`userIds.${user.userId}`]: firebase.firestore.FieldValue.delete(),
     });
+  },
+  setUserCalendarEvents(
+    userId: string,
+    appGroupId: string,
+    calendarEvents: Array<CalendarEvent>,
+  ) {
+    const updateGroupAccessor = {
+      [`userIds.${userId}.dailyCalendarEvents`]: calendarEvents,
+    };
+    appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
   },
 };

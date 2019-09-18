@@ -10,4 +10,7 @@ export type AppConfig = {
   FIRESTORE_API_KEY: string;
   FIRESTORE_AUTH_DOMAIN: string;
   FIRESTORE_PROJECT_ID: string;
+  GOOGLE_AUTH_CLIENT_ID: string;
+  GOOGLE_AUTH_CLIENT_SECRET: string;
+  GOOGLE_CALENDAR_API_KEY: string;
 };

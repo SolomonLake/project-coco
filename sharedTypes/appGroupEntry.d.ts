@@ -5,15 +5,13 @@ export type AppGroupEntry = {
       userId: string;
       availabilityStatus: UserAvailabilityStatus;
       currentMeeting: null | OnlineMeeting;
-      dailyCalendarEvents: {
-        [eventId: string]: CalendarEvent;
-      };
+      dailyCalendarEvents: Array<CalendarEvent>;
     };
   };
 };
 
 export type CalendarEvent = {
-  eventId: string;
+  id: string;
   eventName: string;
   startTime: string;
   endTime: string;

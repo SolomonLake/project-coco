@@ -1,5 +1,5 @@
-import { AppGroupEntry } from "./../scripts/databaseServices/appGroupsDatabaseAccessor";
-import { UserEntry } from "../scripts/databaseServices/usersDatabaseAccessor";
+import { AppGroupEntry } from "./../../sharedTypes/appGroupEntry.d";
+import { UserEntry } from "../../sharedTypes/userEntry";
 
 // export type AppState = {
 //   view: AppView;
