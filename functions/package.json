@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "./start-cloud-functions.sh",
+    "start": "f(){ ./start-cloud-functions.sh $1 ;};f",
     "deploy": "npm run build && gcloud functions deploy index --runtime nodejs10 --trigger-http --env-vars-file ../.prod-env.yaml",
     "watch": "npm-watch start"
   },
