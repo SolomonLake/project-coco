@@ -11,6 +11,7 @@ import { initializeFirestore } from "../scripts/firestore/firestoreInitialize";
 import { usersDatabaseAccessor } from "../scripts/databaseServices/usersDatabaseAccessor";
 import { appGroupsDatabaseAccessor } from "../scripts/databaseServices/appGroupsDatabaseAccessor";
 import { setConfig } from "../scripts/config/config";
+import { Grid, Container } from "@material-ui/core";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
@@ -37,6 +38,14 @@ async function initializeApp(appStore: AppStore) {
 }
 
 export const App: React.FC = () => {
+  return (
+    <Container maxWidth="xs" style={{ marginTop: "2em" }}>
+      <AppContent />
+    </Container>
+  );
+};
+
+export const AppContent: React.FC = () => {
   const appStore = useAppStore();
   switch (appStore.state.view) {
     case "initial":
