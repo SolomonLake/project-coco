@@ -1,7 +1,11 @@
-import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
 import { MainGroupAction } from "./mainGroupAction";
-import { MainGroupState } from "./mainGroupState";
 import React, { Dispatch, useReducer } from "react";
+import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
+
+export type MainGroupState = {
+  appGroup: AppGroupEntry;
+  latestQuarterHour: number;
+};
 
 export type MainGroupStore = {
   state: MainGroupState;
@@ -12,15 +16,18 @@ function reducer(state: MainGroupState, action: MainGroupAction) {
   console.log("mainGroupStoreReducer previous state:", state);
   console.log("mainGroupStoreReducer", action);
   switch (action.type) {
-    case "UPDATE_APP_GROUP": {
+    case "UPDATE_APP_GROUP":
       return logState({
         ...state,
         appGroup: action.newAppGroup,
       });
-      break;
-    }
+    case "UPDATE_LATEST_QUARTER_HOUR":
+      return logState({
+        ...state,
+        latestQuarterHour: action.latestQuarterHour,
+      });
     default: {
-      const _: never = action.type;
+      const _: never = action;
       return state;
     }
   }
@@ -36,6 +43,9 @@ export const MainGroupStoreContext = React.createContext<MainGroupStore>(
 );
 
 export function useMainGroupStore(appGroup: AppGroupEntry) {
-  const [state, dispatch] = useReducer(reducer, { appGroup });
+  const [state, dispatch] = useReducer(reducer, {
+    appGroup,
+    latestQuarterHour: 0,
+  });
   return { state, dispatch };
 }

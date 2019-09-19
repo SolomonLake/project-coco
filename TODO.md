@@ -1,6 +1,8 @@
 ## Todo:
 
 - ui
+  - check every so often if need to update users google calendar event statuses
+  - OR set a planned update when we know the event status will change?
 - separate dev/production apps for all external services
 
 ### Done:

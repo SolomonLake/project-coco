@@ -10,16 +10,43 @@ import { gapiCalendar } from "../../scripts/gapi/gapiCalendar";
 import { mainGroupActionCreator } from "./mainGroupActionCreator";
 import { MainGroupHeader } from "./components/MainGroupHeader";
 import { MainGroupFooter } from "./components/MainGroupFooter";
+import { ONE_MINUTE } from "../../scripts/constants/timesInMilliseconds";
+import { timeUtils } from "../../scripts/utils/timeUtils";
 
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
   const mainGroupStore = useMainGroupStore(props.appState.initialAppGroup);
   React.useEffect(() => {
+    // component mount
+    // sync calendar events
+    mainGroupActionCreator.syncCalendarEvents(
+      props.appState.user.userId,
+      mainGroupStore.state.appGroup.appGroupId,
+    );
+    const calendarSyncInterval = setInterval(() => {
+      mainGroupActionCreator.syncCalendarEvents(
+        props.appState.user.userId,
+        mainGroupStore.state.appGroup.appGroupId,
+      );
+    }, 10 * ONE_MINUTE);
+
+    const clearQuarterHour = timeUtils.setQuarterHourInterval(() => {
+      const currentDate = new Date();
+      console.log("quarter hour update", currentDate);
+      mainGroupStore.dispatch({
+        type: "UPDATE_LATEST_QUARTER_HOUR",
+        latestQuarterHour: currentDate.getTime(),
+      });
+    });
+
+    // subscribe to appgroup changes
     const unsubscribe = startAppGroupObserver(
       mainGroupStore.state.appGroup.appGroupId,
       mainGroupStore.dispatch,
     );
     return () => {
+      clearInterval(calendarSyncInterval);
+      clearQuarterHour();
       unsubscribe();
     };
   }, []);
@@ -42,6 +69,16 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           <Grid item>
             <Typography>
               <b>Available</b>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography>
+              <b>In Meeting</b>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography>
+              <b>Do Not Disturb</b>
             </Typography>
           </Grid>
           <Grid item>

@@ -55,7 +55,7 @@ export const MainGroupHeader = (props: {
     const startMinutesString =
       localStartTimeMinutes !== 0 ? `:${localStartTimeMinutes}` : "";
     nextMeetingTimeString = meetingStartedInThePast
-      ? `'${nextMeeting.eventName}' ends at ${localEndTimeHours}${endMinutesString}`
+      ? `${nextMeeting.eventName} ends at ${localEndTimeHours}${endMinutesString}`
       : `Next meeting at ${localStartTimeHours}${startMinutesString}`;
   }
 
@@ -79,7 +79,7 @@ export const MainGroupHeader = (props: {
               variant="contained"
               color="primary"
               onClick={async () => {
-                mainGroupActionCreator.updateCalendarEvents(
+                mainGroupActionCreator.syncCalendarEvents(
                   props.user.userId,
                   props.mainGroupStore.state.appGroup.appGroupId,
                 );

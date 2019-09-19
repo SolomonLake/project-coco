@@ -1,10 +1,9 @@
-import { MainGroupState } from "./mainGroupState.d";
 import { CalendarEvent } from "./../../../sharedTypes/appGroupEntry.d";
 import { gapiCalendar } from "./../../scripts/gapi/gapiCalendar";
 import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
 
 export const mainGroupActionCreator = {
-  updateCalendarEvents: async (userId: string, appGroupId: string) => {
+  syncCalendarEvents: async (userId: string, appGroupId: string) => {
     const events: Array<
       gapi.client.calendar.Event
     > = await gapiCalendar.listUpcomingEvents();
