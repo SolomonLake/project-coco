@@ -1,12 +1,13 @@
 ## Todo:
 
 - ui
-  - check every so often if need to update users google calendar event statuses
-  - OR set a planned update when we know the event status will change?
+  - last synced calendar
+  - separate people into groups
 - separate dev/production apps for all external services
 
 ### Done:
 
+- ~~check every so often if need to update users google calendar event statuses~~
 - ~~google calendar api~~
 - ~~zoom notifications make updates in firebase~~
   - ~~user joined~~

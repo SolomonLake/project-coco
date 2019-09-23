@@ -2,6 +2,7 @@ import { UserEntry } from "./../../../sharedTypes/userEntry.d";
 import {
   AppGroupEntry,
   CalendarEvent,
+  AppGroupUser,
 } from "./../../../sharedTypes/appGroupEntry.d";
 import firebase from "firebase";
 import { firestoreApiFactory } from "../firestore/firestoreApi";
@@ -41,6 +42,8 @@ export const appGroupsDatabaseAccessor = {
       userIds: {
         [firstUser.userId]: {
           userId: firstUser.userId,
+          lastOnline: Date.now(),
+
           availabilityStatus: "available",
           currentMeeting: null,
           dailyCalendarEvents: [],
@@ -51,13 +54,15 @@ export const appGroupsDatabaseAccessor = {
     return newAppGroup;
   },
   userJoinExistingAppGroup: async (user: UserEntry, groupId: string) => {
+    const appGroupUser: AppGroupUser = {
+      userId: user.userId,
+      lastOnline: Date.now(),
+      availabilityStatus: "available",
+      currentMeeting: null,
+      dailyCalendarEvents: [],
+    };
     const updateGroupAccessor = {
-      [`userIds.${user.userId}`]: {
-        userId: user.userId,
-        availabilityStatus: "available",
-        currentMeeting: null,
-        dailyCalendarEvents: {},
-      },
+      [`userIds.${user.userId}`]: appGroupUser,
     };
     appGroupsDatabaseApi.update(groupId, updateGroupAccessor);
     return appGroupsDatabaseAccessor.getExistingAppGroup(groupId);
@@ -74,6 +79,12 @@ export const appGroupsDatabaseAccessor = {
   ) {
     const updateGroupAccessor = {
       [`userIds.${userId}.dailyCalendarEvents`]: calendarEvents,
+    };
+    appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
+  },
+  sendAlivePing: (userId: string, appGroupId: string) => {
+    const updateGroupAccessor = {
+      [`userIds.${userId}.lastOnline`]: Date.now(),
     };
     appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
   },

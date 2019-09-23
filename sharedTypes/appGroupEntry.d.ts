@@ -1,13 +1,16 @@
 export type AppGroupEntry = {
   appGroupId: string;
   userIds: {
-    [userId: string]: {
-      userId: string;
-      availabilityStatus: UserAvailabilityStatus;
-      currentMeeting: null | OnlineMeeting;
-      dailyCalendarEvents: Array<CalendarEvent>;
-    };
+    [userId: string]: AppGroupUser;
   };
+};
+
+export type AppGroupUser = {
+  userId: string;
+  lastOnline: number;
+  availabilityStatus: UserAvailabilityStatus;
+  currentMeeting: null | OnlineMeeting;
+  dailyCalendarEvents: Array<CalendarEvent>;
 };
 
 export type CalendarEvent = {

@@ -12,6 +12,9 @@ import { MainGroupHeader } from "./components/MainGroupHeader";
 import { MainGroupFooter } from "./components/MainGroupFooter";
 import { ONE_MINUTE } from "../../scripts/constants/timesInMilliseconds";
 import { timeUtils } from "../../scripts/utils/timeUtils";
+import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
+
+export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
 
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
@@ -30,14 +33,16 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
       );
     }, 10 * ONE_MINUTE);
 
-    const clearQuarterHour = timeUtils.setQuarterHourInterval(() => {
-      const currentDate = new Date();
-      console.log("quarter hour update", currentDate);
-      mainGroupStore.dispatch({
-        type: "UPDATE_LATEST_QUARTER_HOUR",
-        latestQuarterHour: currentDate.getTime(),
-      });
-    });
+    appGroupsDatabaseAccessor.sendAlivePing(
+      props.appState.user.userId,
+      mainGroupStore.state.appGroup.appGroupId,
+    );
+    const firebaseAlivePingInterval = setInterval(() => {
+      appGroupsDatabaseAccessor.sendAlivePing(
+        props.appState.user.userId,
+        mainGroupStore.state.appGroup.appGroupId,
+      );
+    }, KEEP_ALIVE_PING_INTERVAL);
 
     // subscribe to appgroup changes
     const unsubscribe = startAppGroupObserver(
@@ -46,10 +51,25 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
     );
     return () => {
       clearInterval(calendarSyncInterval);
-      clearQuarterHour();
+      clearInterval(firebaseAlivePingInterval);
       unsubscribe();
     };
   }, []);
+  // lastOnline
+  // currentMeeting
+  // dailyCalendarEvents
+
+  // Offline
+  // Date.now() - lastOnline > KEEP_ALIVE_PING_INTERVAL
+
+  // Available:
+  // !offline && !videoCall and !calendarEvent
+
+  // Video Calls:
+  // videoCall = !offline && currentMeeting is not null
+
+  // Calendar Events
+  // calendarEvent = !offline && have event in daily calendar events where startTime is in past and endTime is in future
   return (
     <Grid
       container
@@ -73,14 +93,19 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           </Grid>
           <Grid item>
             <Typography>
-              <b>In Meeting</b>
+              <b>Video Calls</b>
             </Typography>
           </Grid>
           <Grid item>
             <Typography>
-              <b>Do Not Disturb</b>
+              <b>Calendar Events</b>
             </Typography>
           </Grid>
+          {/* <Grid item>
+            <Typography>
+              <b>Do Not Disturb</b>
+            </Typography>
+          </Grid> */}
           <Grid item>
             <Divider></Divider>
           </Grid>
