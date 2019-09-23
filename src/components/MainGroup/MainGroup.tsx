@@ -13,8 +13,29 @@ import { MainGroupFooter } from "./components/MainGroupFooter";
 import { ONE_MINUTE } from "../../scripts/constants/timesInMilliseconds";
 import { timeUtils } from "../../scripts/utils/timeUtils";
 import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
+import {
+  AppGroupEntry,
+  VideoMeeting,
+  CalendarMeeting,
+} from "./../../../sharedTypes/appGroupEntry.d";
 
 export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
+
+type Meetings = {
+  video: {
+    [videoMeetingId: string]: {
+      meeting: VideoMeeting;
+      users: Array<string>;
+    };
+  };
+  calendar: {
+    [calendarMeetingId: string]: {
+      meeting: CalendarMeeting;
+      users: Array<string>;
+    };
+  };
+  none: Array<string>;
+};
 
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
@@ -49,10 +70,16 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
       mainGroupStore.state.appGroup.appGroupId,
       mainGroupStore.dispatch,
     );
+    const meetingsUiUpdateInterval = setInterval(() => {
+      mainGroupStore.dispatch({
+        type: "CHECK_FOR_MEETINGS_UI_UPDATE",
+      });
+    }, 10 * 1000);
     return () => {
       clearInterval(calendarSyncInterval);
       clearInterval(firebaseAlivePingInterval);
       unsubscribe();
+      clearInterval(meetingsUiUpdateInterval);
     };
   }, []);
   // lastOnline

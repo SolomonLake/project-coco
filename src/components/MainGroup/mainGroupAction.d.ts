@@ -1,13 +1,12 @@
 import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
 
-export type MainGroupAction = UpdateAppGroup | UpdateLatestQuarterHour;
+export type MainGroupAction = UpdateAppGroup | CheckForMeetingsUIUpdate;
 
 type UpdateAppGroup = {
   type: "UPDATE_APP_GROUP";
   newAppGroup: AppGroupEntry;
 };
 
-type UpdateLatestQuarterHour = {
-  type: "UPDATE_LATEST_QUARTER_HOUR";
-  latestQuarterHour: number;
+type CheckForMeetingsUIUpdate = {
+  type: "CHECK_FOR_MEETINGS_UI_UPDATE";
 };

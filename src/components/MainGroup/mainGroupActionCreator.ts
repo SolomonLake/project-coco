@@ -1,4 +1,4 @@
-import { CalendarEvent } from "./../../../sharedTypes/appGroupEntry.d";
+import { CalendarMeeting } from "./../../../sharedTypes/appGroupEntry.d";
 import { gapiCalendar } from "./../../scripts/gapi/gapiCalendar";
 import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
 
@@ -18,7 +18,7 @@ export const mainGroupActionCreator = {
 
 function convertGapiCalendarEventToCalendarEvent(
   gapiCalendarEvent: gapi.client.calendar.Event,
-): CalendarEvent {
+): CalendarMeeting {
   const id = gapiCalendarEvent.id;
   const eventName = gapiCalendarEvent.summary;
   const startTime = gapiCalendarEvent.start

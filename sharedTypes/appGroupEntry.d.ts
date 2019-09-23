@@ -9,11 +9,11 @@ export type AppGroupUser = {
   userId: string;
   lastOnline: number;
   availabilityStatus: UserAvailabilityStatus;
-  currentMeeting: null | OnlineMeeting;
-  dailyCalendarEvents: Array<CalendarEvent>;
+  currentMeeting: null | VideoMeeting;
+  dailyCalendarEvents: Array<CalendarMeeting>;
 };
 
-export type CalendarEvent = {
+export type CalendarMeeting = {
   id: string;
   eventName: string;
   startTime: string;
@@ -21,7 +21,7 @@ export type CalendarEvent = {
   eventLink: string;
 };
 
-export type OnlineMeeting = {
+export type VideoMeeting = {
   meetingId: string;
   meetingUrl: string;
   meetingName: string;

@@ -1,7 +1,7 @@
 import { UserEntry } from "./../../../sharedTypes/userEntry.d";
 import {
   AppGroupEntry,
-  CalendarEvent,
+  CalendarMeeting,
   AppGroupUser,
 } from "./../../../sharedTypes/appGroupEntry.d";
 import firebase from "firebase";
@@ -75,7 +75,7 @@ export const appGroupsDatabaseAccessor = {
   setUserCalendarEvents(
     userId: string,
     appGroupId: string,
-    calendarEvents: Array<CalendarEvent>,
+    calendarEvents: Array<CalendarMeeting>,
   ) {
     const updateGroupAccessor = {
       [`userIds.${userId}.dailyCalendarEvents`]: calendarEvents,

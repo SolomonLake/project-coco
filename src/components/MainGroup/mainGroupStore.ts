@@ -1,10 +1,14 @@
 import { MainGroupAction } from "./mainGroupAction";
 import React, { Dispatch, useReducer } from "react";
-import { AppGroupEntry } from "./../../../sharedTypes/appGroupEntry.d";
+import {
+  AppGroupEntry,
+  VideoMeeting,
+  CalendarMeeting,
+} from "./../../../sharedTypes/appGroupEntry.d";
 
 export type MainGroupState = {
   appGroup: AppGroupEntry;
-  latestQuarterHour: number;
+  lastCheckForMeetingUIUpdate: number;
 };
 
 export type MainGroupStore = {
@@ -21,10 +25,10 @@ function reducer(state: MainGroupState, action: MainGroupAction) {
         ...state,
         appGroup: action.newAppGroup,
       });
-    case "UPDATE_LATEST_QUARTER_HOUR":
+    case "CHECK_FOR_MEETINGS_UI_UPDATE":
       return logState({
         ...state,
-        latestQuarterHour: action.latestQuarterHour,
+        lastCheckForMeetingUIUpdate: Date.now(),
       });
     default: {
       const _: never = action;
@@ -45,7 +49,7 @@ export const MainGroupStoreContext = React.createContext<MainGroupStore>(
 export function useMainGroupStore(appGroup: AppGroupEntry) {
   const [state, dispatch] = useReducer(reducer, {
     appGroup,
-    latestQuarterHour: 0,
+    lastCheckForMeetingUIUpdate: 0,
   });
   return { state, dispatch };
 }

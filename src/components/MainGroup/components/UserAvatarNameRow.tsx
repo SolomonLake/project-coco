@@ -5,7 +5,7 @@ import { mainGroupActionCreator } from "../mainGroupActionCreator";
 import { UserEntry } from "../../../../sharedTypes/userEntry";
 import { AppStore } from "../../appStore";
 import { databaseService } from "../../../scripts/databaseServices/databaseService";
-import { CalendarEvent } from "../../../../sharedTypes/appGroupEntry";
+import { CalendarMeeting } from "../../../../sharedTypes/appGroupEntry";
 import { InlineFunction } from "../../generic/InlineFunction";
 import theme from "../../../theme";
 
@@ -78,7 +78,7 @@ export const UserAvatarNameRow = (props: {
 };
 
 function getNextMeetingTimeString(
-  dailyCalendarEvents: Array<CalendarEvent>,
+  dailyCalendarEvents: Array<CalendarMeeting>,
 ): string {
   // first, filter all meetings that ended in the past, and do not start today
   const upcomingMeetings = dailyCalendarEvents.filter(m => {
