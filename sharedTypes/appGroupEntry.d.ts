@@ -28,4 +28,4 @@ export type VideoMeeting = {
   meetingStartTime: string;
 };
 
-export type UserAvailabilityStatus = "available" | "busy" | "offline";
+export type UserAvailabilityStatus = "available" | "busy";

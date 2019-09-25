@@ -17,25 +17,12 @@ import {
   AppGroupEntry,
   VideoMeeting,
   CalendarMeeting,
+  AppGroupUser,
 } from "./../../../sharedTypes/appGroupEntry.d";
+import _ from "underscore";
+import { getCurrentCalendarEvent } from "./components/calendarUiUtils";
 
 export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
-
-type Meetings = {
-  video: {
-    [videoMeetingId: string]: {
-      meeting: VideoMeeting;
-      users: Array<string>;
-    };
-  };
-  calendar: {
-    [calendarMeetingId: string]: {
-      meeting: CalendarMeeting;
-      users: Array<string>;
-    };
-  };
-  none: Array<string>;
-};
 
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
@@ -82,21 +69,10 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
       clearInterval(meetingsUiUpdateInterval);
     };
   }, []);
-  // lastOnline
-  // currentMeeting
-  // dailyCalendarEvents
 
-  // Offline
-  // Date.now() - lastOnline > KEEP_ALIVE_PING_INTERVAL
+  const meetingsUi = computeMeetingsUi(mainGroupStore.state.appGroup);
+  console.log("meetingsUi", meetingsUi);
 
-  // Available:
-  // !offline && !videoCall and !calendarEvent
-
-  // Video Calls:
-  // videoCall = !offline && currentMeeting is not null
-
-  // Calendar Events
-  // calendarEvent = !offline && have event in daily calendar events where startTime is in past and endTime is in future
   return (
     <Grid
       container
@@ -148,3 +124,169 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
     </Grid>
   );
 };
+
+type MeetingUsers = { [userId: string]: AppGroupUser };
+type VideoMeetings = {
+  [videoMeetingId: string]: {
+    meeting: VideoMeeting;
+    users: MeetingUsers;
+  };
+};
+type CalendarMeetings = {
+  [calendarMeetingId: string]: {
+    meeting: CalendarMeeting;
+    users: MeetingUsers;
+  };
+};
+type Meetings = {
+  offline: MeetingUsers;
+  video: VideoMeetings;
+  calendar: CalendarMeetings;
+  available: MeetingUsers;
+  busy: MeetingUsers;
+};
+// lastOnline
+// currentMeeting
+// dailyCalendarEvents
+// Offline:
+//  Date.now() - lastOnline > KEEP_ALIVE_PING_INTERVAL
+// Do not Disturb:
+//  !offline && !videoCall and !calendarEvent && status === busy
+// Available:
+//  !offline && !videoCall and !calendarEvent && status === available
+// Video Calls:
+//  videoCall = !offline && currentMeeting is not null
+// Calendar Events:
+//  calendarEvent = !offline && have event in daily calendar events where startTime is in past and endTime is in future
+function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
+  const currentTime = Date.now();
+  const offlineUsers: MeetingUsers = _.values(appGroup.userIds).reduce(
+    (gatheredOfflineUsers, user) => {
+      const userIsOffline =
+        currentTime - user.lastOnline > KEEP_ALIVE_PING_INTERVAL * 1.5;
+      if (userIsOffline) {
+        return {
+          ...gatheredOfflineUsers,
+          [user.userId]: user,
+        };
+      } else {
+        return gatheredOfflineUsers;
+      }
+    },
+    {},
+  );
+
+  const videoMeetings: VideoMeetings = _.values(appGroup.userIds).reduce(
+    (gatheredVideoMeetings, user) => {
+      const userIsNotOffline = !offlineUsers[user.userId];
+      if (userIsNotOffline && user.currentMeeting) {
+        const userVideoMeeting = user.currentMeeting;
+        const existingMeeting =
+          gatheredVideoMeetings[userVideoMeeting.meetingId];
+        const existingMeetingUsers = existingMeeting
+          ? existingMeeting.users
+          : {};
+        return {
+          ...gatheredVideoMeetings,
+          [userVideoMeeting.meetingId]: {
+            meeting: userVideoMeeting,
+            users: {
+              ...existingMeetingUsers,
+              [user.userId]: user,
+            },
+          },
+        };
+      } else {
+        return gatheredVideoMeetings;
+      }
+    },
+    {} as VideoMeetings,
+  );
+
+  const calendarMeetings: CalendarMeetings = _.values(appGroup.userIds).reduce(
+    (gatheredCalendarMeetings, user) => {
+      const userIsNotOffline = !offlineUsers[user.userId];
+      const currentCalendarEvent = getCurrentCalendarEvent(
+        user.dailyCalendarEvents,
+      );
+      if (userIsNotOffline && currentCalendarEvent) {
+        const existingCalendarEvent =
+          gatheredCalendarMeetings[currentCalendarEvent.id];
+        const existingCalendarEventUsers = existingCalendarEvent
+          ? existingCalendarEvent.users
+          : {};
+        return {
+          ...gatheredCalendarMeetings,
+          [currentCalendarEvent.id]: {
+            meeting: currentCalendarEvent,
+            users: {
+              ...existingCalendarEventUsers,
+              [user.userId]: user,
+            },
+          },
+        };
+      } else {
+        return gatheredCalendarMeetings;
+      }
+    },
+    {} as CalendarMeetings,
+  );
+
+  const availableUsers: MeetingUsers = _.values(appGroup.userIds).reduce(
+    (gatheredAvailableUsers, user) => {
+      const userIsNotOffline = !offlineUsers[user.userId];
+      const userDoesntHaveCurrentVideoMeeting = !user.currentMeeting;
+      const userDoesntHaveCurrentCalendarEvent = !getCurrentCalendarEvent(
+        user.dailyCalendarEvents,
+      );
+      const userStatusIsAvailable = user.availabilityStatus === "available";
+      if (
+        userIsNotOffline &&
+        userDoesntHaveCurrentVideoMeeting &&
+        userDoesntHaveCurrentCalendarEvent &&
+        userStatusIsAvailable
+      ) {
+        return {
+          ...gatheredAvailableUsers,
+          [user.userId]: user,
+        };
+      } else {
+        return gatheredAvailableUsers;
+      }
+    },
+    {},
+  );
+
+  const busyUsers: MeetingUsers = _.values(appGroup.userIds).reduce(
+    (gatheredBusyUsers, user) => {
+      const userIsNotOffline = !offlineUsers[user.userId];
+      const userDoesntHaveCurrentVideoMeeting = !user.currentMeeting;
+      const userDoesntHaveCurrentCalendarEvent = !getCurrentCalendarEvent(
+        user.dailyCalendarEvents,
+      );
+      const userStatusIsBusy = user.availabilityStatus === "busy";
+      if (
+        userIsNotOffline &&
+        userDoesntHaveCurrentVideoMeeting &&
+        userDoesntHaveCurrentCalendarEvent &&
+        userStatusIsBusy
+      ) {
+        return {
+          ...gatheredBusyUsers,
+          [user.userId]: user,
+        };
+      } else {
+        return gatheredBusyUsers;
+      }
+    },
+    {},
+  );
+
+  return {
+    offline: offlineUsers,
+    video: videoMeetings,
+    calendar: calendarMeetings,
+    available: availableUsers,
+    busy: busyUsers,
+  };
+}
