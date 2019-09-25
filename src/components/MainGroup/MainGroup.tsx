@@ -21,6 +21,7 @@ import {
 } from "./../../../sharedTypes/appGroupEntry.d";
 import _ from "underscore";
 import { getCurrentCalendarEvent } from "./components/calendarUiUtils";
+import { UserAvatarNameRow } from "./components/UserAvatarNameRow";
 
 export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
 
@@ -84,7 +85,9 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
       <Grid item style={{ width: "100%" }}>
         <MainGroupHeader
           mainGroupStore={mainGroupStore}
-          user={props.appState.user}
+          user={
+            mainGroupStore.state.appGroup.userIds[props.appState.user.userId]
+          }
         />
       </Grid>
       <Grid item style={{ width: "100%" }}>
@@ -93,11 +96,46 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
             <Typography>
               <b>Available</b>
             </Typography>
+            {_.values(meetingsUi.available).map(user => {
+              return (
+                <UserAvatarNameRow
+                  mainGroupStore={mainGroupStore}
+                  user={user}
+                  currentUser={user.userId === props.appState.user.userId}
+                />
+              );
+            })}
           </Grid>
           <Grid item>
             <Typography>
               <b>Video Calls</b>
             </Typography>
+            {_.values(meetingsUi.video).map(videoMeeting => {
+              return (
+                <Grid
+                  container
+                  direction="row"
+                  spacing={2}
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Typography>{videoMeeting.meeting.meetingName}</Typography>
+                    {_.values(videoMeeting.users).map(user => {
+                      return (
+                        <UserAvatarNameRow
+                          mainGroupStore={mainGroupStore}
+                          user={user}
+                          currentUser={
+                            user.userId === props.appState.user.userId
+                          }
+                        />
+                      );
+                    })}
+                  </Grid>
+                </Grid>
+              );
+            })}
           </Grid>
           <Grid item>
             <Typography>

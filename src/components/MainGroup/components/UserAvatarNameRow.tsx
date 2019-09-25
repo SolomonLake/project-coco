@@ -5,7 +5,10 @@ import { mainGroupActionCreator } from "../mainGroupActionCreator";
 import { UserEntry } from "../../../../sharedTypes/userEntry";
 import { AppStore } from "../../appStore";
 import { databaseService } from "../../../scripts/databaseServices/databaseService";
-import { CalendarMeeting } from "../../../../sharedTypes/appGroupEntry";
+import {
+  CalendarMeeting,
+  AppGroupUser,
+} from "../../../../sharedTypes/appGroupEntry";
 import { InlineFunction } from "../../generic/InlineFunction";
 import theme from "../../../theme";
 
@@ -14,7 +17,7 @@ const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
 
 export const UserAvatarNameRow = (props: {
   mainGroupStore: MainGroupStore;
-  user: UserEntry;
+  user: AppGroupUser;
   currentUser: boolean;
 }) => {
   const dailyCalendarEvents =

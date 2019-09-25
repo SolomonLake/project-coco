@@ -1,3 +1,5 @@
+import { UserEntry } from "./userEntry.d";
+
 export type AppGroupEntry = {
   appGroupId: string;
   userIds: {
@@ -5,7 +7,7 @@ export type AppGroupEntry = {
   };
 };
 
-export type AppGroupUser = {
+export type AppGroupUser = UserEntry & {
   userId: string;
   lastOnline: number;
   availabilityStatus: UserAvailabilityStatus;

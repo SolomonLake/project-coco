@@ -1,6 +1,6 @@
 import {
   AppGroupEntry,
-  OnlineMeeting,
+  VideoMeeting,
 } from "./../../../sharedTypes/appGroupEntry.d";
 import { firestoreApiFactory } from "../firestore/firestoreApiCF";
 
@@ -23,7 +23,7 @@ export const appGroupsDatabaseAccessorCF = {
   setUserCurrentMeeting(
     userId: string,
     appGroupId: string,
-    currentMeeting: OnlineMeeting | null,
+    currentMeeting: VideoMeeting | null,
   ) {
     const updateGroupAccessor = {
       [`userIds.${userId}.currentMeeting`]: currentMeeting,

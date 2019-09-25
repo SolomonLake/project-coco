@@ -41,6 +41,7 @@ export const appGroupsDatabaseAccessor = {
       appGroupId: "g" + generateRandomAlphaNumericString(5),
       userIds: {
         [firstUser.userId]: {
+          ...firstUser,
           userId: firstUser.userId,
           lastOnline: Date.now(),
 
@@ -55,6 +56,7 @@ export const appGroupsDatabaseAccessor = {
   },
   userJoinExistingAppGroup: async (user: UserEntry, groupId: string) => {
     const appGroupUser: AppGroupUser = {
+      ...user,
       userId: user.userId,
       lastOnline: Date.now(),
       availabilityStatus: "available",

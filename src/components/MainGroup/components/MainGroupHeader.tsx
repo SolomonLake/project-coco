@@ -4,10 +4,11 @@ import { MainGroupStore } from "../mainGroupStore";
 import { mainGroupActionCreator } from "../mainGroupActionCreator";
 import { UserEntry } from "../../../../sharedTypes/userEntry";
 import { UserAvatarNameRow } from "./UserAvatarNameRow";
+import { AppGroupUser } from "../../../../sharedTypes/appGroupEntry";
 
 export const MainGroupHeader = (props: {
   mainGroupStore: MainGroupStore;
-  user: UserEntry;
+  user: AppGroupUser;
 }) => {
   return (
     <Grid container direction="column" spacing={2} justify="center">
