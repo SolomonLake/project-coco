@@ -7,7 +7,11 @@ export const redisService = {
     tokenData: CachedZoomTokenData,
   ): Promise<void> => {
     const client = await redisClient();
-    await client.set(`authToken:${userKey}`, JSON.stringify(tokenData));
+    await client.set(
+      `authToken:${userKey}`,
+      JSON.stringify(tokenData),
+      tokenData.expires_in * 1000 - 60 * 5 * 1000,
+    );
   },
   getAuthToken: async (
     userKey: string,

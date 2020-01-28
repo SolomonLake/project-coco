@@ -9,25 +9,31 @@ const _redisClient = redis.createClient(redisPort, redisIp);
 const connectionPromise = new Promise((resolve, reject) => {
   _redisClient.on("connect", function() {
     resolve();
-    _redisClient.set("my test key", "my test value", redis.print);
-    _redisClient.get("my test key", function(error, result) {
-      if (error) {
-        console.log(error);
-        throw error;
-      }
-      console.log("GET result ->" + result);
-    });
   });
   _redisClient.on("error", function(err) {
     console.log("Something went wrong " + err);
-    reject();
+    reject(err);
   });
 });
 
 export async function redisClient() {
   await connectionPromise;
   return {
-    set: promisify(_redisClient.set).bind(_redisClient),
+    set: (
+      key: string,
+      value: string,
+      timeToLiveInMS: number,
+    ): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        _redisClient.set(key, value, "PX", timeToLiveInMS, (err, _result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+    },
     get: promisify(_redisClient.get).bind(_redisClient),
   };
 }

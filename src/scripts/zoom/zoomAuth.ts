@@ -2,6 +2,8 @@ import { CachedZoomTokenData } from "../../../sharedTypes/zoomTypes";
 import { windowUtils } from "../utils/windowUtils";
 import { environment } from "../environment/environment";
 
+let cachedZoomTokenData: Promise<CachedZoomTokenData> | null;
+
 export const zoomAuth = {
   initialize: (): Promise<CachedZoomTokenData> => {
     cachedZoomTokenData = new Promise((resolve, _reject) => {
@@ -31,5 +33,3 @@ export const zoomAuth = {
     }
   },
 };
-
-let cachedZoomTokenData: Promise<CachedZoomTokenData> | null;

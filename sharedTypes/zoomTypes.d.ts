@@ -4,7 +4,7 @@ export type CachedZoomTokenData = {
   access_token: string;
   token_type: string;
   refresh_token: string;
-  expires_in: number;
+  expires_in: number; // in seconds
   scope: string;
 };
 

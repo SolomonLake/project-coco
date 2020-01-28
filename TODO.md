@@ -4,6 +4,7 @@
   - separate people into groups
     - calendar
     - offline
+- dont send auth token to client
 - separate dev/production apps for all external services
 
 ### Done:
