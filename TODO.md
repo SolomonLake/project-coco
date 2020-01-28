@@ -1,8 +1,9 @@
 ## Todo:
 
 - ui
-  - last synced calendar
   - separate people into groups
+    - calendar
+    - offline
 - separate dev/production apps for all external services
 
 ### Done:

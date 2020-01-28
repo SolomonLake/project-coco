@@ -141,6 +141,49 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
             <Typography>
               <b>Calendar Events</b>
             </Typography>
+            {_.values(meetingsUi.calendar).map(calendarEvent => {
+              return (
+                <Grid
+                  container
+                  direction="row"
+                  spacing={2}
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="flex-start"
+                      spacing={2}
+                      alignItems="center"
+                    >
+                      <Grid item>
+                        <Typography>
+                          {calendarEvent.meeting.eventName}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography>
+                          {calendarEvent.meeting.startTime}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    {_.values(calendarEvent.users).map(user => {
+                      return (
+                        <UserAvatarNameRow
+                          mainGroupStore={mainGroupStore}
+                          user={user}
+                          currentUser={
+                            user.userId === props.appState.user.userId
+                          }
+                        />
+                      );
+                    })}
+                  </Grid>
+                </Grid>
+              );
+            })}
           </Grid>
           {/* <Grid item>
             <Typography>
@@ -247,7 +290,7 @@ function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
       const currentCalendarEvent = getCurrentCalendarEvent(
         user.dailyCalendarEvents,
       );
-      if (userIsNotOffline && currentCalendarEvent) {
+      if (userIsNotOffline && !!currentCalendarEvent) {
         const existingCalendarEvent =
           gatheredCalendarMeetings[currentCalendarEvent.id];
         const existingCalendarEventUsers = existingCalendarEvent
