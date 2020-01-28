@@ -4,6 +4,8 @@ import { serviceAccount } from "../shared/firestore/firestoreServiceAccount";
 import fetch from "node-fetch";
 import { processEnv } from "../processEnv";
 import { firestoreAdmin } from "../shared/firestore/initializeFirestoreAdmin";
+import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
+import { redisService } from "../shared/redis/redisService";
 
 export const runLoginUser = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
@@ -18,10 +20,13 @@ export const runLoginUser = async (req: Request, res: Response) => {
     res.set("Access-Control-Max-Age", "3600");
     res.status(204).send("");
   } else {
-    const zoomTokenDataString = req.query.zoomTokenData;
-    if (zoomTokenDataString) {
-      const zoomTokenData = JSON.parse(decodeURIComponent(zoomTokenDataString));
-      const accessToken = zoomTokenData.access_token;
+    const zoomUserId = req.query.zoomUserId;
+    const zoomTokenData = zoomUserId
+      ? await redisService.getAuthToken(zoomUserId)
+      : null;
+    console.log("zoom token data", zoomTokenData);
+    if (zoomTokenData) {
+      const accessToken = await getValidAccessToken(zoomTokenData);
       const response = await fetch("https://api.zoom.us/v2/users/me", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -49,7 +54,7 @@ export const runLoginUser = async (req: Request, res: Response) => {
         res.status(404).send("unable to get userId from zoom");
       }
     } else {
-      res.status(404).send("missing query param zoomTokenData");
+      res.status(404).send("missing query param zoomUserId");
     }
   }
 };

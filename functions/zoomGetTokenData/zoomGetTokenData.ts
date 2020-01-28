@@ -9,13 +9,15 @@ export const runZoomGetTokenData = async (
   req: Request,
   res: Response,
 ): Promise<any> => {
-  const tokenData = await redisService.getAuthToken("default-test-user-key");
-  console.log("DATA", tokenData);
-  if (tokenData) {
-    res.redirect(
-      processEnv.APP_ENDPOINT +
-        `?zoom_token_data=${encodeURIComponent(JSON.stringify(tokenData))}`,
-    );
+  res.setHeader("Cache-Control", "private");
+  const auth = req.cookies ? req.cookies["__session"] : null;
+  console.log("AUTH", auth);
+  const zoomUserId = req.query.zoomUserId;
+  const zoomTokenData = zoomUserId
+    ? await redisService.getAuthToken(zoomUserId)
+    : null;
+  if (zoomTokenData) {
+    res.redirect(processEnv.APP_ENDPOINT + `?zoom_user_id=${zoomUserId}`);
   } else {
     const zoomCode = req.query.code;
     if (!zoomCode) {
@@ -34,28 +36,43 @@ export const runZoomGetTokenData = async (
         zoomCode +
         "&redirect_uri=" +
         zoomRedirectUrl;
-      const response = await fetch(authUrl, {
+      const accessTokenResponse = await fetch(authUrl, {
         method: "POST",
         headers: {
           Authorization: authHeader,
         },
       });
-      const responseJson = await response.json();
+      const accessTokenResponseJson = await accessTokenResponse.json();
+      const expiresInMS = accessTokenResponseJson.expires_in * 1000;
+      const twoMinutes = 2 * 60 * 1000;
       const responseJsonWithExpiresAt = {
-        ...responseJson,
-        expiresAt: Date.now() + responseJson.expires_in - 2 * 60 * 1000,
+        ...accessTokenResponseJson,
+        expiresAt: Date.now() + expiresInMS - twoMinutes,
       };
-      redisService.setAuthToken(
-        "default-test-user-key",
-        responseJsonWithExpiresAt,
-      );
-      console.log("redirecting to", processEnv.APP_ENDPOINT);
-      res.redirect(
-        processEnv.APP_ENDPOINT +
-          `?zoom_token_data=${encodeURIComponent(
-            JSON.stringify(responseJsonWithExpiresAt),
-          )}`,
-      );
+      const userResponse = await fetch("https://api.zoom.us/v2/users/me", {
+        headers: {
+          Authorization: `Bearer ${responseJsonWithExpiresAt.access_token}`,
+        },
+      });
+      const userResponseJson = await userResponse.json();
+      if (userResponseJson.id) {
+        redisService.setAuthToken(
+          userResponseJson.id,
+          responseJsonWithExpiresAt,
+        );
+        console.log("redirecting to", processEnv.APP_ENDPOINT);
+        res.cookie("__session", userResponseJson.id, {
+          secure: true,
+          path: "/",
+          sameSite: "None",
+          httpOnly: true,
+        });
+        res.redirect(
+          processEnv.APP_ENDPOINT + `?zoom_user_id=${userResponseJson.id}`,
+        );
+      } else {
+        res.status(404).send("unable to get userId from zoom");
+      }
     }
   }
 };

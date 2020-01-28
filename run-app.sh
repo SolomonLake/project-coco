@@ -5,6 +5,8 @@ set -o nounset
 
 killall node || true
 
+./node_modules/.bin/npx ttab eval "redis-server"
+
 ./node_modules/.bin/npx ttab eval "cd ./functions; ./run-cloud-functions.sh"
 
 ./node_modules/.bin/npx ttab eval "npm install; npm start"

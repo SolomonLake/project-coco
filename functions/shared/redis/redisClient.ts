@@ -19,21 +19,7 @@ const connectionPromise = new Promise((resolve, reject) => {
 export async function redisClient() {
   await connectionPromise;
   return {
-    set: (
-      key: string,
-      value: string,
-      timeToLiveInMS: number,
-    ): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        _redisClient.set(key, value, "PX", timeToLiveInMS, (err, _result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      });
-    },
+    set: promisify(_redisClient.set).bind(_redisClient),
     get: promisify(_redisClient.get).bind(_redisClient),
   };
 }

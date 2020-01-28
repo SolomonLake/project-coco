@@ -15,7 +15,9 @@ import { Grid, Container } from "@material-ui/core";
 
 async function initializeApp(appStore: AppStore) {
   zoomAuth.initialize();
+  debugger;
   const userAndCustomToken = await login();
+  debugger;
   setConfig(userAndCustomToken.config);
   await initializeFirestore(userAndCustomToken.customToken);
   const user = await usersDatabaseAccessor.findOrCreateUser(

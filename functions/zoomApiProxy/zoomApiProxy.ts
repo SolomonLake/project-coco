@@ -1,9 +1,11 @@
 import { ZoomApiProxyBody } from "../../sharedTypes/zoomApiProxyTypes";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
-import { getValidAccessToken } from "./scripts/getValidAccessToken";
+import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
 import { processEnv } from "../processEnv";
 import { redisService } from "../shared/redis/redisService";
+
+const acceptableEndpoints = ["https://api.zoom.us/v2/users/me"];
 
 export const runZoomApiProxy = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
@@ -18,10 +20,17 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
     res.set("Access-Control-Max-Age", "3600");
     res.status(204).send("");
   } else {
-    const zoomTokenDataString = req.query.zoomTokenData;
+    const zoomUserId = req.query.zoomUserId;
+    const zoomTokenData = zoomUserId
+      ? await redisService.getAuthToken(zoomUserId)
+      : null;
     const requestBody: ZoomApiProxyBody = JSON.parse(req.body);
-    if (requestBody && requestBody.endPoint && zoomTokenDataString) {
-      const zoomTokenData = JSON.parse(decodeURIComponent(zoomTokenDataString));
+    if (
+      requestBody &&
+      requestBody.endPoint &&
+      acceptableEndpoints.includes(requestBody.endPoint) &&
+      zoomTokenData
+    ) {
       const accessToken = await getValidAccessToken(zoomTokenData);
       const response = await fetch(requestBody.endPoint, {
         ...requestBody.requestInit,
@@ -36,9 +45,7 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
       const responseJson = await response.json();
       res.send(responseJson);
     } else {
-      res
-        .status(404)
-        .send("missing query params endPoint and/or zoomTokenData");
+      res.status(404).send("missing query params endPoint and/or zoomUserId");
     }
   }
 };
