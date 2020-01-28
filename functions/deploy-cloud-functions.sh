@@ -17,6 +17,7 @@ else
   for i in "${cloudFunctionFolders[@]}"
   do
     echo Deploying $i
-    gcloud functions deploy $i --runtime nodejs10 --trigger-http --env-vars-file .prod-env.yaml
-  done
+    gcloud functions deploy $i --runtime nodejs10 --trigger-http --env-vars-file .prod-env.yaml &
+  done  
+  wait
 fi
