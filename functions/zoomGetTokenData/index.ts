@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import { Request, Response } from "express";
 import { processEnv } from "../processEnv";
+import { redisService } from "../shared/redis/redisService";
 
 const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
@@ -36,6 +37,10 @@ export const zoomGetTokenData = async (
       ...responseJson,
       expiresAt: Date.now() + responseJson.expires_in - 2 * 60 * 1000,
     };
+    redisService.setAuthToken(
+      "default-test-user-key",
+      responseJsonWithExpiresAt,
+    );
     console.log("redirecting to", processEnv.APP_ENDPOINT);
     res.redirect(
       processEnv.APP_ENDPOINT +
