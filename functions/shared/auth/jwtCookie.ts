@@ -11,7 +11,8 @@ export function encodeJwt(claims: CookieClaims) {
 
 export function decodeJwt(jwtCookie: string): CookieClaims | null {
   try {
-    return <CookieClaims>jwt.verify(jwtCookie, processEnv.JWT_SECRET);
+    const claims = <CookieClaims>jwt.verify(jwtCookie, processEnv.JWT_SECRET);
+    return claims;
   } catch (e) {
     return null;
   }
