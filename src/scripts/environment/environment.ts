@@ -4,7 +4,7 @@ export const environment = () => {
   };
   const production = {
     CLOUD_FUNCTION_ENDPOINT:
-      "https://us-central1-project-coco-251813.cloudfunctions.net",
+      "https://us-central1-project-coco-production.cloudfunctions.net",
   };
   switch (window.location.host) {
     case "localhost:3006":

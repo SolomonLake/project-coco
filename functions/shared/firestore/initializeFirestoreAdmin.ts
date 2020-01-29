@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 import { serviceAccount } from "./firestoreServiceAccount";
+import { processEnv } from "../../processEnv";
 
 export function firestoreAdmin() {
   if (_firestoreAdmin) {
@@ -7,7 +8,7 @@ export function firestoreAdmin() {
   } else {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: "https://project-coco-251813.firebaseio.com",
+      databaseURL: processEnv.FIRESTORE_DATABASE_URL,
     });
 
     _firestoreAdmin = admin;

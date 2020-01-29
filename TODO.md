@@ -3,8 +3,7 @@
 - ui
   - separate people into groups
     - offline
-- setup private production secret repo for prod-env.yaml
-- setup private dev repo for dev.env
+  - button to start new zoom meeting with person
 - separate dev/production apps for all external services
   - create production services for prod-env.yaml
 

@@ -3,11 +3,10 @@ import { processEnv } from "../../processEnv";
 
 export const serviceAccount: admin.ServiceAccount = {
   // type: "service_account",
-  projectId: "project-coco-251813",
+  projectId: processEnv.FIRESTORE_PROJECT_ID,
   // private_key_id: "9f7980a9b9577ff47c86c73af2eab31a19db5c45",
-  privateKey: (processEnv.FIRESTORE_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
-  clientEmail:
-    "firebase-adminsdk-1kagq@project-coco-251813.iam.gserviceaccount.com",
+  privateKey: processEnv.FIRESTORE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  clientEmail: processEnv.FIRESTORE_CLIENT_EMAIL,
   // client_id: "117869616798050404891",
   // auth_uri: "https://accounts.google.com/o/oauth2/auth",
   // token_uri: "https://oauth2.googleapis.com/token",
