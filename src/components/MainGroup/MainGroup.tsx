@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AppStoreContext } from "../appStore";
 import Typography from "@material-ui/core/Typography";
-import { Grid, Button, Divider } from "@material-ui/core";
+import { Grid, Button, Divider, Link } from "@material-ui/core";
 import { MainGroupAppState } from "../appState";
 import { databaseService } from "../../scripts/databaseServices/databaseService";
 import { useMainGroupStore } from "./mainGroupStore";
@@ -22,6 +22,7 @@ import {
 import _ from "underscore";
 import { getCurrentCalendarEvent } from "./components/calendarUiUtils";
 import { UserAvatarNameRow } from "./components/UserAvatarNameRow";
+import { dateUtils } from "../../scripts/utils/dateUtils";
 
 export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
 
@@ -102,6 +103,9 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                   mainGroupStore={mainGroupStore}
                   user={user}
                   currentUser={user.userId === props.appState.user.userId}
+                  showNextMeetingTime={
+                    user.userId === props.appState.user.userId ? false : true
+                  }
                 />
               );
             })}
@@ -121,6 +125,12 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                 >
                   <Grid item>
                     <Typography>{videoMeeting.meeting.meetingName}</Typography>
+                    <Link
+                      href={videoMeeting.meeting.meetingUrl}
+                      target="_blank"
+                    >
+                      Open Meeting
+                    </Link>
                     {_.values(videoMeeting.users).map(user => {
                       return (
                         <UserAvatarNameRow
@@ -128,6 +138,11 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                           user={user}
                           currentUser={
                             user.userId === props.appState.user.userId
+                          }
+                          showNextMeetingTime={
+                            user.userId === props.appState.user.userId
+                              ? false
+                              : true
                           }
                         />
                       );
@@ -155,17 +170,23 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                       container
                       direction="row"
                       justify="flex-start"
-                      spacing={2}
+                      spacing={1}
                       alignItems="center"
                     >
                       <Grid item>
-                        <Typography>
+                        <Typography variant="caption">
                           {calendarEvent.meeting.eventName}
                         </Typography>
                       </Grid>
                       <Grid item>
-                        <Typography>
-                          {calendarEvent.meeting.startTime}
+                        <Typography variant="caption">
+                          {dateUtils.dateToLocalTimeStringHMMeridiem(
+                            new Date(calendarEvent.meeting.startTime),
+                          ) +
+                            " - " +
+                            dateUtils.dateToLocalTimeStringHMMeridiem(
+                              new Date(calendarEvent.meeting.endTime),
+                            )}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -177,6 +198,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                           currentUser={
                             user.userId === props.appState.user.userId
                           }
+                          showNextMeetingTime={false}
                         />
                       );
                     })}

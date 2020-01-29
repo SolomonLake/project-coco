@@ -46,6 +46,7 @@ export const MainGroupHeader = (props: {
           user={props.user}
           mainGroupStore={props.mainGroupStore}
           currentUser={true}
+          showNextMeetingTime={true}
         />
       </Grid>
       <Grid item>

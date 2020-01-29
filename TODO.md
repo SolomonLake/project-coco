@@ -2,10 +2,11 @@
 
 - ui
   - separate people into groups
-    - calendar
     - offline
-- dont send auth token to client
+- setup private production secret repo for prod-env.yaml
+- setup private dev repo for dev.env
 - separate dev/production apps for all external services
+  - create production services for prod-env.yaml
 
 ### Done:
 

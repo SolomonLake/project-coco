@@ -35,9 +35,10 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
       requestBody &&
       requestBody.endPoint &&
       acceptableEndpoints.includes(requestBody.endPoint) &&
+      zoomUserId &&
       zoomTokenData
     ) {
-      const accessToken = await getValidAccessToken(zoomTokenData);
+      const accessToken = await getValidAccessToken(zoomTokenData, zoomUserId);
       const response = await fetch(requestBody.endPoint, {
         ...requestBody.requestInit,
         headers: { Authorization: `Bearer ${accessToken}` },

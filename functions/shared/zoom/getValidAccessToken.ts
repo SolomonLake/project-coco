@@ -1,11 +1,14 @@
 import { CachedZoomTokenData } from "../../../sharedTypes/zoomTypes";
 import fetch from "node-fetch";
 import { processEnv } from "../../processEnv";
+import { zoomAccessTokenData } from "./zoomAccessTokenData";
+import { redisService } from "../redis/redisService";
 
 const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
 export async function getValidAccessToken(
   zoomTokenData: CachedZoomTokenData,
+  userId: string,
 ): Promise<string> {
   const tokenIsNotExpired = zoomTokenData.expiresAt > Date.now();
   if (tokenIsNotExpired) {
@@ -36,6 +39,8 @@ export async function getValidAccessToken(
       response.statusText,
     );
     const responseJson = await response.json();
-    return responseJson.access_token;
+    const responseJsonWithExpiresAt = zoomAccessTokenData(responseJson);
+    redisService.setAuthToken(userId, responseJsonWithExpiresAt);
+    return responseJsonWithExpiresAt.access_token;
   }
 }

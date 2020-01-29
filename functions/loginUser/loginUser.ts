@@ -30,8 +30,8 @@ export const runLoginUser = async (req: Request, res: Response) => {
     const zoomTokenData = zoomUserId
       ? await redisService.getAuthToken(zoomUserId)
       : null;
-    if (zoomTokenData) {
-      const accessToken = await getValidAccessToken(zoomTokenData);
+    if (zoomUserId && zoomTokenData) {
+      const accessToken = await getValidAccessToken(zoomTokenData, zoomUserId);
       const response = await fetch("https://api.zoom.us/v2/users/me", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });

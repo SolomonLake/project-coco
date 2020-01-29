@@ -11,6 +11,7 @@ import {
 } from "../../../../sharedTypes/appGroupEntry";
 import { InlineFunction } from "../../generic/InlineFunction";
 import theme from "../../../theme";
+import { dateUtils } from "../../../scripts/utils/dateUtils";
 
 const NOT_SYNCED_MESSAGE = "Calendar not synced";
 const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
@@ -19,6 +20,7 @@ export const UserAvatarNameRow = (props: {
   mainGroupStore: MainGroupStore;
   user: AppGroupUser;
   currentUser: boolean;
+  showNextMeetingTime: boolean;
 }) => {
   const dailyCalendarEvents =
     props.mainGroupStore.state.appGroup.userIds[props.user.userId]
@@ -62,18 +64,20 @@ export const UserAvatarNameRow = (props: {
           <Grid item>
             <Typography>{props.user.displayName}</Typography>
           </Grid>
-          <Grid item>
-            {props.currentUser &&
-            nextMeetingTimeString === "Calendar not synced" ? (
-              <Typography variant="caption" color="error">
-                <i>{nextMeetingTimeString}</i>
-              </Typography>
-            ) : (
-              <Typography variant="caption">
-                <i>{nextMeetingTimeString}</i>
-              </Typography>
-            )}
-          </Grid>
+          {props.showNextMeetingTime && (
+            <Grid item>
+              {props.currentUser &&
+              nextMeetingTimeString === "Calendar not synced" ? (
+                <Typography variant="caption" color="error">
+                  <i>{nextMeetingTimeString}</i>
+                </Typography>
+              ) : (
+                <Typography variant="caption">
+                  <i>{nextMeetingTimeString}</i>
+                </Typography>
+              )}
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>
@@ -108,12 +112,16 @@ function getNextMeetingTimeString(
     const localStartTimeNum = localStartTime.getTime();
     const meetingStartedInThePast = localStartTimeNum < currentTimeNum;
 
-    const startTimeString = localStartTime.toLocaleTimeString().slice(0, -6);
-    const endTimeString = localEndTime.toLocaleTimeString().slice(0, -6);
+    const startTimeString = dateUtils.dateToLocalTimeStringHMMeridiem(
+      localStartTime,
+    );
+    const endTimeString = dateUtils.dateToLocalTimeStringHMMeridiem(
+      localEndTime,
+    );
 
     const nextMeetingTimeString = meetingStartedInThePast
       ? `${nextMeeting.eventName} ends at ${endTimeString}`
-      : `Nexts meeting at ${startTimeString}`;
+      : `Next meeting at ${startTimeString}`;
     return nextMeetingTimeString;
   } else if (dailyCalendarEvents.length === 0) {
     return NOT_SYNCED_MESSAGE;

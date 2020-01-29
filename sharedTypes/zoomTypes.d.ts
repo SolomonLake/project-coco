@@ -1,11 +1,12 @@
-export type CachedZoomTokenData = {
-  expiresAt: number;
-
+export type ZoomToken = {
   access_token: string;
   token_type: string;
   refresh_token: string;
   expires_in: number; // in seconds
   scope: string;
+};
+export type CachedZoomTokenData = ZoomToken & {
+  expiresAt: number;
 };
 
 export type ZoomUser = {

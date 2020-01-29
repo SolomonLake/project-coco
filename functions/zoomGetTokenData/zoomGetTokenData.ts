@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { processEnv } from "../processEnv";
 import { redisService } from "../shared/redis/redisService";
 import { encodeJwt, decodeJwt } from "../shared/auth/jwtCookie";
+import { zoomAccessTokenData } from "../shared/zoom/zoomAccessTokenData";
 
 const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
@@ -45,12 +46,9 @@ export const runZoomGetTokenData = async (
         },
       });
       const accessTokenResponseJson = await accessTokenResponse.json();
-      const expiresInMS = accessTokenResponseJson.expires_in * 1000;
-      const twoMinutes = 2 * 60 * 1000;
-      const responseJsonWithExpiresAt = {
-        ...accessTokenResponseJson,
-        expiresAt: Date.now() + expiresInMS - twoMinutes,
-      };
+      const responseJsonWithExpiresAt = zoomAccessTokenData(
+        accessTokenResponseJson,
+      );
       const userResponse = await fetch("https://api.zoom.us/v2/users/me", {
         headers: {
           Authorization: `Bearer ${responseJsonWithExpiresAt.access_token}`,
