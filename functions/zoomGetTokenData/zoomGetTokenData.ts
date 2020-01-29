@@ -1,7 +1,9 @@
 import fetch from "node-fetch";
+import Cookie from "cookie";
 import { Request, Response } from "express";
 import { processEnv } from "../processEnv";
 import { redisService } from "../shared/redis/redisService";
+import { encodeJwt, decodeJwt } from "../shared/auth/jwtCookie";
 
 const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 
@@ -9,15 +11,14 @@ export const runZoomGetTokenData = async (
   req: Request,
   res: Response,
 ): Promise<any> => {
-  res.setHeader("Cache-Control", "private");
-  const auth = req.cookies ? req.cookies["__session"] : null;
-  console.log("AUTH", auth);
-  const zoomUserId = req.query.zoomUserId;
+  const encodedZoomUserId = Cookie.parse(<any>req.headers.cookie || "")
+    .__session;
+  const zoomUserId = decodeJwt(encodedZoomUserId).userId;
   const zoomTokenData = zoomUserId
     ? await redisService.getAuthToken(zoomUserId)
     : null;
   if (zoomTokenData) {
-    res.redirect(processEnv.APP_ENDPOINT + `?zoom_user_id=${zoomUserId}`);
+    res.redirect(processEnv.APP_ENDPOINT + `?logged_in=true`);
   } else {
     const zoomCode = req.query.code;
     if (!zoomCode) {
@@ -61,15 +62,14 @@ export const runZoomGetTokenData = async (
           responseJsonWithExpiresAt,
         );
         console.log("redirecting to", processEnv.APP_ENDPOINT);
-        res.cookie("__session", userResponseJson.id, {
-          secure: true,
+        const authJwt = encodeJwt({ userId: userResponseJson.id });
+        res.cookie("__session", authJwt, {
+          //   secure: true,
           path: "/",
           sameSite: "None",
           httpOnly: true,
         });
-        res.redirect(
-          processEnv.APP_ENDPOINT + `?zoom_user_id=${userResponseJson.id}`,
-        );
+        res.redirect(processEnv.APP_ENDPOINT + `?logged_in=true`);
       } else {
         res.status(404).send("unable to get userId from zoom");
       }

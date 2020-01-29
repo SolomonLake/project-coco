@@ -2,29 +2,33 @@ import { LoginUserSuccessResult } from "../../sharedTypes/loginUserSuccessResult
 import { Request, Response } from "express";
 import { serviceAccount } from "../shared/firestore/firestoreServiceAccount";
 import fetch from "node-fetch";
+import Cookie from "cookie";
 import { processEnv } from "../processEnv";
 import { firestoreAdmin } from "../shared/firestore/initializeFirestoreAdmin";
 import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
 import { redisService } from "../shared/redis/redisService";
+import { decodeJwt } from "../shared/auth/jwtCookie";
 
 export const runLoginUser = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
   // Allows GETs from origin https://mydomain.com with Authorization header
 
   res.set("Access-Control-Allow-Origin", processEnv.APP_DOMAIN);
+  res.set("Access-Control-Allow-Credentials", "true");
 
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
     res.set("Access-Control-Allow-Methods", "GET");
-    res.set("Access-Control-Allow-Headers", "Content-Type");
-    res.set("Access-Control-Max-Age", "3600");
+    res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.set("Access-Control-Allow-Credentials", "true");
     res.status(204).send("");
   } else {
-    const zoomUserId = req.query.zoomUserId;
+    const encodedZoomUserId = Cookie.parse(<any>req.headers.cookie || "")
+      .__session;
+    const zoomUserId = decodeJwt(encodedZoomUserId).userId;
     const zoomTokenData = zoomUserId
       ? await redisService.getAuthToken(zoomUserId)
       : null;
-    console.log("zoom token data", zoomTokenData);
     if (zoomTokenData) {
       const accessToken = await getValidAccessToken(zoomTokenData);
       const response = await fetch("https://api.zoom.us/v2/users/me", {
@@ -54,7 +58,7 @@ export const runLoginUser = async (req: Request, res: Response) => {
         res.status(404).send("unable to get userId from zoom");
       }
     } else {
-      res.status(404).send("missing query param zoomUserId");
+      res.status(404).send("missing auth cookie");
     }
   }
 };

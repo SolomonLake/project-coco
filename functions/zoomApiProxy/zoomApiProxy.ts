@@ -1,9 +1,11 @@
 import { ZoomApiProxyBody } from "../../sharedTypes/zoomApiProxyTypes";
 import { Request, Response } from "express";
 import fetch from "node-fetch";
+import Cookie from "cookie";
 import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
 import { processEnv } from "../processEnv";
 import { redisService } from "../shared/redis/redisService";
+import { decodeJwt } from "../shared/auth/jwtCookie";
 
 const acceptableEndpoints = ["https://api.zoom.us/v2/users/me"];
 
@@ -12,15 +14,18 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
   // Allows GETs from origin https://mydomain.com with Authorization header
 
   res.set("Access-Control-Allow-Origin", processEnv.APP_DOMAIN);
+  res.set("Access-Control-Allow-Credentials", "true");
 
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
     res.set("Access-Control-Allow-Methods", "GET");
-    res.set("Access-Control-Allow-Headers", "Content-Type");
-    res.set("Access-Control-Max-Age", "3600");
+    res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.set("Access-Control-Allow-Credentials", "true");
     res.status(204).send("");
   } else {
-    const zoomUserId = req.query.zoomUserId;
+    const encodedZoomUserId = Cookie.parse(<any>req.headers.cookie || "")
+      .__session;
+    const zoomUserId = decodeJwt(encodedZoomUserId).userId;
     const zoomTokenData = zoomUserId
       ? await redisService.getAuthToken(zoomUserId)
       : null;
@@ -45,7 +50,7 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
       const responseJson = await response.json();
       res.send(responseJson);
     } else {
-      res.status(404).send("missing query params endPoint and/or zoomUserId");
+      res.status(404).send("missing query params endPoint and/or auth cookie");
     }
   }
 };

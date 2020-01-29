@@ -4,6 +4,7 @@ set -o errexit
 set -o nounset
 
 killall node || true
+redis-cli shutdown || true
 
 ./node_modules/.bin/npx ttab eval "redis-server"
 

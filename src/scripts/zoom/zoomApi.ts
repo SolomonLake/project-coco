@@ -15,11 +15,14 @@ export const zoomApi = {
 };
 
 async function makeApiCall(zoomApiProxyBody: ZoomApiProxyBody) {
-  const zoomUserId = await zoomAuth.authorizeZoom();
+  await zoomAuth.authorizeZoom();
   const response = await fetch(
-    environment().CLOUD_FUNCTION_ENDPOINT +
-      `/zoomApiProxy?zoomUserId=${zoomUserId}`,
-    { method: "POST", body: JSON.stringify(zoomApiProxyBody) },
+    environment().CLOUD_FUNCTION_ENDPOINT + `/zoomApiProxy`,
+    {
+      method: "POST",
+      body: JSON.stringify(zoomApiProxyBody),
+      credentials: "include",
+    },
   );
   const responseJson = await response.json();
   return responseJson;

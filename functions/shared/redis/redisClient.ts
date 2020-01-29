@@ -1,8 +1,9 @@
 import { promisify } from "util";
 import redis from "redis";
+import { processEnv } from "../../processEnv";
 
-const redisIp = process.env.REDIS_IP;
-const redisPort = parseInt(process.env.REDIS_PORT || "6379");
+const redisIp = processEnv.REDIS_IP;
+const redisPort = parseInt(processEnv.REDIS_PORT);
 
 const _redisClient = redis.createClient(redisPort, redisIp);
 

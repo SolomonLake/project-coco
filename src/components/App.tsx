@@ -5,7 +5,6 @@ import { AppAction } from "./appActions";
 import { JoinGroup } from "./JoinGroup/JoinGroup";
 import { MainGroup } from "./MainGroup/MainGroup";
 import { zoomApi } from "../scripts/zoom/zoomApi";
-import { zoomAuth } from "../scripts/zoom/zoomAuth";
 import { login } from "../scripts/login/login";
 import { initializeFirestore } from "../scripts/firestore/firestoreInitialize";
 import { usersDatabaseAccessor } from "../scripts/databaseServices/usersDatabaseAccessor";
@@ -14,10 +13,7 @@ import { setConfig } from "../scripts/config/config";
 import { Grid, Container } from "@material-ui/core";
 
 async function initializeApp(appStore: AppStore) {
-  zoomAuth.initialize();
-  debugger;
   const userAndCustomToken = await login();
-  debugger;
   setConfig(userAndCustomToken.config);
   await initializeFirestore(userAndCustomToken.customToken);
   const user = await usersDatabaseAccessor.findOrCreateUser(

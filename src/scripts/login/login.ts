@@ -1,15 +1,16 @@
 import { LoginUserSuccessResult } from "../../../sharedTypes/loginUserSuccessResult";
 import { zoomAuth } from "../zoom/zoomAuth";
 import { environment } from "../environment/environment";
+import { config } from "../config/config";
 
 export async function login() {
-  const zoomUserId = await zoomAuth.authorizeZoom();
-  debugger;
+  await zoomAuth.authorizeZoom();
   const response = await fetch(
-    environment().CLOUD_FUNCTION_ENDPOINT +
-      `/loginUser?zoomUserId=${zoomUserId}`,
+    environment().CLOUD_FUNCTION_ENDPOINT + `/loginUser`,
+    {
+      credentials: "include",
+    },
   );
-  debugger;
   const responseJson: LoginUserSuccessResult = await response.json();
   return responseJson;
 }
