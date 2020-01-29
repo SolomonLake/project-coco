@@ -25,7 +25,8 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
   } else {
     const encodedZoomUserId = Cookie.parse(<any>req.headers.cookie || "")
       .__session;
-    const zoomUserId = decodeJwt(encodedZoomUserId).userId;
+    const zoomUserIdJwt = decodeJwt(encodedZoomUserId);
+    const zoomUserId = zoomUserIdJwt ? zoomUserIdJwt.userId : null;
     const zoomTokenData = zoomUserId
       ? await redisService.getAuthToken(zoomUserId)
       : null;

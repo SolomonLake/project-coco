@@ -9,6 +9,10 @@ export function encodeJwt(claims: CookieClaims) {
   });
 }
 
-export function decodeJwt(jwtCookie: string): CookieClaims {
-  return <CookieClaims>jwt.verify(jwtCookie, processEnv.JWT_SECRET);
+export function decodeJwt(jwtCookie: string): CookieClaims | null {
+  try {
+    return <CookieClaims>jwt.verify(jwtCookie, processEnv.JWT_SECRET);
+  } catch (e) {
+    return null;
+  }
 }
