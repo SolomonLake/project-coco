@@ -9,7 +9,7 @@ export const environment = () => {
   switch (window.location.host) {
     case "localhost:3006":
       return dev;
-    case "solomonlake.github.io":
+    case "pearcoco.com":
       return production;
     default:
       throw new Error(`unknown window host:${window.location.host}`);
