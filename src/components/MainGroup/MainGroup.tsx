@@ -3,15 +3,12 @@ import { AppStoreContext } from "../appStore";
 import Typography from "@material-ui/core/Typography";
 import { Grid, Button, Divider, Link } from "@material-ui/core";
 import { MainGroupAppState } from "../appState";
-import { databaseService } from "../../scripts/databaseServices/databaseService";
 import { useMainGroupStore } from "./mainGroupStore";
 import { startAppGroupObserver } from "../appGroupObserver";
-import { gapiCalendar } from "../../scripts/gapi/gapiCalendar";
 import { mainGroupActionCreator } from "./mainGroupActionCreator";
 import { MainGroupHeader } from "./components/MainGroupHeader";
 import { MainGroupFooter } from "./components/MainGroupFooter";
 import { ONE_MINUTE } from "../../scripts/constants/timesInMilliseconds";
-import { timeUtils } from "../../scripts/utils/timeUtils";
 import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
 import {
   AppGroupEntry,
@@ -102,7 +99,15 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                 <UserAvatarNameRow
                   mainGroupStore={mainGroupStore}
                   user={user}
-                  currentUser={user.userId === props.appState.user.userId}
+                  isCurrentUser={user.userId === props.appState.user.userId}
+                  currentUser={
+                    mainGroupStore.state.appGroup.userIds[
+                      props.appState.user.userId
+                    ]
+                  }
+                  showNewMeetingLink={
+                    user.userId === props.appState.user.userId ? false : true
+                  }
                   showNextMeetingTime={
                     user.userId === props.appState.user.userId ? false : true
                   }
@@ -136,9 +141,15 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                         <UserAvatarNameRow
                           mainGroupStore={mainGroupStore}
                           user={user}
-                          currentUser={
+                          isCurrentUser={
                             user.userId === props.appState.user.userId
                           }
+                          currentUser={
+                            mainGroupStore.state.appGroup.userIds[
+                              props.appState.user.userId
+                            ]
+                          }
+                          showNewMeetingLink={false}
                           showNextMeetingTime={
                             user.userId === props.appState.user.userId
                               ? false
@@ -195,9 +206,15 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                         <UserAvatarNameRow
                           mainGroupStore={mainGroupStore}
                           user={user}
-                          currentUser={
+                          isCurrentUser={
                             user.userId === props.appState.user.userId
                           }
+                          currentUser={
+                            mainGroupStore.state.appGroup.userIds[
+                              props.appState.user.userId
+                            ]
+                          }
+                          showNewMeetingLink={false}
                           showNextMeetingTime={false}
                         />
                       );
@@ -216,7 +233,13 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                 <UserAvatarNameRow
                   mainGroupStore={mainGroupStore}
                   user={user}
-                  currentUser={user.userId === props.appState.user.userId}
+                  isCurrentUser={user.userId === props.appState.user.userId}
+                  currentUser={
+                    mainGroupStore.state.appGroup.userIds[
+                      props.appState.user.userId
+                    ]
+                  }
+                  showNewMeetingLink={false}
                   showNextMeetingTime={
                     user.userId === props.appState.user.userId ? false : true
                   }

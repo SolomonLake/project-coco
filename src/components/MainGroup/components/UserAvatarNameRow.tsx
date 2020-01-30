@@ -19,9 +19,12 @@ const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
 export const UserAvatarNameRow = (props: {
   mainGroupStore: MainGroupStore;
   user: AppGroupUser;
-  currentUser: boolean;
+  isCurrentUser: boolean;
+  currentUser: AppGroupUser;
+  showNewMeetingLink: boolean;
   showNextMeetingTime: boolean;
 }) => {
+  // todo: use showNewMeetingLink
   const dailyCalendarEvents =
     props.mainGroupStore.state.appGroup.userIds[props.user.userId]
       .dailyCalendarEvents;
@@ -66,7 +69,7 @@ export const UserAvatarNameRow = (props: {
           </Grid>
           {props.showNextMeetingTime && (
             <Grid item>
-              {props.currentUser &&
+              {props.isCurrentUser &&
               nextMeetingTimeString === "Calendar not synced" ? (
                 <Typography variant="caption" color="error">
                   <i>{nextMeetingTimeString}</i>

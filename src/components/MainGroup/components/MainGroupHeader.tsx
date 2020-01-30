@@ -45,8 +45,10 @@ export const MainGroupHeader = (props: {
         <UserAvatarNameRow
           user={props.user}
           mainGroupStore={props.mainGroupStore}
-          currentUser={true}
+          isCurrentUser={true}
+          currentUser={props.user}
           showNextMeetingTime={true}
+          showNewMeetingLink={false}
         />
       </Grid>
       <Grid item>
