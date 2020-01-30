@@ -1,20 +1,24 @@
 import { CalendarMeeting } from "../../../../sharedTypes/appGroupEntry";
 
 export function getCurrentCalendarEvent(
-  dailyCalendarEvents: Array<CalendarMeeting>,
+  dailyCalendarEvents: Array<CalendarMeeting> | null,
 ): null | CalendarMeeting {
-  const currentTimeNum = Date.now();
+  if (dailyCalendarEvents) {
+    const currentTimeNum = Date.now();
 
-  const currentMeetings = dailyCalendarEvents.filter(m => {
-    const localEndTime = new Date(m.endTime);
-    const localEndTimeNum = localEndTime.getTime();
-    const meetingEndsInTheFuture = localEndTimeNum > currentTimeNum;
+    const currentMeetings = dailyCalendarEvents.filter(m => {
+      const localEndTime = new Date(m.endTime);
+      const localEndTimeNum = localEndTime.getTime();
+      const meetingEndsInTheFuture = localEndTimeNum > currentTimeNum;
 
-    const localStartTime = new Date(m.startTime);
-    const localStartTimeNum = localStartTime.getTime();
-    const meetingStartedInThePast = localStartTimeNum < currentTimeNum;
+      const localStartTime = new Date(m.startTime);
+      const localStartTimeNum = localStartTime.getTime();
+      const meetingStartedInThePast = localStartTimeNum < currentTimeNum;
 
-    return meetingEndsInTheFuture && meetingStartedInThePast;
-  });
-  return currentMeetings[0];
+      return meetingEndsInTheFuture && meetingStartedInThePast;
+    });
+    return currentMeetings[0];
+  } else {
+    return null;
+  }
 }

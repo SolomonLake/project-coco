@@ -207,6 +207,23 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
               );
             })}
           </Grid>
+          <Grid item>
+            <Typography>
+              <b>Offline</b>
+            </Typography>
+            {_.values(meetingsUi.offline).map(user => {
+              return (
+                <UserAvatarNameRow
+                  mainGroupStore={mainGroupStore}
+                  user={user}
+                  currentUser={user.userId === props.appState.user.userId}
+                  showNextMeetingTime={
+                    user.userId === props.appState.user.userId ? false : true
+                  }
+                />
+              );
+            })}
+          </Grid>
           {/* <Grid item>
             <Typography>
               <b>Do Not Disturb</b>

@@ -85,47 +85,49 @@ export const UserAvatarNameRow = (props: {
 };
 
 function getNextMeetingTimeString(
-  dailyCalendarEvents: Array<CalendarMeeting>,
+  dailyCalendarEvents: Array<CalendarMeeting> | null,
 ): string {
-  // first, filter all meetings that ended in the past, and do not start today
-  const currentDateObj = new Date();
-  const currentTimeNum = currentDateObj.getTime();
-  const currentDateString = currentDateObj.toDateString();
-
-  const upcomingMeetings = dailyCalendarEvents.filter(m => {
-    const localEndTime = new Date(m.endTime);
-    const localEndTimeNum = localEndTime.getTime();
-    const meetingEndsInTheFuture = localEndTimeNum > currentTimeNum;
-
-    const localStartTime = new Date(m.startTime);
-    const localStartTimeDate = localStartTime.toDateString();
-    const meetingStartsToday = localStartTimeDate === currentDateString;
-
-    return meetingEndsInTheFuture && meetingStartsToday;
-  });
-
-  const nextMeeting = upcomingMeetings[0];
-  if (nextMeeting) {
-    const localStartTime = new Date(nextMeeting.startTime);
-    const localEndTime = new Date(nextMeeting.endTime);
-
-    const localStartTimeNum = localStartTime.getTime();
-    const meetingStartedInThePast = localStartTimeNum < currentTimeNum;
-
-    const startTimeString = dateUtils.dateToLocalTimeStringHMMeridiem(
-      localStartTime,
-    );
-    const endTimeString = dateUtils.dateToLocalTimeStringHMMeridiem(
-      localEndTime,
-    );
-
-    const nextMeetingTimeString = meetingStartedInThePast
-      ? `${nextMeeting.eventName} ends at ${endTimeString}`
-      : `Next meeting at ${startTimeString}`;
-    return nextMeetingTimeString;
-  } else if (dailyCalendarEvents.length === 0) {
+  if (dailyCalendarEvents === null) {
     return NOT_SYNCED_MESSAGE;
   } else {
-    return NO_UPCOMING_EVENTS_MESSAGE;
+    // first, filter all meetings that ended in the past, and do not start today
+    const currentDateObj = new Date();
+    const currentTimeNum = currentDateObj.getTime();
+    const currentDateString = currentDateObj.toDateString();
+
+    const upcomingMeetings = dailyCalendarEvents.filter(m => {
+      const localEndTime = new Date(m.endTime);
+      const localEndTimeNum = localEndTime.getTime();
+      const meetingEndsInTheFuture = localEndTimeNum > currentTimeNum;
+
+      const localStartTime = new Date(m.startTime);
+      const localStartTimeDate = localStartTime.toDateString();
+      const meetingStartsToday = localStartTimeDate === currentDateString;
+
+      return meetingEndsInTheFuture && meetingStartsToday;
+    });
+
+    const nextMeeting = upcomingMeetings[0];
+    if (nextMeeting) {
+      const localStartTime = new Date(nextMeeting.startTime);
+      const localEndTime = new Date(nextMeeting.endTime);
+
+      const localStartTimeNum = localStartTime.getTime();
+      const meetingStartedInThePast = localStartTimeNum < currentTimeNum;
+
+      const startTimeString = dateUtils.dateToLocalTimeStringHMMeridiem(
+        localStartTime,
+      );
+      const endTimeString = dateUtils.dateToLocalTimeStringHMMeridiem(
+        localEndTime,
+      );
+
+      const nextMeetingTimeString = meetingStartedInThePast
+        ? `${nextMeeting.eventName} ends at ${endTimeString}`
+        : `Next meeting at ${startTimeString}`;
+      return nextMeetingTimeString;
+    } else {
+      return NO_UPCOMING_EVENTS_MESSAGE;
+    }
   }
 }

@@ -47,7 +47,7 @@ export const appGroupsDatabaseAccessor = {
 
           availabilityStatus: "available",
           currentMeeting: null,
-          dailyCalendarEvents: [],
+          dailyCalendarEvents: null,
         },
       },
     };
@@ -61,7 +61,7 @@ export const appGroupsDatabaseAccessor = {
       lastOnline: Date.now(),
       availabilityStatus: "available",
       currentMeeting: null,
-      dailyCalendarEvents: [],
+      dailyCalendarEvents: null,
     };
     const updateGroupAccessor = {
       [`userIds.${user.userId}`]: appGroupUser,

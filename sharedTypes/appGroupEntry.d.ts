@@ -12,7 +12,7 @@ export type AppGroupUser = UserEntry & {
   lastOnline: number;
   availabilityStatus: UserAvailabilityStatus;
   currentMeeting: null | VideoMeeting;
-  dailyCalendarEvents: Array<CalendarMeeting>;
+  dailyCalendarEvents: Array<CalendarMeeting> | null;
 };
 
 export type CalendarMeeting = {

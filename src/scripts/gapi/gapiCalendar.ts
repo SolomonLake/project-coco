@@ -14,7 +14,7 @@ export const gapiCalendar = {
 
     const eventsResult: gapi.client.calendar.Events = response.result;
     const events = eventsResult.items || [];
-    console.log("Upcoming events:");
+    console.log("Upcoming events:", events);
     events.map(e => {
       const startTime = e.start ? e.start.dateTime || e.start.date : null;
       console.log(e.summary + " (" + startTime + ")");

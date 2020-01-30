@@ -1,11 +1,7 @@
 ## Todo:
 
 - ui
-  - separate people into groups
-    - offline
   - button to start new zoom meeting with person
-- separate dev/production apps for all external services
-  - create production services for prod-env.yaml
 
 ### Done:
 
