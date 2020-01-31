@@ -11,6 +11,7 @@ import { usersDatabaseAccessor } from "../scripts/databaseServices/usersDatabase
 import { appGroupsDatabaseAccessor } from "../scripts/databaseServices/appGroupsDatabaseAccessor";
 import { setConfig } from "../scripts/config/config";
 import { Grid, Container } from "@material-ui/core";
+import { startUserObserver } from "./appUserObserver";
 
 async function initializeApp(appStore: AppStore) {
   const userAndCustomToken = await login();
@@ -22,7 +23,9 @@ async function initializeApp(appStore: AppStore) {
   const appGroup = user.groupId
     ? await appGroupsDatabaseAccessor.getAppGroup(user.groupId)
     : null;
+  startUserObserver(user.userId, appStore.dispatch);
   if (user.groupId && appGroup) {
+    appGroupsDatabaseAccessor.updateUser(user, appGroup.appGroupId);
     appStore.dispatch({
       type: "TRANSITION_APP_STATE",
       newAppState: { view: "mainGroup", user, initialAppGroup: appGroup },

@@ -105,9 +105,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                       props.appState.user.userId
                     ]
                   }
-                  showNewMeetingLink={
-                    user.userId === props.appState.user.userId ? false : true
-                  }
+                  section="available"
                   showNextMeetingTime={
                     user.userId === props.appState.user.userId ? false : true
                   }
@@ -149,7 +147,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                               props.appState.user.userId
                             ]
                           }
-                          showNewMeetingLink={false}
+                          section="video"
                           showNextMeetingTime={
                             user.userId === props.appState.user.userId
                               ? false
@@ -214,7 +212,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                               props.appState.user.userId
                             ]
                           }
-                          showNewMeetingLink={false}
+                          section="calendar"
                           showNextMeetingTime={false}
                         />
                       );
@@ -239,7 +237,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                       props.appState.user.userId
                     ]
                   }
-                  showNewMeetingLink={false}
+                  section="offline"
                   showNextMeetingTime={
                     user.userId === props.appState.user.userId ? false : true
                   }

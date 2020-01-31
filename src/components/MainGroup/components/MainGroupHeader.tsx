@@ -48,7 +48,7 @@ export const MainGroupHeader = (props: {
           isCurrentUser={true}
           currentUser={props.user}
           showNextMeetingTime={true}
-          showNewMeetingLink={false}
+          section="appHeader"
         />
       </Grid>
       <Grid item>

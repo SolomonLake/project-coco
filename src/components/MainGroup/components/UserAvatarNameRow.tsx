@@ -12,6 +12,8 @@ import {
 import { InlineFunction } from "../../generic/InlineFunction";
 import theme from "../../../theme";
 import { dateUtils } from "../../../scripts/utils/dateUtils";
+import { notification } from "../../../scripts/notification/notification";
+import { MainGroupSection } from "../mainGroupTypes";
 
 const NOT_SYNCED_MESSAGE = "Calendar not synced";
 const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
@@ -21,10 +23,9 @@ export const UserAvatarNameRow = (props: {
   user: AppGroupUser;
   isCurrentUser: boolean;
   currentUser: AppGroupUser;
-  showNewMeetingLink: boolean;
+  section: MainGroupSection;
   showNextMeetingTime: boolean;
 }) => {
-  // todo: use showNewMeetingLink
   const dailyCalendarEvents =
     props.mainGroupStore.state.appGroup.userIds[props.user.userId]
       .dailyCalendarEvents;
@@ -50,6 +51,7 @@ export const UserAvatarNameRow = (props: {
     props.mainGroupStore.state.appGroup.userIds[props.user.userId]
       .dailyCalendarEvents,
   ]);
+  console.log(props.currentUser.personalMeetingUrl);
 
   return (
     <Grid
@@ -83,6 +85,42 @@ export const UserAvatarNameRow = (props: {
           )}
         </Grid>
       </Grid>
+      {props.section === "available" &&
+        props.currentUser.personalMeetingUrl &&
+        !props.isCurrentUser && (
+          <Grid item>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={async () => {
+                const meetingUrl = props.currentUser.personalMeetingUrl;
+                notification.sendOpenMeetingNotification(
+                  props.user.userId,
+                  props.currentUser.userId,
+                  meetingUrl,
+                );
+                window.open(meetingUrl, "_blank");
+              }}
+            >
+              Call
+            </Button>
+          </Grid>
+        )}
+      {!props.currentUser.personalMeetingUrl &&
+        props.isCurrentUser &&
+        props.section === "available" && (
+          <Grid item>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={async () => {
+                window.open("https://zoom.us/profile", "_blank");
+              }}
+            >
+              Acquire Meeting Url
+            </Button>
+          </Grid>
+        )}
     </Grid>
   );
 };

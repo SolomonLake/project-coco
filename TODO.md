@@ -1,7 +1,10 @@
 ## Todo:
 
 - ui
-  - button to start new zoom meeting with person
+  - section lists are sorted by alphabetical, with the exception of the current user, which is first
+- join group link
+- if window.open is blocked, show popup message
+  - potentially try to open window to establish whether popup's are blocked
 
 ### Done:
 
@@ -31,3 +34,6 @@
 - ~~write ./run.sh that starts everything for local cloud functions testing~~
   - ~~better system for running multiple functions locally than manual different ports~~
 - ~~hot reload cloud functions~~
+- ~~production app is set up and secure~~
+- ~~button to start new zoom meeting with person~~
+- ~~notification queue in fb~~

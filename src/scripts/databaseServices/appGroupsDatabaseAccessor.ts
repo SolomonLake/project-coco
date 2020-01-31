@@ -84,6 +84,15 @@ export const appGroupsDatabaseAccessor = {
     };
     appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
   },
+  updateUser(user: UserEntry, appGroupId: string) {
+    const updateGroupAccessor = {
+      [`userIds.${user.userId}.avatarUrl`]: user.avatarUrl,
+      [`userIds.${user.userId}.displayName`]: user.displayName,
+      [`userIds.${user.userId}.groupId`]: user.groupId,
+      [`userIds.${user.userId}.personalMeetingUrl`]: user.personalMeetingUrl,
+    };
+    appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
+  },
   sendAlivePing: (userId: string, appGroupId: string) => {
     const updateGroupAccessor = {
       [`userIds.${userId}.lastOnline`]: Date.now(),

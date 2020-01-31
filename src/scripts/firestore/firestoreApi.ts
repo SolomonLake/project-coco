@@ -1,6 +1,5 @@
 import { firestoreDb } from "./firestoreInitialize";
 import { DatabaseCollection } from "../databaseServices/databaseTypes";
-import { async } from "q";
 
 export const firestoreApiFactory = <T extends {}>(
   collection: DatabaseCollection,
@@ -18,7 +17,7 @@ export const firestoreApiFactory = <T extends {}>(
         return null;
       }
     },
-    set: async (documentPath: string, entry: T): Promise<void> => {
+    set: async (documentPath: string, entry: T | any): Promise<void> => {
       await firestoreDb()
         .collection(collection)
         .doc(documentPath)
@@ -39,13 +38,24 @@ export const firestoreApiFactory = <T extends {}>(
         .doc(documentPath)
         .delete();
     },
-    watch: (documentPath: string, callback: (entry: T) => void) => {
+    watch: (documentPath: string, callback: (entry: T | any) => void) => {
       return firestoreDb()
         .collection(collection)
         .doc(documentPath)
         .onSnapshot(doc => {
           callback(doc.data() as T);
         });
+    },
+    batch: () => {
+      return firestoreDb().batch();
+    },
+    docRef: (documentPath: string) => {
+      return firestoreDb()
+        .collection(collection)
+        .doc(documentPath);
+    },
+    collectionRef: (collectionPath: string) => {
+      return firestoreDb().collection(collection);
     },
   };
 };
