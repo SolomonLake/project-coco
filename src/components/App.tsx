@@ -12,6 +12,7 @@ import { appGroupsDatabaseAccessor } from "../scripts/databaseServices/appGroups
 import { setConfig } from "../scripts/config/config";
 import { Grid, Container } from "@material-ui/core";
 import { startUserObserver } from "./appUserObserver";
+import { windowUtils } from "../scripts/utils/windowUtils";
 
 async function initializeApp(appStore: AppStore) {
   const userAndCustomToken = await login();
@@ -25,21 +26,15 @@ async function initializeApp(appStore: AppStore) {
     : null;
   startUserObserver(user.userId, appStore.dispatch);
   if (user.groupId && appGroup) {
-    const newWindow = window.open("", "_blank");
-    try {
-      if (newWindow) {
-        newWindow.close();
-        debugger;
-      } else {
-        debugger;
-      }
-    } catch (e) {
-      debugger;
-    }
     appGroupsDatabaseAccessor.updateUser(user, appGroup.appGroupId);
     appStore.dispatch({
       type: "TRANSITION_APP_STATE",
-      newAppState: { view: "mainGroup", user, initialAppGroup: appGroup },
+      newAppState: {
+        view: "mainGroup",
+        user,
+        initialAppGroup: appGroup,
+        popupsBlocked: windowUtils.testPopupsBlocked(),
+      },
     });
   } else {
     appStore.dispatch({

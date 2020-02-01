@@ -27,6 +27,7 @@ export type MainGroupAppState = {
   view: "mainGroup";
   user: UserEntry;
   initialAppGroup: AppGroupEntry;
+  popupsBlocked: boolean;
 };
 
 export type LoadingAppState = {

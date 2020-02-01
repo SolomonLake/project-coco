@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AppStoreContext } from "../appStore";
 import { useJoinGroupStore } from "./joinGroupStore";
+import { windowUtils } from "../../scripts/utils/windowUtils";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -65,6 +66,7 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
                         groupId: group.appGroupId,
                       },
                       initialAppGroup: group,
+                      popupsBlocked: windowUtils.testPopupsBlocked(),
                     },
                   });
                 } else {
@@ -101,6 +103,7 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
                 view: "mainGroup",
                 user: { ...props.appState.user, groupId: group.appGroupId },
                 initialAppGroup: group,
+                popupsBlocked: windowUtils.testPopupsBlocked(),
               },
             });
           }}

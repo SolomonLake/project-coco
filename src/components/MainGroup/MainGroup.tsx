@@ -80,6 +80,14 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
       alignItems="flex-start"
       spacing={2}
     >
+      {props.appState.popupsBlocked && (
+        <Grid item style={{ width: "100%" }}>
+          <Typography color="error">
+            Please "Always allow popups" in order to receive video calls from
+            your co-workers.
+          </Typography>
+        </Grid>
+      )}
       <Grid item style={{ width: "100%" }}>
         <MainGroupHeader
           mainGroupStore={mainGroupStore}

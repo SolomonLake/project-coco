@@ -1,15 +1,16 @@
 ## Todo:
 
 - ui
-  - app logo
   - section lists are sorted by alphabetical, with the exception of the current user, which is first
+  - pull out code into more components for organizational purposes
 - join group link
-- if window.open is blocked, show popup message
-  - potentially try to open window to establish whether popup's are blocked
-    - store a success in local storage?
 
 ### Done:
 
+- ~~app logo~~
+- ~~if window.open is blocked, show popup message~~
+  - ~~potentially try to open window to establish whether popup's are blocked~~
+    - ~~store a success in local storage~~
 - ~~check every so often if need to update users google calendar event statuses~~
 - ~~google calendar api~~
 - ~~zoom notifications make updates in firebase~~
