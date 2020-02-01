@@ -25,6 +25,17 @@ async function initializeApp(appStore: AppStore) {
     : null;
   startUserObserver(user.userId, appStore.dispatch);
   if (user.groupId && appGroup) {
+    const newWindow = window.open("", "_blank");
+    try {
+      if (newWindow) {
+        newWindow.close();
+        debugger;
+      } else {
+        debugger;
+      }
+    } catch (e) {
+      debugger;
+    }
     appGroupsDatabaseAccessor.updateUser(user, appGroup.appGroupId);
     appStore.dispatch({
       type: "TRANSITION_APP_STATE",

@@ -1,10 +1,12 @@
 ## Todo:
 
 - ui
+  - app logo
   - section lists are sorted by alphabetical, with the exception of the current user, which is first
 - join group link
 - if window.open is blocked, show popup message
   - potentially try to open window to establish whether popup's are blocked
+    - store a success in local storage?
 
 ### Done:
 

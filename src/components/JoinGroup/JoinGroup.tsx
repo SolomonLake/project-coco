@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import logo from "../../svgs/logo.svg";
 import { AppStoreContext } from "../appStore";
 import { useJoinGroupStore } from "./joinGroupStore";
 
