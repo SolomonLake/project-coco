@@ -1,16 +1,20 @@
 import { localStorageUtils } from "./localStorageUtils";
+import queryString from "querystring";
 
 export const windowUtils = {
   getUrlParam: (urlParamKey: string): string | null => {
-    const regExp = new RegExp(urlParamKey + "=(.*?)($|&)", "g");
-    const decodedWindowLocation = decodeURIComponent(window.location.search);
-    const matchArray = decodedWindowLocation.match(regExp);
-    if (matchArray && matchArray.length) {
-      const firstMatch = matchArray[0];
-      return firstMatch.replace(urlParamKey + "=", "").replace("&", "");
-    } else {
-      return null;
-    }
+    const urlParams = queryString.parse(window.location.search.slice(1));
+    const parsedParam = urlParams ? urlParams[urlParamKey] : null;
+    return parsedParam instanceof Array ? parsedParam[0] : parsedParam;
+  },
+  removeUrlParam: (urlParamKey: string): string => {
+    const urlSearchParams = queryString.parse(window.location.search.slice(1));
+    const { [urlParamKey]: val, ...paramsWithoutKey } = urlSearchParams;
+    const newSearch =
+      Object.keys(paramsWithoutKey).length > 0
+        ? "?" + queryString.stringify(paramsWithoutKey)
+        : "";
+    return window.location.origin + window.location.pathname + newSearch;
   },
   testPopupsBlocked: (): boolean => {
     const popupsArentBlocked = localStorageUtils.getItem("popupsArentBlocked");

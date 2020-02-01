@@ -5,13 +5,13 @@ import { processEnv } from "../processEnv";
 import { redisService } from "../shared/redis/redisService";
 import { encodeJwt, decodeJwt } from "../shared/auth/jwtCookie";
 import { zoomAccessTokenData } from "../shared/zoom/zoomAccessTokenData";
-
-const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
+import queryString from "query-string";
 
 export const runZoomGetTokenData = async (
   req: Request,
   res: Response,
 ): Promise<any> => {
+  const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT + req.url;
   const encodedZoomUserId = Cookie.parse(<any>req.headers.cookie || "")
     .__session;
   const zoomUserIdJwt = decodeJwt(encodedZoomUserId);
@@ -20,8 +20,17 @@ export const runZoomGetTokenData = async (
     ? await redisService.getAuthToken(zoomUserId)
     : null;
   if (zoomTokenData) {
-    res.redirect(processEnv.APP_ENDPOINT + `?logged_in=true`);
+    const redirectUrl = req.query.redirectUrl || processEnv.APP_ENDPOINT;
+    const redirectUrlParams = queryString.parseUrl(redirectUrl);
+    const newRedirectUrlParams = {
+      ...redirectUrlParams.query,
+      logged_in: "true",
+    };
+    const newRedirectUrl =
+      redirectUrlParams.url + "?" + queryString.stringify(newRedirectUrlParams);
+    res.redirect(decodeURIComponent(newRedirectUrl));
   } else {
+    console.log("req query", req.query);
     const zoomCode = req.query.code;
     if (!zoomCode) {
       const zoomAppClientId = processEnv.ZOOM_CLIENT_ID;

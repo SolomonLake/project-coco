@@ -13,6 +13,9 @@ import { setConfig } from "../scripts/config/config";
 import { Grid, Container } from "@material-ui/core";
 import { startUserObserver } from "./appUserObserver";
 import { windowUtils } from "../scripts/utils/windowUtils";
+import { Route } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import { databaseService } from "../scripts/databaseServices/databaseService";
 
 async function initializeApp(appStore: AppStore) {
   const userAndCustomToken = await login();
@@ -21,11 +24,14 @@ async function initializeApp(appStore: AppStore) {
   const user = await usersDatabaseAccessor.findOrCreateUser(
     userAndCustomToken.user,
   );
+  const windowJoinId = windowUtils.getUrlParam("joinId");
   const appGroup = user.groupId
     ? await appGroupsDatabaseAccessor.getAppGroup(user.groupId)
+    : windowJoinId
+    ? await databaseService.userTryJoinGroup(user, windowJoinId)
     : null;
   startUserObserver(user.userId, appStore.dispatch);
-  if (user.groupId && appGroup) {
+  if (appGroup) {
     appGroupsDatabaseAccessor.updateUser(user, appGroup.appGroupId);
     appStore.dispatch({
       type: "TRANSITION_APP_STATE",
@@ -47,7 +53,11 @@ async function initializeApp(appStore: AppStore) {
 export const App: React.FC = () => {
   return (
     <Container maxWidth="xs" style={{ marginTop: "2em" }}>
-      <AppContent />
+      <BrowserRouter>
+        <div>
+          <Route path="/" component={AppContent} />
+        </div>
+      </BrowserRouter>
     </Container>
   );
 };

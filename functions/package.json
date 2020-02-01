@@ -25,6 +25,7 @@
     "firebase-admin": "^8.5.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
+    "query-string": "^6.10.1",
     "redis": "^2.8.0"
   },
   "devDependencies": {

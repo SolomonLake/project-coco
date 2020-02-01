@@ -6,12 +6,13 @@ let loggedIn: Promise<string> = new Promise((resolve, _reject) => {
     window.history.pushState(
       {},
       document.title,
-      window.location.origin + window.location.pathname,
+      windowUtils.removeUrlParam("logged_in"),
     );
     resolve();
   } else {
-    window.location.href =
-      environment().CLOUD_FUNCTION_ENDPOINT + "/zoomGetTokenData";
+    window.location.href = `${
+      environment().CLOUD_FUNCTION_ENDPOINT
+    }/zoomGetTokenData?redirectUrl=${window.location.href}`;
   }
 });
 
