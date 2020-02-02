@@ -88,7 +88,7 @@ export const UserAvatarNameRow = (props: {
       style={{ flexWrap: "nowrap" }}
     >
       <Grid item>
-        <UserAvatar user={props.user} />
+        <UserAvatar user={props.user} section={props.section} />
       </Grid>
       <Grid item style={{ flexGrow: 1 }}>
         <Grid container direction="column" spacing={0} justify="flex-start">

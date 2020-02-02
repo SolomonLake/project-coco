@@ -93,7 +93,7 @@ export const MainGroupMeetingsUI = (props: {
               isCurrentUser={user.userId === currentUserId}
               currentUser={mainGroupStore.state.appGroup.userIds[currentUserId]}
               section="offline"
-              showNextMeetingTime={user.userId === currentUserId ? false : true}
+              showNextMeetingTime={false}
             />
           );
         })}

@@ -1,9 +1,10 @@
 ## Todo:
 
-- logout button
+- ?
 
 ### Done:
 
+- ~~shows available status in offline section~~
 - ~~Busy for ..., not until~~
 - ~~ui edge cases, long names, etc~~
 - ~~busy time based~~

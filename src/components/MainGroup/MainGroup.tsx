@@ -9,10 +9,13 @@ import { mainGroupActionCreator } from "./mainGroupActionCreator";
 import { MainGroupHeader } from "./components/MainGroupHeader";
 import { MainGroupFooter } from "./components/MainGroupFooter";
 import { MainGroupMeetingsUI } from "./components/MainGroupMeetingsUI";
-import { ONE_MINUTE } from "../../scripts/constants/timesInMilliseconds";
+import {
+  ONE_MINUTE,
+  ONE_SECOND,
+} from "../../scripts/constants/timesInMilliseconds";
 import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
 
-export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
+export const KEEP_ALIVE_PING_INTERVAL = ONE_SECOND * 20;
 
 export const MainGroup = (props: { appState: MainGroupAppState }) => {
   const appStore = useContext(AppStoreContext);
