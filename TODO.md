@@ -1,11 +1,11 @@
 ## Todo:
 
 - ui
-  - add zoom link to calendar events
   - pull out code into more components for organizational purposes
 
 ### Done:
 
+- ~~add zoom link to calendar events~~
 - ~~section lists are sorted by alphabetical, with the exception of the current user, which is first~~
 - ~~join group link~~
 - ~~app logo~~

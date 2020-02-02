@@ -1,15 +1,10 @@
-import React, { useContext, useState } from "react";
-import { Grid, Typography, Button, Divider, Avatar } from "@material-ui/core";
+import React, { useState } from "react";
+import { Grid, Typography, Button, Avatar } from "@material-ui/core";
 import { MainGroupStore } from "../mainGroupStore";
-import { mainGroupActionCreator } from "../mainGroupActionCreator";
-import { UserEntry } from "../../../../sharedTypes/userEntry";
-import { AppStore } from "../../appStore";
-import { databaseService } from "../../../scripts/databaseServices/databaseService";
 import {
   CalendarMeeting,
   AppGroupUser,
 } from "../../../../sharedTypes/appGroupEntry";
-import { InlineFunction } from "../../generic/InlineFunction";
 import { dateUtils } from "../../../scripts/utils/dateUtils";
 import { notification } from "../../../scripts/notification/notification";
 import { MainGroupSection } from "../mainGroupTypes";

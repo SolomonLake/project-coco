@@ -12,7 +12,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "typeface-roboto": "0.0.75",
-    "typescript": "^3.6.2",
+    "typescript": "^3.7.5",
     "underscore": "^1.9.1"
   },
   "scripts": {
@@ -50,6 +50,7 @@
     "@types/underscore": "^1.9.2",
     "gh-pages": "^2.1.1",
     "npx": "^10.2.0",
+    "prettier": "^1.19.1",
     "ttab": "^0.6.1"
   }
 }

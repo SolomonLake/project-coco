@@ -15,6 +15,7 @@ export const MainGroupFooter = (props: {
     <Button
       variant="contained"
       color="secondary"
+      size="small"
       onClick={async () => {
         props.appStore.dispatch({
           type: "TRANSITION_APP_STATE",
