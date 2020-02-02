@@ -1,9 +1,11 @@
 ## Todo:
 
-- ui edge cases, long names, etc
+- ?
+- Busy for ..., not until
 
 ### Done:
 
+- ~~ui edge cases, long names, etc~~
 - ~~busy time based~~
 - ~~busy toggle~~
 - ~~pull out code into more components for organizational purposes~~

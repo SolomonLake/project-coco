@@ -11,7 +11,7 @@ import { UserAvatarNameRow } from "../UserAvatarNameRow";
 import { VideoMeeting } from "../../../../../sharedTypes/appGroupEntry.d";
 import _ from "underscore";
 import VideocamIcon from "@material-ui/icons/Videocam";
-import ScheduleIcon from "@material-ui/icons/Schedule";
+import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 import { VideoMeetings } from "../computeMeetingsUi";
 import { dateUtils } from "../../../../scripts/utils/dateUtils";
 
@@ -63,7 +63,7 @@ export const ZoomCallsSection = (props: {
                 <Grid item>
                   <Typography style={{ display: "flex" }}>
                     {meetingLengthInMinutes}
-                    <ScheduleIcon />
+                    <ScheduleRoundedIcon />
                   </Typography>
                 </Grid>
               </Grid>

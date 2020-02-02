@@ -23,10 +23,15 @@ import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { appGroupsDatabaseAccessor } from "../../../scripts/databaseServices/appGroupsDatabaseAccessor";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { THIRTY_MINUTES } from "../../../scripts/constants/timesInMilliseconds";
+import TimerOutlinedIcon from "@material-ui/icons/TimerOutlined";
+import {
+  THIRTY_MINUTES,
+  ONE_MINUTE,
+} from "../../../scripts/constants/timesInMilliseconds";
 
 const NOT_SYNCED_MESSAGE = "Calendar not synced";
 const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
+const DO_NOT_DISTURB_MESSAGE = "Busy for ~";
 
 export const UserAvatarNameRow = (props: {
   mainGroupStore: MainGroupStore;
@@ -85,23 +90,37 @@ export const UserAvatarNameRow = (props: {
       <Grid item>
         <UserAvatar user={props.user} />
       </Grid>
-      <Grid item>
+      <Grid item style={{ flexGrow: 1 }}>
         <Grid container direction="column" spacing={0} justify="flex-start">
           <Grid item>
             <Typography>{props.user.displayName}</Typography>
           </Grid>
           {props.showNextMeetingTime && (
             <Grid item>
-              {props.isCurrentUser &&
-              nextMeetingTimeString === "Calendar not synced" ? (
-                <Typography variant="caption" color="error">
-                  <i>{nextMeetingTimeString}</i>
-                </Typography>
-              ) : (
-                <Typography variant="caption">
-                  <i>{nextMeetingTimeString}</i>
-                </Typography>
-              )}
+              <Grid container direction="row" justify="flex-start">
+                <Grid item>
+                  {props.isCurrentUser &&
+                  nextMeetingTimeString === NOT_SYNCED_MESSAGE ? (
+                    <Typography variant="caption" color="error">
+                      <i>{nextMeetingTimeString}</i>
+                    </Typography>
+                  ) : (
+                    <Typography variant="caption">
+                      <i>{nextMeetingTimeString}</i>
+                    </Typography>
+                  )}
+                </Grid>
+                {nextMeetingTimeString.startsWith(DO_NOT_DISTURB_MESSAGE) && (
+                  <Grid
+                    item
+                    justify="center"
+                    alignItems="center"
+                    style={{ display: "flex" }}
+                  >
+                    <TimerOutlinedIcon style={{ fontSize: "1.3em" }} />
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
           )}
         </Grid>
@@ -169,7 +188,7 @@ export const UserAvatarNameRow = (props: {
                   : {}
               }
             >
-              Busy <AddIcon />
+              Busy <AddIcon fontSize="small" />
             </Button>
             <IconButton
               onClick={() => {
@@ -179,6 +198,7 @@ export const UserAvatarNameRow = (props: {
                   props.user.doNotDisturbUntil - 1000 * 60 * 30,
                 );
               }}
+              size="small"
               color="primary"
             >
               <RemoveIcon />
@@ -198,8 +218,8 @@ function getNextMeetingTimeString(
     return NOT_SYNCED_MESSAGE;
   } else if (doNotDisturbUntil > Date.now()) {
     return (
-      "Busy until " +
-      dateUtils.dateToLocalTimeStringHMMeridiem(new Date(doNotDisturbUntil))
+      DO_NOT_DISTURB_MESSAGE +
+      dateUtils.timeHoursAndMinutes(doNotDisturbUntil - Date.now() + ONE_MINUTE)
     );
   } else {
     // first, filter all meetings that ended in the past, and do not start today
