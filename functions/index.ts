@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 import { loginUser } from "./loginUser/index";
 export { loginUser } from "./loginUser/index";
+import { logoutUser } from "./logoutUser/index";
+export { logoutUser } from "./logoutUser/index";
 import { zoomNotifications } from "./zoomNotifications/index";
 export { zoomNotifications } from "./zoomNotifications/index";
 import { zoomGetTokenData } from "./zoomGetTokenData/index";
@@ -21,6 +23,8 @@ export function index(req: Request, res: Response) {
       return zoomNotifications(req, res);
     case "/loginUser":
       return loginUser(req, res);
+    case "/logoutUser":
+      return logoutUser(req, res);
     default:
       res.send("function not defined");
   }

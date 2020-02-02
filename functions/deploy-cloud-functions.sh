@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-cloudFunctionFolders=( "zoomApiProxy" "zoomGetTokenData" "zoomNotifications" "loginUser" )
+cloudFunctionFolders=( "zoomApiProxy" "zoomGetTokenData" "zoomNotifications" "loginUser" "logoutUser" )
 
 npm install
 npm run build
