@@ -20,6 +20,8 @@ import _ from "underscore";
 import { getCurrentCalendarEvent } from "./components/calendarUiUtils";
 import { UserAvatarNameRow } from "./components/UserAvatarNameRow";
 import { dateUtils } from "../../scripts/utils/dateUtils";
+import VideocamIcon from "@material-ui/icons/Videocam";
+import ScheduleIcon from "@material-ui/icons/Schedule";
 
 export const KEEP_ALIVE_PING_INTERVAL = ONE_MINUTE;
 
@@ -69,7 +71,10 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
     };
   }, []);
 
-  const meetingsUi = computeMeetingsUi(mainGroupStore.state.appGroup);
+  const meetingsUi = computeMeetingsUi(
+    mainGroupStore.state.appGroup,
+    props.appState.user.userId,
+  );
   console.log("meetingsUi", meetingsUi);
 
   return (
@@ -122,9 +127,14 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           </Grid>
           <Grid item>
             <Typography>
-              <b>Video Calls</b>
+              <b>Zoom Calls</b>
             </Typography>
             {_.values(meetingsUi.video).map(videoMeeting => {
+              const meetingLengthInMinutes = new Date(
+                Date.now() -
+                  new Date(videoMeeting.meeting.meetingStartTime).getTime(),
+              ).getMinutes();
+
               return (
                 <Grid
                   container
@@ -134,13 +144,30 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                   alignItems="center"
                 >
                   <Grid item>
-                    <Typography>{videoMeeting.meeting.meetingName}</Typography>
-                    <Link
-                      href={videoMeeting.meeting.meetingUrl}
-                      target="_blank"
+                    <Grid
+                      container
+                      direction="row"
+                      spacing={2}
+                      justify="flex-start"
+                      alignItems="center"
                     >
-                      Open Meeting
-                    </Link>
+                      <Grid item>
+                        <Button
+                          variant="text"
+                          color="primary"
+                          href={videoMeeting.meeting.meetingUrl}
+                          target="_blank"
+                        >
+                          Join Meeting <VideocamIcon />
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Typography style={{ display: "flex" }}>
+                          {meetingLengthInMinutes}
+                          <ScheduleIcon />
+                        </Typography>
+                      </Grid>
+                    </Grid>
                     {_.values(videoMeeting.users).map(user => {
                       return (
                         <UserAvatarNameRow
@@ -170,7 +197,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           </Grid>
           <Grid item>
             <Typography>
-              <b>Calendar Events</b>
+              <b>Google Calendar Events</b>
             </Typography>
             {_.values(meetingsUi.calendar).map(calendarEvent => {
               return (
@@ -190,12 +217,12 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
                       alignItems="center"
                     >
                       <Grid item>
-                        <Typography variant="caption">
+                        <Typography variant="subtitle2">
                           {calendarEvent.meeting.eventName}
                         </Typography>
                       </Grid>
                       <Grid item>
-                        <Typography variant="caption">
+                        <Typography variant="subtitle2">
                           {dateUtils.dateToLocalTimeStringHMMeridiem(
                             new Date(calendarEvent.meeting.startTime),
                           ) +
@@ -306,9 +333,15 @@ type Meetings = {
 //  videoCall = !offline && currentMeeting is not null
 // Calendar Events:
 //  calendarEvent = !offline && have event in daily calendar events where startTime is in past and endTime is in future
-function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
+function computeMeetingsUi(
+  appGroup: AppGroupEntry,
+  currentUserId: string,
+): Meetings {
+  const { [currentUserId]: currentUser, ...restOfUsers } = appGroup.userIds;
+  const sortedUserIds = [currentUser, ..._.values(restOfUsers).sort()];
+
   const currentTime = Date.now();
-  const offlineUsers: MeetingUsers = _.values(appGroup.userIds).reduce(
+  const offlineUsers: MeetingUsers = sortedUserIds.reduce(
     (gatheredOfflineUsers, user) => {
       const userIsOffline =
         currentTime - user.lastOnline > KEEP_ALIVE_PING_INTERVAL * 1.5;
@@ -324,7 +357,7 @@ function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
     {},
   );
 
-  const videoMeetings: VideoMeetings = _.values(appGroup.userIds).reduce(
+  const videoMeetings: VideoMeetings = sortedUserIds.reduce(
     (gatheredVideoMeetings, user) => {
       const userIsNotOffline = !offlineUsers[user.userId];
       if (userIsNotOffline && user.currentMeeting) {
@@ -351,7 +384,7 @@ function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
     {} as VideoMeetings,
   );
 
-  const calendarMeetings: CalendarMeetings = _.values(appGroup.userIds).reduce(
+  const calendarMeetings: CalendarMeetings = sortedUserIds.reduce(
     (gatheredCalendarMeetings, user) => {
       const userIsNotOffline = !offlineUsers[user.userId];
       const currentCalendarEvent = getCurrentCalendarEvent(
@@ -380,7 +413,7 @@ function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
     {} as CalendarMeetings,
   );
 
-  const availableUsers: MeetingUsers = _.values(appGroup.userIds).reduce(
+  const availableUsers: MeetingUsers = sortedUserIds.reduce(
     (gatheredAvailableUsers, user) => {
       const userIsNotOffline = !offlineUsers[user.userId];
       const userDoesntHaveCurrentVideoMeeting = !user.currentMeeting;
@@ -405,7 +438,7 @@ function computeMeetingsUi(appGroup: AppGroupEntry): Meetings {
     {},
   );
 
-  const busyUsers: MeetingUsers = _.values(appGroup.userIds).reduce(
+  const busyUsers: MeetingUsers = sortedUserIds.reduce(
     (gatheredBusyUsers, user) => {
       const userIsNotOffline = !offlineUsers[user.userId];
       const userDoesntHaveCurrentVideoMeeting = !user.currentMeeting;

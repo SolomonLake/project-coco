@@ -1,12 +1,13 @@
 ## Todo:
 
 - ui
-  - section lists are sorted by alphabetical, with the exception of the current user, which is first
+  - add zoom link to calendar events
   - pull out code into more components for organizational purposes
-- join group link
 
 ### Done:
 
+- ~~section lists are sorted by alphabetical, with the exception of the current user, which is first~~
+- ~~join group link~~
 - ~~app logo~~
 - ~~if window.open is blocked, show popup message~~
   - ~~potentially try to open window to establish whether popup's are blocked~~
