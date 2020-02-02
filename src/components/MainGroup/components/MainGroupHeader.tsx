@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { Grid, Typography, Button, Divider, Avatar } from "@material-ui/core";
 import LinkIcon from "@material-ui/icons/Link";
 import { MainGroupStore } from "../mainGroupStore";
@@ -21,6 +21,9 @@ export const MainGroupHeader = (props: {
   user: AppGroupUser;
 }) => {
   const classes = useStyles();
+  const [copyJoinGroupButtonClicked, setCopyJoinGroupButtonClicked] = useState(
+    false,
+  );
 
   return (
     <Grid container direction="column" spacing={2} justify="center">
@@ -33,21 +36,29 @@ export const MainGroupHeader = (props: {
           alignItems="center"
         >
           <Grid item>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => {
-                const joinGroupUrl =
-                  window.location.origin +
-                  window.location.pathname +
-                  "?joinId=" +
-                  props.mainGroupStore.state.appGroup.appGroupId;
-                copyUtils.copyToClipboard(joinGroupUrl);
-              }}
-            >
-              {props.mainGroupStore.state.appGroup.appGroupId}
-              <LinkIcon className={classes.icon} />
-            </Button>
+            {copyJoinGroupButtonClicked ? (
+              <Typography color="secondary">Join Link Copied!</Typography>
+            ) : (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  const joinGroupUrl =
+                    window.location.origin +
+                    window.location.pathname +
+                    "?joinId=" +
+                    props.mainGroupStore.state.appGroup.appGroupId;
+                  copyUtils.copyToClipboard(joinGroupUrl);
+                  setCopyJoinGroupButtonClicked(true);
+                  setTimeout(() => {
+                    setCopyJoinGroupButtonClicked(false);
+                  }, 2000);
+                }}
+              >
+                {props.mainGroupStore.state.appGroup.appGroupId}
+                <LinkIcon className={classes.icon} />
+              </Button>
+            )}
           </Grid>
           <Grid item>
             <Button

@@ -1,9 +1,11 @@
 ## Todo:
 
+- investigate Sync calendar button behavior
 - ?
 
 ### Done:
 
+- ~~show result of link copy~~
 - ~~shows available status in offline section~~
 - ~~Busy for ..., not until~~
 - ~~ui edge cases, long names, etc~~
