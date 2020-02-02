@@ -24,7 +24,7 @@ export const GoogleCalendarEventsSection = (props: {
   const currentUserId = props.currentUserId;
 
   return (
-    <Grid container direction="column" spacing={2} justify="center">
+    <Grid container direction="column">
       <Typography>
         <b>Google Calendar Events</b>
       </Typography>

@@ -15,8 +15,6 @@ import {
   AppGroupUser,
 } from "../../../../sharedTypes/appGroupEntry.d";
 import _ from "underscore";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import ScheduleIcon from "@material-ui/icons/Schedule";
 import { ZoomCallsSection } from "./meetingUISections/ZoomCallsSection";
 import { GoogleCalendarEventsSection } from "./meetingUISections/GoogleCalendarEventsSection";
 import { computeMeetingsUi } from "./computeMeetingsUi";
