@@ -16,6 +16,7 @@ import { windowUtils } from "../scripts/utils/windowUtils";
 import { Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { databaseService } from "../scripts/databaseServices/databaseService";
+import { UserEntry } from "../../sharedTypes/userEntry";
 
 async function initializeApp(appStore: AppStore) {
   const userAndCustomToken = await login();
@@ -24,12 +25,10 @@ async function initializeApp(appStore: AppStore) {
   const user = await usersDatabaseAccessor.findOrCreateUser(
     userAndCustomToken.user,
   );
-  const windowJoinId = windowUtils.getUrlParam("joinId");
+
   const appGroup = user.groupId
     ? await appGroupsDatabaseAccessor.getAppGroup(user.groupId)
-    : windowJoinId
-    ? await databaseService.userTryJoinGroup(user, windowJoinId)
-    : null;
+    : await checkForJoinGroupLink(user);
   startUserObserver(user.userId, appStore.dispatch);
   if (appGroup) {
     appGroupsDatabaseAccessor.updateUser(user, appGroup.appGroupId);
@@ -90,3 +89,18 @@ export const AppContent: React.FC = () => {
       throw new Error(`unknown state view`);
   }
 };
+
+async function checkForJoinGroupLink(user: UserEntry) {
+  const windowJoinId = windowUtils.getUrlParam("joinId");
+  if (windowJoinId) {
+    const appGroup = await databaseService.userTryJoinGroup(user, windowJoinId);
+    window.history.pushState(
+      {},
+      document.title,
+      windowUtils.removeUrlParam("joinId"),
+    );
+    return appGroup;
+  } else {
+    return null;
+  }
+}
