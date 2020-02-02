@@ -9,6 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppGroupUser } from "../../../../sharedTypes/appGroupEntry";
 import { copyUtils } from "../../../scripts/utils/copyUtils";
 import { windowUtils } from "../../../scripts/utils/windowUtils";
+import CheckIcon from "@material-ui/icons/Check";
+import SyncIcon from "@material-ui/icons/Sync";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -24,6 +26,7 @@ export const MainGroupHeader = (props: {
   const [copyJoinGroupButtonClicked, setCopyJoinGroupButtonClicked] = useState(
     false,
   );
+  const [calendarSynced, setCalendarSynced] = useState(false);
 
   return (
     <Grid container direction="column" spacing={2} justify="center">
@@ -36,41 +39,46 @@ export const MainGroupHeader = (props: {
           alignItems="center"
         >
           <Grid item>
-            {copyJoinGroupButtonClicked ? (
-              <Typography color="secondary">Join Link Copied!</Typography>
-            ) : (
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  const joinGroupUrl =
-                    window.location.origin +
-                    window.location.pathname +
-                    "?joinId=" +
-                    props.mainGroupStore.state.appGroup.appGroupId;
-                  copyUtils.copyToClipboard(joinGroupUrl);
-                  setCopyJoinGroupButtonClicked(true);
-                  setTimeout(() => {
-                    setCopyJoinGroupButtonClicked(false);
-                  }, 2000);
-                }}
-              >
-                {props.mainGroupStore.state.appGroup.appGroupId}
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                const joinGroupUrl =
+                  window.location.origin +
+                  window.location.pathname +
+                  "?joinId=" +
+                  props.mainGroupStore.state.appGroup.appGroupId;
+                copyUtils.copyToClipboard(joinGroupUrl);
+                setCopyJoinGroupButtonClicked(true);
+                setTimeout(() => {
+                  setCopyJoinGroupButtonClicked(false);
+                }, 2000);
+              }}
+            >
+              {copyJoinGroupButtonClicked ? (
+                <CheckIcon />
+              ) : (
                 <LinkIcon className={classes.icon} />
-              </Button>
-            )}
+              )}
+              {props.mainGroupStore.state.appGroup.appGroupId}
+            </Button>
           </Grid>
           <Grid item>
             <Button
               variant="contained"
               color="primary"
               onClick={async () => {
-                mainGroupActionCreator.syncCalendarEvents(
+                await mainGroupActionCreator.syncCalendarEvents(
                   props.user.userId,
                   props.mainGroupStore.state.appGroup.appGroupId,
                 );
+                setCalendarSynced(true);
+                setTimeout(() => {
+                  setCalendarSynced(false);
+                }, 2000);
               }}
             >
+              {calendarSynced ? <CheckIcon /> : <SyncIcon />}
               Sync Google Calendar
             </Button>
           </Grid>
