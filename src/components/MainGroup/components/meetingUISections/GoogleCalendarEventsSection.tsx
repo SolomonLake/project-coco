@@ -54,7 +54,7 @@ export const GoogleCalendarEventsSection = (props: {
                 spacing={1}
                 alignItems="center"
               >
-                <Grid item style={{ flexGrow: 1 }}>
+                <Grid item style={{ flexGrow: 1, paddingLeft: "1em" }}>
                   <Typography variant="subtitle2">
                     {calendarEvent.meeting.eventName}
                   </Typography>

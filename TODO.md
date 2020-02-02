@@ -1,6 +1,7 @@
 ## Todo:
 
 - ?
+- fine tuned busy timing, 15 min increment, 1 default, clear button
 
 ### Done:
 

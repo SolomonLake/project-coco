@@ -62,8 +62,8 @@ export const ZoomCallsSection = (props: {
                 </Grid>
                 <Grid item>
                   <Typography style={{ display: "flex" }}>
-                    {meetingLengthInMinutes}
                     <ScheduleRoundedIcon />
+                    {meetingLengthInMinutes}
                   </Typography>
                 </Grid>
               </Grid>
