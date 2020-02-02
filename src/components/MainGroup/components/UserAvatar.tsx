@@ -1,7 +1,6 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
 import { AppGroupUser } from "../../../../sharedTypes/appGroupEntry";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import theme from "../../../theme";
 import { MainGroupSection } from "../mainGroupTypes";
 
@@ -14,24 +13,30 @@ export const UserAvatar = (props: {
     <div>
       <Avatar alt={props.user.displayName} src={props.user.avatarUrl} />
       {props.section !== "offline" && (
-        <div>
-          <FiberManualRecordIcon
+        <span>
+          <span
             style={{
+              height: ".7em",
+              width: ".7em",
+              backgroundColor: theme.palette.background.default,
+              borderRadius: "50%",
               position: "absolute",
-              transform: "translate(1.2em, -.7em)",
-              fontSize: "1.1rem",
-              color: theme.palette.background.default,
+              transform: "translate(1.9em, -0.6em)",
             }}
           />
-          <FiberManualRecordIcon
-            color={userStatusIsAvailable ? "secondary" : "error"}
+          <span
             style={{
+              height: ".5em",
+              width: ".5em",
+              backgroundColor: userStatusIsAvailable
+                ? theme.palette.secondary.main
+                : theme.palette.error.main,
+              borderRadius: "50%",
               position: "absolute",
-              transform: "translate(1.61em, -0.7em)",
-              fontSize: ".9rem",
+              transform: "translate(2em, -0.5em)",
             }}
           />
-        </div>
+        </span>
       )}
     </div>
   );
