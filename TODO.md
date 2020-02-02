@@ -1,10 +1,10 @@
 ## Todo:
 
-- ?
-- Busy for ..., not until
+- logout button
 
 ### Done:
 
+- ~~Busy for ..., not until~~
 - ~~ui edge cases, long names, etc~~
 - ~~busy time based~~
 - ~~busy toggle~~

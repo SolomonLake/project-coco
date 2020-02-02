@@ -11,7 +11,8 @@ export const runZoomGetTokenData = async (
   req: Request,
   res: Response,
 ): Promise<any> => {
-  const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT + req.url;
+  const zoomRedirectUrl =
+    processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA + req.url;
   const encodedZoomUserId = Cookie.parse(<any>req.headers.cookie || "")
     .__session;
   const zoomUserIdJwt = decodeJwt(encodedZoomUserId);
