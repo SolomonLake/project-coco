@@ -33,11 +33,14 @@ async function initializeApp(appStore: AppStore) {
   startUserObserver(user.userId, appStore.dispatch);
   if (appGroup) {
     appGroupsDatabaseAccessor.updateUser(user, appGroup.appGroupId);
+    const newestUserVersion = await usersDatabaseAccessor.findOrCreateUser(
+      userAndCustomToken.user,
+    );
     appStore.dispatch({
       type: "TRANSITION_APP_STATE",
       newAppState: {
         view: "mainGroup",
-        user,
+        user: newestUserVersion,
         initialAppGroup: appGroup,
         popupsBlocked: windowUtils.testPopupsBlocked(),
       },

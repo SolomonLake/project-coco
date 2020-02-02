@@ -38,7 +38,7 @@ export const JoinGroup = (props: { appState: JoinGroupAppState }) => {
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 joinGroupStore.dispatch({
                   type: "UPDATE_JOIN_ID",
-                  newJoinId: e.target.value,
+                  newJoinId: e.target.value.toUpperCase(),
                 });
               }}
             />

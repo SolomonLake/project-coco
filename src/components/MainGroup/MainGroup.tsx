@@ -83,8 +83,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
       {props.appState.popupsBlocked && (
         <Grid item style={{ width: "100%" }}>
           <Typography color="error">
-            Please "Always allow popups" in order to receive video calls from
-            your co-workers.
+            Please "Always allow popups" in order to receive video calls.
           </Typography>
         </Grid>
       )}

@@ -1,15 +1,27 @@
 import React, { useContext } from "react";
 import { Grid, Typography, Button, Divider, Avatar } from "@material-ui/core";
+import LinkIcon from "@material-ui/icons/Link";
 import { MainGroupStore } from "../mainGroupStore";
 import { mainGroupActionCreator } from "../mainGroupActionCreator";
 import { UserEntry } from "../../../../sharedTypes/userEntry";
 import { UserAvatarNameRow } from "./UserAvatarNameRow";
+import { makeStyles } from "@material-ui/core/styles";
 import { AppGroupUser } from "../../../../sharedTypes/appGroupEntry";
+import { copyUtils } from "../../../scripts/utils/copyUtils";
+import { windowUtils } from "../../../scripts/utils/windowUtils";
+
+const useStyles = makeStyles(theme => ({
+  icon: {
+    transform: "rotate(135deg)",
+  },
+}));
 
 export const MainGroupHeader = (props: {
   mainGroupStore: MainGroupStore;
   user: AppGroupUser;
 }) => {
+  const classes = useStyles();
+
   return (
     <Grid container direction="column" spacing={2} justify="center">
       <Grid item>
@@ -21,9 +33,20 @@ export const MainGroupHeader = (props: {
           alignItems="center"
         >
           <Grid item>
-            <Typography>
-              Group Id: {props.mainGroupStore.state.appGroup.appGroupId}
-            </Typography>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                const joinGroupUrl =
+                  window.location.origin +
+                  window.location.pathname +
+                  "?joinId=" +
+                  props.mainGroupStore.state.appGroup.appGroupId;
+                copyUtils.copyToClipboard(joinGroupUrl);
+              }}
+            >
+              {props.mainGroupStore.state.appGroup.appGroupId}
+              <LinkIcon className={classes.icon} />
+            </Button>
           </Grid>
           <Grid item>
             <Button

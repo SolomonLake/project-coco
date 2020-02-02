@@ -7,6 +7,16 @@ export const windowUtils = {
     const parsedParam = urlParams ? urlParams[urlParamKey] : null;
     return parsedParam instanceof Array ? parsedParam[0] : parsedParam;
   },
+  addUrlParam: (urlParamKey: string, urlParamValue: string) => {
+    const urlParams = queryString.parse(window.location.search.slice(1));
+    const newParams = { ...urlParams, [urlParamKey]: urlParamValue };
+    return (
+      window.location.origin +
+      window.location.pathname +
+      "?" +
+      queryString.stringify(newParams)
+    );
+  },
   removeUrlParam: (urlParamKey: string): string => {
     const urlSearchParams = queryString.parse(window.location.search.slice(1));
     const { [urlParamKey]: val, ...paramsWithoutKey } = urlSearchParams;

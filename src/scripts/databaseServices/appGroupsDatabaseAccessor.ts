@@ -38,7 +38,7 @@ export const appGroupsDatabaseAccessor = {
   },
   createNewAppGroup: async (firstUser: UserEntry) => {
     const newAppGroup: AppGroupEntry = {
-      appGroupId: "g" + generateRandomAlphaNumericString(5),
+      appGroupId: "G" + generateRandomAlphaNumericString(5).toUpperCase(),
       userIds: {
         [firstUser.userId]: {
           ...firstUser,

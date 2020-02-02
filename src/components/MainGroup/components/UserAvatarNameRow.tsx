@@ -10,7 +10,6 @@ import {
   AppGroupUser,
 } from "../../../../sharedTypes/appGroupEntry";
 import { InlineFunction } from "../../generic/InlineFunction";
-import theme from "../../../theme";
 import { dateUtils } from "../../../scripts/utils/dateUtils";
 import { notification } from "../../../scripts/notification/notification";
 import { MainGroupSection } from "../mainGroupTypes";
