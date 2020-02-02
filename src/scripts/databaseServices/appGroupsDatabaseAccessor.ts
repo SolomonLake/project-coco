@@ -3,6 +3,7 @@ import {
   AppGroupEntry,
   CalendarMeeting,
   AppGroupUser,
+  UserAvailabilityStatus,
 } from "./../../../sharedTypes/appGroupEntry.d";
 import firebase from "firebase";
 import { firestoreApiFactory } from "../firestore/firestoreApi";
@@ -68,6 +69,16 @@ export const appGroupsDatabaseAccessor = {
     };
     appGroupsDatabaseApi.update(groupId, updateGroupAccessor);
     return appGroupsDatabaseAccessor.getExistingAppGroup(groupId);
+  },
+  updateUserAvailabilityStatus: async (
+    appGroupId: string,
+    userId: string,
+    status: UserAvailabilityStatus,
+  ) => {
+    const updateGroupAccessor = {
+      [`userIds.${userId}.availabilityStatus`]: status,
+    };
+    await appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
   },
   removeUserFromAppGroup: async (appGroup: AppGroupEntry, user: UserEntry) => {
     await appGroupsDatabaseApi.update(appGroup.appGroupId, {

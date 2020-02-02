@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Grid, Typography, Button, Avatar } from "@material-ui/core";
+import {
+  IconButton,
+  Grid,
+  Typography,
+  Button,
+  Switch,
+} from "@material-ui/core";
 import { MainGroupStore } from "../mainGroupStore";
 import {
   CalendarMeeting,
@@ -8,9 +14,28 @@ import {
 import { dateUtils } from "../../../scripts/utils/dateUtils";
 import { notification } from "../../../scripts/notification/notification";
 import { MainGroupSection } from "../mainGroupTypes";
+import VideocamIcon from "@material-ui/icons/Videocam";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import theme from "../../../theme";
+import { UserAvatar } from "./UserAvatar";
+import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { appGroupsDatabaseAccessor } from "../../../scripts/databaseServices/appGroupsDatabaseAccessor";
 
 const NOT_SYNCED_MESSAGE = "Calendar not synced";
 const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
+
+const RedSwitch = withStyles({
+  switchBase: {
+    "&$checked": {
+      color: theme.palette.error.main,
+    },
+    "&$checked + $track": {
+      backgroundColor: theme.palette.error.main,
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
 
 export const UserAvatarNameRow = (props: {
   mainGroupStore: MainGroupStore;
@@ -56,7 +81,7 @@ export const UserAvatarNameRow = (props: {
       alignItems="center"
     >
       <Grid item>
-        <Avatar alt={props.user.displayName} src={props.user.avatarUrl} />
+        <UserAvatar user={props.user} />
       </Grid>
       <Grid item>
         <Grid container direction="column" spacing={0} justify="flex-start">
@@ -83,10 +108,9 @@ export const UserAvatarNameRow = (props: {
         props.currentUser.personalMeetingUrl &&
         !props.isCurrentUser && (
           <Grid item>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={async () => {
+            <IconButton
+              aria-label="start video call"
+              onClick={() => {
                 const meetingUrl = props.currentUser.personalMeetingUrl;
                 notification.sendOpenMeetingNotification(
                   props.user.userId,
@@ -96,8 +120,14 @@ export const UserAvatarNameRow = (props: {
                 window.open(meetingUrl, "_blank");
               }}
             >
-              Call
-            </Button>
+              <VideocamIcon
+                color={
+                  props.user.availabilityStatus === "available"
+                    ? "secondary"
+                    : "error"
+                }
+              />
+            </IconButton>
           </Grid>
         )}
       {!props.currentUser.personalMeetingUrl &&
@@ -115,6 +145,21 @@ export const UserAvatarNameRow = (props: {
             </Button>
           </Grid>
         )}
+      {props.isCurrentUser && props.section === "appHeader" && (
+        <Grid item>
+          <RedSwitch
+            checked={props.user.availabilityStatus === "busy"}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              appGroupsDatabaseAccessor.updateUserAvailabilityStatus(
+                props.mainGroupStore.state.appGroup.appGroupId,
+                props.user.userId,
+                event.target.checked ? "busy" : "available",
+              );
+            }}
+            inputProps={{ "aria-label": "availability switch" }}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };

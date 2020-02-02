@@ -128,12 +128,12 @@ export function computeMeetingsUi(
       const userDoesntHaveCurrentCalendarEvent = !getCurrentCalendarEvent(
         user.dailyCalendarEvents,
       );
-      const userStatusIsAvailable = user.availabilityStatus === "available";
+      // const userStatusIsAvailable = user.availabilityStatus === "available";
       if (
         userIsNotOffline &&
         userDoesntHaveCurrentVideoMeeting &&
-        userDoesntHaveCurrentCalendarEvent &&
-        userStatusIsAvailable
+        userDoesntHaveCurrentCalendarEvent
+        //&& userStatusIsAvailable
       ) {
         return {
           ...gatheredAvailableUsers,

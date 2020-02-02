@@ -4,6 +4,7 @@
 
 ### Done:
 
+- ~~busy toggle~~
 - ~~pull out code into more components for organizational purposes~~
 - ~~add zoom link to calendar events~~
 - ~~section lists are sorted by alphabetical, with the exception of the current user, which is first~~
