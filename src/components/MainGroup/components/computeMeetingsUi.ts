@@ -26,7 +26,7 @@ export type Meetings = {
   video: VideoMeetings;
   calendar: CalendarMeetings;
   available: MeetingUsers;
-  busy: MeetingUsers;
+  doNotDisturb: MeetingUsers;
 };
 // lastOnline
 // currentMeeting
@@ -128,12 +128,12 @@ export function computeMeetingsUi(
       const userDoesntHaveCurrentCalendarEvent = !getCurrentCalendarEvent(
         user.dailyCalendarEvents,
       );
-      // const userStatusIsAvailable = user.availabilityStatus === "available";
+      const userIsAvailable = user.doNotDisturbUntil < Date.now();
       if (
         userIsNotOffline &&
         userDoesntHaveCurrentVideoMeeting &&
-        userDoesntHaveCurrentCalendarEvent
-        //&& userStatusIsAvailable
+        userDoesntHaveCurrentCalendarEvent &&
+        userIsAvailable
       ) {
         return {
           ...gatheredAvailableUsers,
@@ -146,26 +146,26 @@ export function computeMeetingsUi(
     {},
   );
 
-  const busyUsers: MeetingUsers = sortedUserIds.reduce(
-    (gatheredBusyUsers, user) => {
+  const doNotDisturbUsers: MeetingUsers = sortedUserIds.reduce(
+    (gatheredDoNotDisturbUsers, user) => {
       const userIsNotOffline = !offlineUsers[user.userId];
       const userDoesntHaveCurrentVideoMeeting = !user.currentMeeting;
       const userDoesntHaveCurrentCalendarEvent = !getCurrentCalendarEvent(
         user.dailyCalendarEvents,
       );
-      const userStatusIsBusy = user.availabilityStatus === "busy";
+      const userIsDoNotDisturb = user.doNotDisturbUntil > Date.now();
       if (
         userIsNotOffline &&
         userDoesntHaveCurrentVideoMeeting &&
         userDoesntHaveCurrentCalendarEvent &&
-        userStatusIsBusy
+        userIsDoNotDisturb
       ) {
         return {
-          ...gatheredBusyUsers,
+          ...gatheredDoNotDisturbUsers,
           [user.userId]: user,
         };
       } else {
-        return gatheredBusyUsers;
+        return gatheredDoNotDisturbUsers;
       }
     },
     {},
@@ -176,6 +176,6 @@ export function computeMeetingsUi(
     video: videoMeetings,
     calendar: calendarMeetings,
     available: availableUsers,
-    busy: busyUsers,
+    doNotDisturb: doNotDisturbUsers,
   };
 }

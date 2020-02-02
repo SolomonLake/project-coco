@@ -5,6 +5,7 @@ import {
   Typography,
   Button,
   Switch,
+  ButtonGroup,
 } from "@material-ui/core";
 import { MainGroupStore } from "../mainGroupStore";
 import {
@@ -20,22 +21,12 @@ import theme from "../../../theme";
 import { UserAvatar } from "./UserAvatar";
 import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { appGroupsDatabaseAccessor } from "../../../scripts/databaseServices/appGroupsDatabaseAccessor";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import { THIRTY_MINUTES } from "../../../scripts/constants/timesInMilliseconds";
 
 const NOT_SYNCED_MESSAGE = "Calendar not synced";
 const NO_UPCOMING_EVENTS_MESSAGE = "No upcoming events";
-
-const RedSwitch = withStyles({
-  switchBase: {
-    "&$checked": {
-      color: theme.palette.error.main,
-    },
-    "&$checked + $track": {
-      backgroundColor: theme.palette.error.main,
-    },
-  },
-  checked: {},
-  track: {},
-})(Switch);
 
 export const UserAvatarNameRow = (props: {
   mainGroupStore: MainGroupStore;
@@ -49,16 +40,24 @@ export const UserAvatarNameRow = (props: {
     props.mainGroupStore.state.appGroup.userIds[props.user.userId]
       .dailyCalendarEvents;
   const [nextMeetingTimeString, updateNextMeetingTimeString] = useState(
-    getNextMeetingTimeString(dailyCalendarEvents),
+    getNextMeetingTimeString(props.user.doNotDisturbUntil, dailyCalendarEvents),
   );
 
   React.useEffect(() => {
     // component mount
 
-    updateNextMeetingTimeString(getNextMeetingTimeString(dailyCalendarEvents));
+    updateNextMeetingTimeString(
+      getNextMeetingTimeString(
+        props.user.doNotDisturbUntil,
+        dailyCalendarEvents,
+      ),
+    );
     const updateMeetingTimeInterval = setInterval(() => {
       updateNextMeetingTimeString(
-        getNextMeetingTimeString(dailyCalendarEvents),
+        getNextMeetingTimeString(
+          props.user.doNotDisturbUntil,
+          dailyCalendarEvents,
+        ),
       );
     }, 10 * 1000);
 
@@ -71,6 +70,8 @@ export const UserAvatarNameRow = (props: {
       .dailyCalendarEvents,
   ]);
   console.log(props.currentUser.personalMeetingUrl);
+
+  const userStatusIsAvailable = props.user.doNotDisturbUntil < Date.now();
 
   return (
     <Grid
@@ -121,11 +122,7 @@ export const UserAvatarNameRow = (props: {
               }}
             >
               <VideocamIcon
-                color={
-                  props.user.availabilityStatus === "available"
-                    ? "secondary"
-                    : "error"
-                }
+                color={userStatusIsAvailable ? "secondary" : "error"}
               />
             </IconButton>
           </Grid>
@@ -147,17 +144,45 @@ export const UserAvatarNameRow = (props: {
         )}
       {props.isCurrentUser && props.section === "appHeader" && (
         <Grid item>
-          <RedSwitch
-            checked={props.user.availabilityStatus === "busy"}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              appGroupsDatabaseAccessor.updateUserAvailabilityStatus(
-                props.mainGroupStore.state.appGroup.appGroupId,
-                props.user.userId,
-                event.target.checked ? "busy" : "available",
-              );
-            }}
-            inputProps={{ "aria-label": "availability switch" }}
-          />
+          <ButtonGroup
+            variant="text"
+            size="small"
+            aria-label="small outlined button group"
+          >
+            <Button
+              onClick={() => {
+                const currentDoNotDisturbUntil = userStatusIsAvailable
+                  ? Date.now()
+                  : props.user.doNotDisturbUntil;
+                appGroupsDatabaseAccessor.updateUserDoNotDistrubUntil(
+                  props.mainGroupStore.state.appGroup.appGroupId,
+                  props.user.userId,
+                  currentDoNotDisturbUntil + THIRTY_MINUTES,
+                );
+              }}
+              style={
+                !userStatusIsAvailable
+                  ? {
+                      color: theme.palette.error.main,
+                    }
+                  : {}
+              }
+            >
+              Busy <AddIcon />
+            </Button>
+            <IconButton
+              onClick={() => {
+                appGroupsDatabaseAccessor.updateUserDoNotDistrubUntil(
+                  props.mainGroupStore.state.appGroup.appGroupId,
+                  props.user.userId,
+                  props.user.doNotDisturbUntil - 1000 * 60 * 30,
+                );
+              }}
+              color="primary"
+            >
+              <RemoveIcon />
+            </IconButton>
+          </ButtonGroup>
         </Grid>
       )}
     </Grid>
@@ -165,10 +190,16 @@ export const UserAvatarNameRow = (props: {
 };
 
 function getNextMeetingTimeString(
+  doNotDisturbUntil: number,
   dailyCalendarEvents: Array<CalendarMeeting> | null,
 ): string {
   if (dailyCalendarEvents === null) {
     return NOT_SYNCED_MESSAGE;
+  } else if (doNotDisturbUntil > Date.now()) {
+    return (
+      "Busy until " +
+      dateUtils.dateToLocalTimeStringHMMeridiem(new Date(doNotDisturbUntil))
+    );
   } else {
     // first, filter all meetings that ended in the past, and do not start today
     const currentDateObj = new Date();

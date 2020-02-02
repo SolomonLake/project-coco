@@ -66,6 +66,23 @@ export const MainGroupMeetingsUI = (props: {
       </Grid>
       <Grid item>
         <Typography>
+          <b>Do Not Disturb</b>
+        </Typography>
+        {_.values(meetingsUi.doNotDisturb).map(user => {
+          return (
+            <UserAvatarNameRow
+              mainGroupStore={mainGroupStore}
+              user={user}
+              isCurrentUser={user.userId === currentUserId}
+              currentUser={mainGroupStore.state.appGroup.userIds[currentUserId]}
+              section="doNotDisturb"
+              showNextMeetingTime={true}
+            />
+          );
+        })}
+      </Grid>
+      <Grid item>
+        <Typography>
           <b>Offline</b>
         </Typography>
         {_.values(meetingsUi.offline).map(user => {

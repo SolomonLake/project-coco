@@ -3,4 +3,5 @@ export type MainGroupSection =
   | "available"
   | "video"
   | "calendar"
+  | "doNotDisturb"
   | "offline";

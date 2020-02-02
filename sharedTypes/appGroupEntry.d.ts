@@ -10,7 +10,7 @@ export type AppGroupEntry = {
 export type AppGroupUser = UserEntry & {
   userId: string;
   lastOnline: number;
-  availabilityStatus: UserAvailabilityStatus;
+  doNotDisturbUntil: number;
   currentMeeting: null | VideoMeeting;
   dailyCalendarEvents: Array<CalendarMeeting> | null;
 };
@@ -29,5 +29,3 @@ export type VideoMeeting = {
   meetingName: string;
   meetingStartTime: string;
 };
-
-export type UserAvailabilityStatus = "available" | "busy";

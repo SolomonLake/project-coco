@@ -3,7 +3,6 @@ import {
   AppGroupEntry,
   CalendarMeeting,
   AppGroupUser,
-  UserAvailabilityStatus,
 } from "./../../../sharedTypes/appGroupEntry.d";
 import firebase from "firebase";
 import { firestoreApiFactory } from "../firestore/firestoreApi";
@@ -46,7 +45,7 @@ export const appGroupsDatabaseAccessor = {
           userId: firstUser.userId,
           lastOnline: Date.now(),
 
-          availabilityStatus: "available",
+          doNotDisturbUntil: 0,
           currentMeeting: null,
           dailyCalendarEvents: null,
         },
@@ -60,7 +59,7 @@ export const appGroupsDatabaseAccessor = {
       ...user,
       userId: user.userId,
       lastOnline: Date.now(),
-      availabilityStatus: "available",
+      doNotDisturbUntil: 0,
       currentMeeting: null,
       dailyCalendarEvents: null,
     };
@@ -70,13 +69,13 @@ export const appGroupsDatabaseAccessor = {
     appGroupsDatabaseApi.update(groupId, updateGroupAccessor);
     return appGroupsDatabaseAccessor.getExistingAppGroup(groupId);
   },
-  updateUserAvailabilityStatus: async (
+  updateUserDoNotDistrubUntil: async (
     appGroupId: string,
     userId: string,
-    status: UserAvailabilityStatus,
+    doNotDisturbUntil: number,
   ) => {
     const updateGroupAccessor = {
-      [`userIds.${userId}.availabilityStatus`]: status,
+      [`userIds.${userId}.doNotDisturbUntil`]: doNotDisturbUntil,
     };
     await appGroupsDatabaseApi.update(appGroupId, updateGroupAccessor);
   },
