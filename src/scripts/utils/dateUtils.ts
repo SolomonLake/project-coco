@@ -10,6 +10,8 @@ export const dateUtils = {
     const minutesRemainder = minutes % 60;
     const hours = Math.floor(minutes / 60);
     const hoursString = hours > 0 ? `${hours}:` : "";
-    return hoursString + minutesRemainder;
+    const minutesString =
+      minutesRemainder < 10 ? "0" + minutesRemainder : minutesRemainder;
+    return hoursString + minutesString;
   },
 };
