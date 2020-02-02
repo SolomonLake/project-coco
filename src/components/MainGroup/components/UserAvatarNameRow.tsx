@@ -80,6 +80,7 @@ export const UserAvatarNameRow = (props: {
       spacing={2}
       justify="flex-start"
       alignItems="center"
+      style={{ flexWrap: "nowrap" }}
     >
       <Grid item>
         <UserAvatar user={props.user} />

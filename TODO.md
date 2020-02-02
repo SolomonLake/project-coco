@@ -1,9 +1,10 @@
 ## Todo:
 
-- ?
+- ui edge cases, long names, etc
 
 ### Done:
 
+- ~~busy time based~~
 - ~~busy toggle~~
 - ~~pull out code into more components for organizational purposes~~
 - ~~add zoom link to calendar events~~
