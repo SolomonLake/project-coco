@@ -35,6 +35,7 @@ export const MainGroupHeader = (props: {
           <Grid item>
             <Button
               variant="outlined"
+              color="secondary"
               onClick={() => {
                 const joinGroupUrl =
                   window.location.origin +
