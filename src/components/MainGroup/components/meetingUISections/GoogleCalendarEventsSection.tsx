@@ -19,6 +19,7 @@ export const GoogleCalendarEventsSection = (props: {
   mainGroupStore: MainGroupStore;
   currentUserId: string;
   calendarMeetings: CalendarMeetings;
+  darkTheme: boolean;
 }) => {
   const mainGroupStore = props.mainGroupStore;
   const currentUserId = props.currentUserId;
@@ -82,6 +83,7 @@ export const GoogleCalendarEventsSection = (props: {
                     }
                     section="calendar"
                     showNextMeetingTime={false}
+                    darkTheme={props.darkTheme}
                   />
                 );
               })}

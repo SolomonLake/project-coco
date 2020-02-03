@@ -1,5 +1,6 @@
 type LocalStorageItem = {
   popupsArentBlocked: boolean;
+  darkTheme: boolean;
 };
 
 type ValueOfLocalStorage = LocalStorageItem[keyof LocalStorageItem];

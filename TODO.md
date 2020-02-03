@@ -5,6 +5,7 @@
 
 ### Done:
 
+- ~~dark mode~~
 - ~~investigate Sync calendar button behavior~~
 - ~~show result of link copy~~
 - ~~shows available status in offline section~~

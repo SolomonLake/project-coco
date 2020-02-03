@@ -17,6 +17,7 @@ import { Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { databaseService } from "../scripts/databaseServices/databaseService";
 import { UserEntry } from "../../sharedTypes/userEntry";
+import { DarkThemeState } from "../index";
 
 async function initializeApp(appStore: AppStore) {
   const userAndCustomToken = await login();
@@ -52,19 +53,22 @@ async function initializeApp(appStore: AppStore) {
   }
 }
 
-export const App: React.FC = () => {
+export const App = (props: { darkThemeState: DarkThemeState }) => {
   return (
     <Container maxWidth="xs" style={{ marginTop: "2em" }}>
       <BrowserRouter>
         <div>
-          <Route path="/" component={AppContent} />
+          <Route
+            path="/"
+            render={() => <AppContent darkThemeState={props.darkThemeState} />}
+          />
         </div>
       </BrowserRouter>
     </Container>
   );
 };
 
-export const AppContent: React.FC = () => {
+export const AppContent = (props: { darkThemeState: DarkThemeState }) => {
   const appStore = useAppStore();
   switch (appStore.state.view) {
     case "initial":
@@ -81,7 +85,10 @@ export const AppContent: React.FC = () => {
     case "mainGroup":
       return (
         <AppStoreContext.Provider value={appStore}>
-          <MainGroup appState={appStore.state} />
+          <MainGroup
+            appState={appStore.state}
+            darkThemeState={props.darkThemeState}
+          />
         </AppStoreContext.Provider>
       );
     default:

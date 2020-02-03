@@ -1,12 +1,13 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
 import { AppGroupUser } from "../../../../sharedTypes/appGroupEntry";
-import theme from "../../../theme";
+import { themePalette, themePaletteBackground } from "../../../theme";
 import { MainGroupSection } from "../mainGroupTypes";
 
 export const UserAvatar = (props: {
   user: AppGroupUser;
   section: MainGroupSection;
+  darkTheme: boolean;
 }) => {
   const userStatusIsAvailable = props.user.doNotDisturbUntil < Date.now();
   return (
@@ -14,26 +15,28 @@ export const UserAvatar = (props: {
       <Avatar alt={props.user.displayName} src={props.user.avatarUrl} />
       {props.section !== "offline" && (
         <span>
-          <span
+          <div
             style={{
-              height: ".7em",
-              width: ".7em",
-              backgroundColor: theme.palette.background.default,
+              height: "10px",
+              width: "10px",
+              backgroundColor: props.darkTheme
+                ? themePaletteBackground.dark
+                : themePaletteBackground.light,
               borderRadius: "50%",
               position: "absolute",
               transform: "translate(1.9em, -0.6em)",
             }}
           />
-          <span
+          <div
             style={{
-              height: ".5em",
-              width: ".5em",
+              height: "7px",
+              width: "7px",
               backgroundColor: userStatusIsAvailable
-                ? theme.palette.secondary.main
-                : theme.palette.error.main,
+                ? themePalette.secondary.main
+                : themePalette.error.main,
               borderRadius: "50%",
               position: "absolute",
-              transform: "translate(2em, -0.5em)",
+              transform: "translate(2.01em, -0.49em)",
             }}
           />
         </span>

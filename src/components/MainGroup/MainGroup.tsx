@@ -14,10 +14,14 @@ import {
   ONE_SECOND,
 } from "../../scripts/constants/timesInMilliseconds";
 import { appGroupsDatabaseAccessor } from "../../scripts/databaseServices/appGroupsDatabaseAccessor";
+import { DarkThemeState } from "../../index";
 
 export const KEEP_ALIVE_PING_INTERVAL = ONE_SECOND * 20;
 
-export const MainGroup = (props: { appState: MainGroupAppState }) => {
+export const MainGroup = (props: {
+  appState: MainGroupAppState;
+  darkThemeState: DarkThemeState;
+}) => {
   const appStore = useContext(AppStoreContext);
   const mainGroupStore = useMainGroupStore(props.appState.initialAppGroup);
   React.useEffect(() => {
@@ -84,6 +88,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           user={
             mainGroupStore.state.appGroup.userIds[props.appState.user.userId]
           }
+          darkTheme={props.darkThemeState[0]}
         />
       </Grid>
       <Grid item style={{ width: "100%" }}>
@@ -92,6 +97,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           user={
             mainGroupStore.state.appGroup.userIds[props.appState.user.userId]
           }
+          darkTheme={props.darkThemeState[0]}
         />
       </Grid>
       <Grid item style={{ width: "100%" }}>
@@ -99,6 +105,7 @@ export const MainGroup = (props: { appState: MainGroupAppState }) => {
           appStore={appStore}
           mainGroupStore={mainGroupStore}
           user={props.appState.user}
+          darkThemeState={props.darkThemeState}
         />
       </Grid>
     </Grid>

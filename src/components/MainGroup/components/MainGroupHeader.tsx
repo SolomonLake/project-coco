@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 export const MainGroupHeader = (props: {
   mainGroupStore: MainGroupStore;
   user: AppGroupUser;
+  darkTheme: boolean;
 }) => {
   const classes = useStyles();
   const [copyJoinGroupButtonClicked, setCopyJoinGroupButtonClicked] = useState(
@@ -92,6 +93,7 @@ export const MainGroupHeader = (props: {
           currentUser={props.user}
           showNextMeetingTime={true}
           section="appHeader"
+          darkTheme={props.darkTheme}
         />
       </Grid>
       <Grid item>

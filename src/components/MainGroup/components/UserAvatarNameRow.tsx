@@ -17,7 +17,7 @@ import { notification } from "../../../scripts/notification/notification";
 import { MainGroupSection } from "../mainGroupTypes";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import theme from "../../../theme";
+import { themePalette } from "../../../theme";
 import { UserAvatar } from "./UserAvatar";
 import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { appGroupsDatabaseAccessor } from "../../../scripts/databaseServices/appGroupsDatabaseAccessor";
@@ -40,6 +40,7 @@ export const UserAvatarNameRow = (props: {
   currentUser: AppGroupUser;
   section: MainGroupSection;
   showNextMeetingTime: boolean;
+  darkTheme: boolean;
 }) => {
   const dailyCalendarEvents =
     props.mainGroupStore.state.appGroup.userIds[props.user.userId]
@@ -88,7 +89,11 @@ export const UserAvatarNameRow = (props: {
       style={{ flexWrap: "nowrap" }}
     >
       <Grid item>
-        <UserAvatar user={props.user} section={props.section} />
+        <UserAvatar
+          user={props.user}
+          section={props.section}
+          darkTheme={props.darkTheme}
+        />
       </Grid>
       <Grid item style={{ flexGrow: 1 }}>
         <Grid container direction="column" spacing={0} justify="flex-start">
@@ -183,7 +188,7 @@ export const UserAvatarNameRow = (props: {
               style={
                 !userStatusIsAvailable
                   ? {
-                      color: theme.palette.error.main,
+                      color: themePalette.error.main,
                     }
                   : {}
               }

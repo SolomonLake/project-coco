@@ -22,6 +22,7 @@ import { computeMeetingsUi } from "./computeMeetingsUi";
 export const MainGroupMeetingsUI = (props: {
   mainGroupStore: MainGroupStore;
   user: AppGroupUser;
+  darkTheme: boolean;
 }) => {
   const mainGroupStore = props.mainGroupStore;
   const currentUser = props.user;
@@ -46,6 +47,7 @@ export const MainGroupMeetingsUI = (props: {
               currentUser={mainGroupStore.state.appGroup.userIds[currentUserId]}
               section="available"
               showNextMeetingTime={user.userId === currentUserId ? false : true}
+              darkTheme={props.darkTheme}
             />
           );
         })}
@@ -55,6 +57,7 @@ export const MainGroupMeetingsUI = (props: {
           mainGroupStore={mainGroupStore}
           currentUserId={currentUserId}
           videoMeetings={meetingsUi.video}
+          darkTheme={props.darkTheme}
         />
       </Grid>
       <Grid item>
@@ -62,6 +65,7 @@ export const MainGroupMeetingsUI = (props: {
           mainGroupStore={mainGroupStore}
           currentUserId={currentUserId}
           calendarMeetings={meetingsUi.calendar}
+          darkTheme={props.darkTheme}
         />
       </Grid>
       <Grid item>
@@ -77,6 +81,7 @@ export const MainGroupMeetingsUI = (props: {
               currentUser={mainGroupStore.state.appGroup.userIds[currentUserId]}
               section="doNotDisturb"
               showNextMeetingTime={true}
+              darkTheme={props.darkTheme}
             />
           );
         })}
@@ -94,6 +99,7 @@ export const MainGroupMeetingsUI = (props: {
               currentUser={mainGroupStore.state.appGroup.userIds[currentUserId]}
               section="offline"
               showNextMeetingTime={false}
+              darkTheme={props.darkTheme}
             />
           );
         })}

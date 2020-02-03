@@ -19,6 +19,7 @@ export const ZoomCallsSection = (props: {
   mainGroupStore: MainGroupStore;
   currentUserId: string;
   videoMeetings: VideoMeetings;
+  darkTheme: boolean;
 }) => {
   const mainGroupStore = props.mainGroupStore;
   const currentUserId = props.currentUserId;
@@ -80,6 +81,7 @@ export const ZoomCallsSection = (props: {
                     showNextMeetingTime={
                       user.userId === currentUserId ? false : true
                     }
+                    darkTheme={props.darkTheme}
                   />
                 );
               })}

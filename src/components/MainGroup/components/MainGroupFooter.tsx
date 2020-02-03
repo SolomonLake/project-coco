@@ -1,15 +1,26 @@
 import React, { useState } from "react";
-import { Grid, Typography, Button, Divider, Checkbox } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Button,
+  Divider,
+  Checkbox,
+  Switch,
+  FormControlLabel,
+} from "@material-ui/core";
 import { MainGroupStore } from "../mainGroupStore";
 import { mainGroupActionCreator } from "../mainGroupActionCreator";
 import { UserEntry } from "../../../../sharedTypes/userEntry";
 import { AppStore } from "../../appStore";
 import { databaseService } from "../../../scripts/databaseServices/databaseService";
+import { DarkThemeState } from "../../../index";
+import { localStorageUtils } from "../../../scripts/utils/localStorageUtils";
 
 export const MainGroupFooter = (props: {
   appStore: AppStore;
   mainGroupStore: MainGroupStore;
   user: UserEntry;
+  darkThemeState: DarkThemeState;
 }) => {
   const [leavingConfirmed, updateLeavingConfirmed] = useState(false);
   return (
@@ -25,7 +36,7 @@ export const MainGroupFooter = (props: {
           inputProps={{ "aria-label": "leave group confirmation" }}
         />
       </Grid>
-      <Grid item>
+      <Grid item style={{ flexGrow: 1 }}>
         <Button
           variant="contained"
           color="secondary"
@@ -51,6 +62,20 @@ export const MainGroupFooter = (props: {
         >
           Leave Group
         </Button>
+      </Grid>
+      <Grid item>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={props.darkThemeState[0]}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                props.darkThemeState[1](event.target.checked);
+                localStorageUtils.setItem("darkTheme", event.target.checked);
+              }}
+            />
+          }
+          label={<Typography variant="caption">Dark Theme</Typography>}
+        />
       </Grid>
     </Grid>
   );
