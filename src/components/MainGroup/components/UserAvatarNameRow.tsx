@@ -16,6 +16,7 @@ import { dateUtils } from "../../../scripts/utils/dateUtils";
 import { notification } from "../../../scripts/notification/notification";
 import { MainGroupSection } from "../mainGroupTypes";
 import VideocamIcon from "@material-ui/icons/Videocam";
+import ClearIcon from "@material-ui/icons/Clear";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { themePalette } from "../../../theme";
 import { UserAvatar } from "./UserAvatar";
@@ -27,6 +28,8 @@ import TimerOutlinedIcon from "@material-ui/icons/TimerOutlined";
 import {
   THIRTY_MINUTES,
   ONE_MINUTE,
+  FIFTEEN_MINUTES,
+  ONE_HOUR,
 } from "../../../scripts/constants/timesInMilliseconds";
 
 const NOT_SYNCED_MESSAGE = "Calendar not synced";
@@ -174,15 +177,48 @@ export const UserAvatarNameRow = (props: {
             size="small"
             aria-label="small outlined button group"
           >
+            {!userStatusIsAvailable && (
+              <IconButton
+                onClick={() => {
+                  appGroupsDatabaseAccessor.updateUserDoNotDistrubUntil(
+                    props.mainGroupStore.state.appGroup.appGroupId,
+                    props.user.userId,
+                    Date.now() - 1,
+                  );
+                }}
+                size="small"
+                color="primary"
+              >
+                <ClearIcon />
+              </IconButton>
+            )}
+            {!userStatusIsAvailable && (
+              <IconButton
+                onClick={() => {
+                  appGroupsDatabaseAccessor.updateUserDoNotDistrubUntil(
+                    props.mainGroupStore.state.appGroup.appGroupId,
+                    props.user.userId,
+                    props.user.doNotDisturbUntil - FIFTEEN_MINUTES,
+                  );
+                }}
+                size="small"
+                color="primary"
+              >
+                <RemoveIcon />
+              </IconButton>
+            )}
             <Button
               onClick={() => {
                 const currentDoNotDisturbUntil = userStatusIsAvailable
                   ? Date.now()
                   : props.user.doNotDisturbUntil;
+                const incrementAmount = userStatusIsAvailable
+                  ? ONE_HOUR
+                  : FIFTEEN_MINUTES;
                 appGroupsDatabaseAccessor.updateUserDoNotDistrubUntil(
                   props.mainGroupStore.state.appGroup.appGroupId,
                   props.user.userId,
-                  currentDoNotDisturbUntil + THIRTY_MINUTES,
+                  currentDoNotDisturbUntil + incrementAmount,
                 );
               }}
               style={
@@ -193,21 +229,9 @@ export const UserAvatarNameRow = (props: {
                   : {}
               }
             >
-              Busy <AddIcon fontSize="small" />
+              Busy
+              {!userStatusIsAvailable && <AddIcon />}
             </Button>
-            <IconButton
-              onClick={() => {
-                appGroupsDatabaseAccessor.updateUserDoNotDistrubUntil(
-                  props.mainGroupStore.state.appGroup.appGroupId,
-                  props.user.userId,
-                  props.user.doNotDisturbUntil - 1000 * 60 * 30,
-                );
-              }}
-              size="small"
-              color="primary"
-            >
-              <RemoveIcon />
-            </IconButton>
           </ButtonGroup>
         </Grid>
       )}
