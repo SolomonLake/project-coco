@@ -221,6 +221,7 @@ export const UserAvatarNameRow = (props: {
                   currentDoNotDisturbUntil + incrementAmount,
                 );
               }}
+              variant="outlined"
               style={
                 !userStatusIsAvailable
                   ? {
@@ -229,8 +230,8 @@ export const UserAvatarNameRow = (props: {
                   : {}
               }
             >
-              Busy
               {!userStatusIsAvailable && <AddIcon />}
+              Busy
             </Button>
           </ButtonGroup>
         </Grid>
