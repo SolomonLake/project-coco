@@ -20,5 +20,8 @@ export const processEnv = {
   GOOGLE_CALENDAR_API_KEY: process.env.GOOGLE_CALENDAR_API_KEY,
   REDIS_IP: process.env.REDIS_IP,
   REDIS_PORT: process.env.REDIS_PORT,
+  GCS_TOKEN_BUCKET_NAME: process.env.GCS_TOKEN_BUCKET_NAME,
+  GCP_CLIENT_EMAIL: process.env.GCP_CLIENT_EMAIL,
+  GCP_PRIVATE_KEY: process.env.GCP_PRIVATE_KEY,
   JWT_SECRET: process.env.JWT_SECRET,
 } as AppConfig;

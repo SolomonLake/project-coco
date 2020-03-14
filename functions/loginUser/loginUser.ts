@@ -6,8 +6,9 @@ import Cookie from "cookie";
 import { processEnv } from "../processEnv";
 import { firestoreAdmin } from "../shared/firestore/initializeFirestoreAdmin";
 import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
-import { redisService } from "../shared/redis/redisService";
+// import { redisService } from "../shared/redis/redisService";
 import { decodeJwt } from "../shared/auth/jwtCookie";
+import { gcsService } from "../shared/gcs/gcsService";
 
 export const runLoginUser = async (req: Request, res: Response) => {
   // Set CORS headers for preflight requests
@@ -28,7 +29,7 @@ export const runLoginUser = async (req: Request, res: Response) => {
     const zoomUserIdJwt = decodeJwt(encodedZoomUserId);
     const zoomUserId = zoomUserIdJwt ? zoomUserIdJwt.userId : null;
     const zoomTokenData = zoomUserId
-      ? await redisService.getAuthToken(zoomUserId)
+      ? await gcsService.getAuthToken(zoomUserId)
       : null;
     if (zoomUserId && zoomTokenData) {
       const accessToken = await getValidAccessToken(zoomTokenData, zoomUserId);

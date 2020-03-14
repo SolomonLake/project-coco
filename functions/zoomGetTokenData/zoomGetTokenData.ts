@@ -2,10 +2,11 @@ import fetch from "node-fetch";
 import Cookie from "cookie";
 import { Request, Response } from "express";
 import { processEnv } from "../processEnv";
-import { redisService } from "../shared/redis/redisService";
+// import { redisService } from "../shared/redis/redisService";
 import { encodeJwt, decodeJwt } from "../shared/auth/jwtCookie";
 import { zoomAccessTokenData } from "../shared/zoom/zoomAccessTokenData";
 import queryString from "query-string";
+import { gcsService } from "../shared/gcs/gcsService";
 
 export const runZoomGetTokenData = async (
   req: Request,
@@ -18,7 +19,7 @@ export const runZoomGetTokenData = async (
   const zoomUserIdJwt = decodeJwt(encodedZoomUserId);
   const zoomUserId = zoomUserIdJwt ? zoomUserIdJwt.userId : null;
   const zoomTokenData = zoomUserId
-    ? await redisService.getAuthToken(zoomUserId)
+    ? await gcsService.getAuthToken(zoomUserId)
     : null;
   if (zoomTokenData) {
     const redirectUrl = req.query.redirectUrl || processEnv.APP_ENDPOINT;
@@ -66,10 +67,7 @@ export const runZoomGetTokenData = async (
       });
       const userResponseJson = await userResponse.json();
       if (userResponseJson.id) {
-        redisService.setAuthToken(
-          userResponseJson.id,
-          responseJsonWithExpiresAt,
-        );
+        gcsService.setAuthToken(userResponseJson.id, responseJsonWithExpiresAt);
         console.log("redirecting to", processEnv.APP_ENDPOINT);
         const authJwt = encodeJwt({ userId: userResponseJson.id });
         res.cookie("__session", authJwt, {

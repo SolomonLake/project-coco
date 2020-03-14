@@ -4,8 +4,9 @@ import fetch from "node-fetch";
 import Cookie from "cookie";
 import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
 import { processEnv } from "../processEnv";
-import { redisService } from "../shared/redis/redisService";
+// import { redisService } from "../shared/redis/redisService";
 import { decodeJwt } from "../shared/auth/jwtCookie";
+import { gcsService } from "../shared/gcs/gcsService";
 
 const acceptableEndpoints = ["https://api.zoom.us/v2/users/me"];
 
@@ -28,7 +29,7 @@ export const runZoomApiProxy = async (req: Request, res: Response) => {
     const zoomUserIdJwt = decodeJwt(encodedZoomUserId);
     const zoomUserId = zoomUserIdJwt ? zoomUserIdJwt.userId : null;
     const zoomTokenData = zoomUserId
-      ? await redisService.getAuthToken(zoomUserId)
+      ? await gcsService.getAuthToken(zoomUserId)
       : null;
     const requestBody: ZoomApiProxyBody = JSON.parse(req.body);
     if (
