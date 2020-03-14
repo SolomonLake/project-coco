@@ -3,7 +3,6 @@ import fetch from "node-fetch";
 import { processEnv } from "../../processEnv";
 import { zoomAccessTokenData } from "./zoomAccessTokenData";
 import { gcsService } from "../gcs/gcsService";
-// import { redisService } from "../redis/redisService";
 
 const zoomRedirectUrl = processEnv.CLOUD_FUNCTION_ENDPOINT__ZOOM_GET_TOKEN_DATA;
 

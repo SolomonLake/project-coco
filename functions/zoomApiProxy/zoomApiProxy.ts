@@ -4,7 +4,6 @@ import fetch from "node-fetch";
 import Cookie from "cookie";
 import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
 import { processEnv } from "../processEnv";
-// import { redisService } from "../shared/redis/redisService";
 import { decodeJwt } from "../shared/auth/jwtCookie";
 import { gcsService } from "../shared/gcs/gcsService";
 

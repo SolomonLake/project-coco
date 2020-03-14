@@ -2,7 +2,6 @@ import fetch from "node-fetch";
 import Cookie from "cookie";
 import { Request, Response } from "express";
 import { processEnv } from "../processEnv";
-// import { redisService } from "../shared/redis/redisService";
 import { encodeJwt, decodeJwt } from "../shared/auth/jwtCookie";
 import { zoomAccessTokenData } from "../shared/zoom/zoomAccessTokenData";
 import queryString from "query-string";

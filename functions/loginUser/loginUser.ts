@@ -6,7 +6,6 @@ import Cookie from "cookie";
 import { processEnv } from "../processEnv";
 import { firestoreAdmin } from "../shared/firestore/initializeFirestoreAdmin";
 import { getValidAccessToken } from "../shared/zoom/getValidAccessToken";
-// import { redisService } from "../shared/redis/redisService";
 import { decodeJwt } from "../shared/auth/jwtCookie";
 import { gcsService } from "../shared/gcs/gcsService";
 

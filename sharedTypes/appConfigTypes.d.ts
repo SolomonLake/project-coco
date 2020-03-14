@@ -15,8 +15,6 @@ export type AppConfig = {
   GOOGLE_AUTH_CLIENT_ID: string;
   GOOGLE_AUTH_CLIENT_SECRET: string;
   GOOGLE_CALENDAR_API_KEY: string;
-  REDIS_IP: string;
-  REDIS_PORT: string;
   GCS_TOKEN_BUCKET_NAME: string;
   GCP_CLIENT_EMAIL: string;
   GCP_PRIVATE_KEY: string;
